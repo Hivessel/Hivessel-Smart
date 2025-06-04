@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ProficiencyLevelController;
 use App\Http\Controllers\Admin\QuarterController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Plugins\AssessmentToolController;
+use App\Models\Chat;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -64,3 +65,4 @@ Route::middleware(['auth'])->group(function(){
         });
     });
 });
+
