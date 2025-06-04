@@ -40,7 +40,7 @@
                     <div class="form-group">
                       <label class="form-label">Grade</label>
                       <Multiselect
-                        class="border border-warning"
+                        class="border" :class="gradeValidator.$invalid ? 'border-danger' : 'border-warning'"
                         data-width="100%"
                         track-by="id"
                         :options="apiData.grades"
@@ -55,7 +55,7 @@
                     <div class="form-group">
                       <label class="form-label">Subject</label>
                       <Multiselect
-                        class="border border-warning"
+                        class="border" :class="subjectValidator.$invalid ? 'border-danger' : 'border-warning'"
                         data-width="100%"
                         track-by="id"
                         :key="selectedGrade?.id"
@@ -71,7 +71,7 @@
                     <div class="form-group">
                       <label class="form-label">Quarter</label>
                       <Multiselect
-                        class="border border-warning"
+                        class="border" :class="quarterValidator.$invalid ? 'border-danger' : 'border-warning'"
                         data-width="100%"
                         track-by="id"
                         :key="selectedSubject?.id"
@@ -87,8 +87,9 @@
                     <div class="form-group">
                       <label class="form-label">Content</label>
                       <Multiselect
-                        class="border border-warning"
+                        class="border" :class="raw_contentValidator.$invalid ? 'border-danger' : 'border-warning'"
                         multiple
+                        :close-on-select="false"
                         data-width="100%"
                         track-by="id"
                         :options="apiData.contents"
@@ -103,7 +104,7 @@
                     <div class="form-group">
                       <label class="form-label">Competencies</label>
                       <Multiselect
-                        class="border border-warning"
+                        class="border" :class="raw_competenciesValidator.$invalid ? 'border-danger' : 'border-warning'"
                         multiple
                         track-by="id"
                         data-width="100%"
@@ -119,7 +120,7 @@
                     <div class="form-group">
                       <label class="form-label">Proficiency Level</label>
                       <Multiselect
-                        class="border border-warning"
+                        class="border" :class="proficiency_levelValidator.$invalid ? 'border-danger' : 'border-warning'"
                         data-width="100%"
                         track-by="id"
                         :key="selectedGrade?.id"
@@ -135,7 +136,7 @@
                     <div class="form-group">
                       <label class="form-label">Language</label>
                       <Multiselect
-                        class="border border-warning"
+                        class="border" :class="languageValidator.$invalid ? 'border-danger' : 'border-warning'"
                         data-width="100%"
                         track-by="id"
                         :key="selectedSubject?.id"
@@ -151,10 +152,10 @@
                     <div class="form-group">
                       <label class="form-label">No. Of Questions</label>
                       <Multiselect
-                        class="border border-warning"
+                        class="border" :class="no_of_questionsValidator.$invalid ? 'border-danger' : 'border-warning'"
                         data-width="100%"
                         track-by="id"
-                        :key="selectedGrade?.id"
+                        :key="selectedNoOfQuestions?.id"
                         :options="apiData.no_of_questions"
                         placeholder="-- Select No. Of Questions --"
                         v-model="selectedNoOfQuestions"
@@ -167,10 +168,10 @@
                     <div class="form-group">
                       <label class="form-label">No. Of Choices</label>
                       <Multiselect
-                        class="border border-warning"
+                        class="border" :class="no_of_choicesValidator.$invalid ? 'border-danger' : 'border-warning'"
                         data-width="100%"
                         track-by="id"
-                        :key="selectedSubject?.id"
+                        :key="selectedNoOfChoices?.id"
                         :options="apiData.no_of_choices"
                         placeholder="-- Select No. Of Choices --"
                         v-model="selectedNoOfChoices"
@@ -180,12 +181,12 @@
                   </div>
 
                   <div class="col-12">
-                    <button class="btn btn-warning w-100 text-white">Generate</button>
+                    <button class="btn btn-warning w-100 text-white" @click="submitGenerate">Generate</button>
                   </div>
 
 
                 </div>
-                <!-- <pre>{{ form }}</pre> -->
+                <pre>{{ form }}</pre>
               </div>
             </div>
 
@@ -211,6 +212,8 @@ import { useForm, usePage } from '@inertiajs/vue3';
 import { onMounted, reactive, ref, computed, watch } from 'vue';
 import Layout from '../Shared/Layout.vue';
 import Multiselect from 'vue-multiselect';
+import useVuelidate from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
 defineOptions({ layout: Layout });
 
 const page = usePage();
@@ -224,21 +227,21 @@ const apiData = reactive({
   proficiency_levels: [],
   languages: [],
   no_of_questions: [
-    {item: 5},
-    {item: 10},
-    {item: 15},
-    {item: 20},
-    {item: 25},
-    {item: 30},
-    {item: 35},
-    {item: 40},
-    {item: 45},
-    {item: 50},
+    {id: 1, item: 5},
+    {id: 2, item: 10},
+    {id: 3, item: 15},
+    {id: 4, item: 20},
+    {id: 5, item: 25},
+    {id: 6, item: 30},
+    {id: 7, item: 35},
+    {id: 8, item: 40},
+    {id: 9, item: 45},
+    {id: 10, item: 50},
   ],
   no_of_choices: [
-    {item: 4},
-    {item: 5},
-    {item: 6},
+    {id: 1, item: 4},
+    {id: 2, item: 5},
+    {id: 3, item: 6},
   ]
 });
 
@@ -251,22 +254,6 @@ const selectedProficiencyLevel = ref(null);
 const selectedLanguage = ref(null);
 const selectedNoOfQuestions = ref(null);
 const selectedNoOfChoices = ref(null);
-
-// const form = useForm({
-//   grade: computed(() => selectedGrade.value?.level || null),
-//   subject: computed(() => selectedSubject.value?.subject || null),
-//   quarter: computed(() => selectedQuarter.value?.quarter || null),
-//   content: computed(() =>
-//     Array.isArray(selectedContent.value)
-//       ? selectedContent.value.map(el => el.id)
-//       : []
-//   ),
-//   competencies: computed(() =>
-//     Array.isArray(selectedCompetencies.value)
-//       ? selectedCompetencies.value.map(el => el.id)
-//       : []
-//   ),
-// });
 
 const form = useForm({
   grade: computed(() => selectedGrade.value?.level || null),
@@ -292,6 +279,10 @@ const form = useForm({
       ? selectedCompetencies.value.map(el => el.competency)
       : []
   ),
+  proficiency_level: computed(() =>selectedProficiencyLevel.value?.level || null),
+  language: computed(() =>selectedLanguage.value?.language || null),
+  no_of_questions: computed(() =>selectedNoOfQuestions.value?.item || null),
+  no_of_choices: computed(() =>selectedNoOfChoices.value?.item || null),
 });
 
 onMounted(() => {
@@ -384,6 +375,39 @@ function switchTab(tabId) {
   const url = new URL(window.location.href);
   url.searchParams.set('tab', tabId);
   window.history.replaceState({}, '', url);
+}
+
+const rules = computed(() => ({
+    grade: { required },
+    subject: { required },
+    quarter: { required },
+    raw_content: { required },
+    raw_competencies: { required },
+    proficiency_level: { required },
+    language: { required },
+    no_of_questions: { required },
+    no_of_choices: { required },
+}))
+
+const generate$ = useVuelidate(rules, form);
+const gradeValidator = generate$.value.grade;
+const subjectValidator = generate$.value.subject;
+const quarterValidator = generate$.value.quarter;
+const raw_contentValidator = generate$.value.raw_content;
+const raw_competenciesValidator = generate$.value.raw_competencies;
+const proficiency_levelValidator = generate$.value.proficiency_level;
+const languageValidator = generate$.value.language;
+const no_of_questionsValidator = generate$.value.no_of_questions;
+const no_of_choicesValidator = generate$.value.no_of_choices;
+
+const submitGenerate = () => {
+  if(gradeValidator.$invalid || gradeValidator.$invalid || subjectValidator.$invalid || quarterValidator.$invalid || raw_contentValidator.$invalid || raw_competenciesValidator.$invalid || proficiency_levelValidator.$invalid || languageValidator.$invalid || no_of_questionsValidator.$invalid || no_of_choicesValidator.$invalid){
+    toastr.error('Some of the fields required to proceed are currently empty or incomplete. Kindly fill in all the necessary details before continuing.');
+    return false;
+  }
+
+  console.log('validation passed');
+
 }
 
 // Watchers
