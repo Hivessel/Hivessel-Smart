@@ -400,6 +400,8 @@ const languageValidator = generate$.value.language;
 const no_of_questionsValidator = generate$.value.no_of_questions;
 const no_of_choicesValidator = generate$.value.no_of_choices;
 
+const promt = ref('Hello');
+
 const submitGenerate = () => {
   if(gradeValidator.$invalid || gradeValidator.$invalid || subjectValidator.$invalid || quarterValidator.$invalid || raw_contentValidator.$invalid || raw_competenciesValidator.$invalid || proficiency_levelValidator.$invalid || languageValidator.$invalid || no_of_questionsValidator.$invalid || no_of_choicesValidator.$invalid){
     toastr.error('Some of the fields required to proceed are currently empty or incomplete. Kindly fill in all the necessary details before continuing.');
@@ -409,6 +411,7 @@ const submitGenerate = () => {
   console.log('validation passed');
 
 }
+
 
 // Watchers
 watch(() => selectedGrade.value, (grade) => {

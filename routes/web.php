@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\ProficiencyLevelController;
 use App\Http\Controllers\Admin\QuarterController;
 use App\Http\Controllers\Admin\SubjectController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Plugins\AssessmentToolController;
 use App\Models\Chat;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +24,9 @@ Route::middleware(['auth'])->group(function(){
     Route::prefix('plugins')->group(function(){
         Route::get('assessment-tool', [AssessmentToolController::class, 'index'])->name('client.plugins.assessment-tool');
     });
+
+    // Prompt
+    Route::post('prompt/{id?}', [ChatController::class, 'store'])->name('client.plugins.assessment-tool.chats.store');
 
     Route::prefix('admin')->group(function(){
         Route::get('/', function(){
@@ -61,7 +65,9 @@ Route::middleware(['auth'])->group(function(){
 
             // Competencies
             Route::get('competencies/all', [CompetencyController::class, 'all'])->name('admin.competencies.all');
+
             
+
         });
     });
 });
