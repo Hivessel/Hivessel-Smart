@@ -221,15 +221,13 @@
                 <div class="row">
                   <div class="col-3">
                     <ul class="list-group">
-                    <!-- <li class="list-group-item text-truncate border-0" v-for="(item, index) in messages" :key="index">
-                      <Link :href="route('client.plugins.assessment-tool', {id: item.id, tab: 'history'})">{{ item.context[0].content }}</Link>
-                    </li> -->
+                    
                     <li class="list-group-item text-truncate border-0 hover:bg-gray-900" v-for="(item, index) in messages" :key="index">
                       <Link :href="route('client.plugins.assessment-tool', {id: item.id, tab: 'history'})">{{ item.context[0].content }}</Link>
                     </li>
                   </ul>
                   </div>
-                  <div class="col-9">
+                  <div class="col-9" style="border-left: 2px solid gray;">
                     <template v-if="chat">
                       <div class="w-full flex h-screen bg-slate-900">
                           <div class="w-full overflow-auto pb-36 scrollable-section" ref="chatContainer">
@@ -237,6 +235,36 @@
                                   <ChatContent :content="content"/>
                               </template>
                           </div>
+                        
+                          <div class="position-relative flex-grow-1 d-flex align-items-center">
+                          <input 
+                            type="text" 
+                            class="form-control rounded" 
+                            placeholder="Add more instructions if needed..." 
+                            v-model="inputText"
+                            @keyup.enter="addInstruction"
+                            ref="promptInput"
+                          >
+                          <div class="position-absolute top-50 end-0 translate-middle-y pe-3 d-flex align-items-center">
+                            <svg 
+                              v-if="true" 
+                              xmlns="http://www.w3.org/2000/svg" 
+                              fill="none" 
+                              viewBox="0 0 24 24" 
+                              stroke-width="1.9" 
+                              stroke="rgb(252,185,50)" 
+                              class="me-2" 
+                              style="width: 1.5rem; height: 1.5rem; color: #cbd5e1;cursor: pointer;"
+                              @click="addInstruction"
+                            >
+                              <path 
+                                stroke-linecap="round" 
+                                stroke-linejoin="round" 
+                                d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" 
+                              />
+                            </svg>
+                          </div>
+                        </div>
                       </div>
                   </template>
 
@@ -510,6 +538,28 @@ const submitGenerate = () => {
     }
   });
 
+}
+
+const inputText = ref('');
+
+const addInstruction = () => {
+  const input = useForm({
+    id: page.props.urlQuery.id,
+    prompt: computed(() => inputText.value),
+    plugin: 'Assessment Tool'
+  });
+
+  input.post(route('client.plugins.chats.store'), {
+    onSuccess: (response) => {
+      // console.log(response.data);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+    onFinish: () => {
+      isLoading.value = false;
+    }
+  });
 }
 
 // Watchers

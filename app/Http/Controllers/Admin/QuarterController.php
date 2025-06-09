@@ -27,25 +27,6 @@ class QuarterController extends Controller
         return response('', 200);
     }
 
-    // public function all(Request $request){
-    //     try {
-    //         $data = Quarter::query();
-    //         if($request->filled('active')){
-    //             $active = $request->active;
-    //             $data->where(function($query) use ($active){
-    //                 $query->where('active', $active);
-    //             });
-    //         }
-    //         return $data->get();
-
-    //     } catch (Throwable $error) {
-    //         info($error->getMessage());
-    //         return response()->json([
-    //             'error' => $error->getMessage(),
-    //         ], 500);
-    //     }
-    // }
-
     public function all(Request $request){
         try {
             $data = Quarter::query();

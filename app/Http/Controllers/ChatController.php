@@ -29,8 +29,8 @@ class ChatController extends Controller
 
         // Send the conversation history and user input to OpenAI to get a response
         $response = OpenAI::chat()->create([
-            'model' => 'gpt-3.5-turbo',
-            // 'model' => 'gpt-4.1-2025-04-14',
+            // 'model' => 'gpt-3.5-turbo',
+            'model' => 'gpt-4.1-2025-04-14',
             'messages' => $messages
         ]);
 

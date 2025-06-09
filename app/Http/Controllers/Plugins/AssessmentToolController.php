@@ -9,18 +9,6 @@ use App\Models\Chat;
 use Illuminate\Support\Facades\Auth;
 class AssessmentToolController extends Controller
 {
-    // public function index(string $id = null){
-    //     $chat = null;
-
-    //     if($id){
-    //         $chat = Chat::findOrFail($id) ?? null;
-    //     }
-
-    //     return Inertia::render('Client/Plugins/AssessmentTool',[
-    //          'chat' => $chat
-    //     ]);
-    // }
-
     public function index(Request $request){
         $chat = null;
         if($request->filled('id')){
