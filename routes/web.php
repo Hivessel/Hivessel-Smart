@@ -18,7 +18,8 @@ use Inertia\Inertia;
 
 Route::middleware(['auth'])->group(function(){
     Route::get('/', function () {
-        return Inertia::render('Home');
+        // return Inertia::render('Home');
+        return redirect()->route('client.plugins.assessment-tool');
     })->name('client.home');
 
     Route::prefix('plugins')->group(function(){
@@ -26,7 +27,7 @@ Route::middleware(['auth'])->group(function(){
     });
 
     // Prompt
-    Route::post('prompt/{id?}', [ChatController::class, 'store'])->name('client.plugins.assessment-tool.chats.store');
+    Route::post('prompt/{id?}', [ChatController::class, 'store'])->name('client.plugins.chats.store');
 
     Route::prefix('admin')->group(function(){
         Route::get('/', function(){

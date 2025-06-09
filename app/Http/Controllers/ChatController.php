@@ -11,7 +11,8 @@ use Inertia\Inertia;
 class ChatController extends Controller
 {
     public function store(Request $request, string $id = null){
-        // Initialize the messages array to store conversation history
+       
+         // Initialize the messages array to store conversation history
         $messages = [];
         // If a chat ID is provided, retrieve the existing chat and its context
         if($request->id){
@@ -49,6 +50,9 @@ class ChatController extends Controller
         ]);
 
          // Redirect the user to the chat display page
-        return redirect()->route('client.plugins.assessment-tool', $chat->id);
+        return Inertia::location(route('client.plugins.assessment-tool', [
+            'tab' => 'history',
+            'id' => $chat->id,
+        ]));
     }
 }

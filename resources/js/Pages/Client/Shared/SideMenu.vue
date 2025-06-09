@@ -36,7 +36,7 @@
                         </Link>
                     </li>
 
-                    <li
+                    <!-- <li
                         class="nav-item"
                         
                     >
@@ -49,7 +49,7 @@
                         
                             <p>Admin Page</p>
                         </Link>
-                    </li>
+                    </li> -->
 
                     <li
                         class="nav-item"

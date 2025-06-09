@@ -112,6 +112,7 @@ class ContentController extends Controller
             return $data->get();
 
         } catch (Throwable $error) {
+            info($error->getMessage());
             return response()->json([
                 'error' => $error->getMessage(),
             ], 500);

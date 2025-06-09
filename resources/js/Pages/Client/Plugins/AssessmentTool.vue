@@ -180,13 +180,34 @@
                     </div>
                   </div>
 
+                  <!-- <div class="col-12">
+                    <button class="btn btn-warning w-100 text-white" @click="submitGenerate">Generate
+                      <div class="spinner-border" role="status"></div>
+                  </button>
+                  </div> -->
+
                   <div class="col-12">
-                    <button class="btn btn-warning w-100 text-white" @click="submitGenerate">Generate</button>
+                    <button 
+                      class="btn btn-warning w-100 text-white" 
+                      :disabled="isLoading" 
+                      @click="submitGenerate"
+                    >
+                      <span v-if="!isLoading">Generate</span>
+                      <span v-else>
+                        <span class="spinner-border spinner-border-sm text-dark" role="status">
+                        </span>
+                        Generating...
+                      </span>
+                    </button>
                   </div>
+
+                  <!-- <div class="col-12">
+                    <button class="btn btn-success w-100 text-white" @click="sendPrompt">Send Prompt</button>
+                  </div> -->
 
 
                 </div>
-                <pre>{{ form }}</pre>
+                <!-- <pre>{{ prompt }}</pre> -->
               </div>
             </div>
 
@@ -197,7 +218,35 @@
               role="tabpanel"
             >
               <div class="p-3 border rounded bg-white">
-                This is the <strong>History</strong> tab content.
+                <div class="row">
+                  <div class="col-3">
+                    <ul class="list-group">
+                    <!-- <li class="list-group-item text-truncate border-0" v-for="(item, index) in messages" :key="index">
+                      <Link :href="route('client.plugins.assessment-tool', {id: item.id, tab: 'history'})">{{ item.context[0].content }}</Link>
+                    </li> -->
+                    <li class="list-group-item text-truncate border-0 hover:bg-gray-900" v-for="(item, index) in messages" :key="index">
+                      <Link :href="route('client.plugins.assessment-tool', {id: item.id, tab: 'history'})">{{ item.context[0].content }}</Link>
+                    </li>
+                  </ul>
+                  </div>
+                  <div class="col-9">
+                    <template v-if="chat">
+                      <div class="w-full flex h-screen bg-slate-900">
+                          <div class="w-full overflow-auto pb-36 scrollable-section" ref="chatContainer">
+                              <template v-for="(content, index) in chat?.context" :key="index">
+                                  <ChatContent :content="content"/>
+                              </template>
+                          </div>
+                      </div>
+                  </template>
+
+
+                  </div>
+                </div>
+                <!-- <pre>ID: {{ page?.props?.urlQuery?.id || 'wala'  }}</pre>
+                <pre>Tab: {{ page?.props?.urlQuery?.tab || 'wala'  }}</pre> -->
+                
+                
               </div>
             </div>
           </div>
@@ -208,15 +257,23 @@
 </template>
 
 <script setup>
-import { useForm, usePage } from '@inertiajs/vue3';
+import { useForm, usePage, Link } from '@inertiajs/vue3';
 import { onMounted, reactive, ref, computed, watch } from 'vue';
 import Layout from '../Shared/Layout.vue';
 import Multiselect from 'vue-multiselect';
 import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
+import ChatContent from './Components/ChatContent.vue';
 defineOptions({ layout: Layout });
 
+const props = defineProps({
+    messages: Array,
+    chat: null | Object
+});
+
+
 const page = usePage();
+const isLoading = ref(false);
 
 const apiData = reactive({
   grades: [],
@@ -400,7 +457,33 @@ const languageValidator = generate$.value.language;
 const no_of_questionsValidator = generate$.value.no_of_questions;
 const no_of_choicesValidator = generate$.value.no_of_choices;
 
-const promt = ref('Hello');
+
+
+
+
+const prompt = computed(() => {
+  return `
+Generate ${form.no_of_questions} multiple-choice questions, each with ${form.no_of_choices} choices.
+
+Grade Level: ${form.grade}
+Subject: ${form.subject}
+Quarter: ${form.quarter}
+Language: ${form.language}
+Proficiency Level: ${form.proficiency_level}
+
+Content Coverage:
+${form.raw_content.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+
+Competency Focus:
+${form.raw_competencies.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+
+Guidelines:
+- Questions should be strictly based on the **Content Coverage** and aligned with the **Competency Focus**.
+- Use language appropriate for ${form.grade} students.
+- Ensure variety in question types and maintain the level of difficulty suitable for the "${form.proficiency_level}" proficiency level.
+- Avoid repetition and ensure clarity in question and choices.
+`.trim();
+});
 
 const submitGenerate = () => {
   if(gradeValidator.$invalid || gradeValidator.$invalid || subjectValidator.$invalid || quarterValidator.$invalid || raw_contentValidator.$invalid || raw_competenciesValidator.$invalid || proficiency_levelValidator.$invalid || languageValidator.$invalid || no_of_questionsValidator.$invalid || no_of_choicesValidator.$invalid){
@@ -408,10 +491,26 @@ const submitGenerate = () => {
     return false;
   }
 
-  console.log('validation passed');
+  const actualPromt = useForm({
+    prompt: prompt.value,
+    plugin: 'Assessment Tool'
+  });
+
+  isLoading.value = true;
+
+  actualPromt.post(route('client.plugins.chats.store'), {
+    onSuccess: (response) => {
+      // console.log(response.data);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+    onFinish: () => {
+      isLoading.value = false;
+    }
+  });
 
 }
-
 
 // Watchers
 watch(() => selectedGrade.value, (grade) => {
@@ -511,5 +610,10 @@ watch(selectedContent, async (contentArray) => {
 
 .tab-content {
   margin-top: 1rem;
+}
+
+.scrollable-section {
+  max-height: 600px; /* Adjust height as needed */
+  overflow-y: auto; /* Enables vertical scrolling */
 }
 </style>
