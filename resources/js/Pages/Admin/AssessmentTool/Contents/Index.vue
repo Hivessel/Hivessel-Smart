@@ -6,11 +6,27 @@
             <div class="card card-info mt-2">
                 
                 <div class="card-body">
-                    Contents
+
                     <div class="d-flex justify-content-end mb-3">
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createContentModal">
+                        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#createContentModal">
                             <i class="fas fa-plus"></i> Add Contents
                         </button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table id="contentTable" class="table table-striped table-hover text-center">
+                            <thead class="" >
+                                <tr>
+                                    <th>ID</th>
+                                    <th>GRADE</th>
+                                    <th>SUBJECT</th>
+                                    <th>QUARTER</th>
+                                    <th>CONTENT</th>
+                                    <th>ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -183,9 +199,60 @@ const removeCompency = (id) => {
     form.competencies = form.competencies.filter((item) => item.id !== id);
 }
 
+
+const fetchContents = async () => {
+    if ($.fn.DataTable.isDataTable("#contentTable")) {
+        $("#contentTable").DataTable().ajax.reload(); // ✅ Reload existing DataTable
+    } else {
+        $("#contentTable").DataTable({ // ✅ Initialize only if not initialized
+            responsive: true, // Enable responsive feature
+            processing: true,
+            serverSide: true,
+            autoWidth: false,
+            ajax: route('admin.contents.ajax'),
+            columns: [
+                { data: "id" },
+                { data: "grade" },
+                { data: "subject" },
+                { data: "quarter" },
+                { data: "content" },
+                { data: "action", orderable: false, searchable: false }
+            ],
+            language: {
+                searchPlaceholder: "Search...",
+                search: "",
+                lengthMenu: "Show _MENU_ entries",
+                info: "Showing _START_ to _END_ of _TOTAL_ entries"
+            } 
+        });
+    }
+};
+
+
 onMounted(() => {
     fetchGrades();
     fetchQuarters();
+    fetchContents();
+
+    // Handle Delete Button Click
+    $(document).on("click", ".delete-content-btn", async function () {
+
+        if(confirm("Are you sure you want to delete this content?")) {
+            const id = $(this).data("id");
+            await axios.delete(route('admin.contents.destroy', {id: id}))
+                .then(response => {
+                    if (response.status == 200) {
+                        toastr.success('Content has been deleted successfully!');
+                        fetchContents();
+                    }
+                })
+                .catch(error => {
+                    console.log(error.response.data.message)
+                    // toastr.error(error.response.data.message);
+                });
+        }
+        
+    });
 })
 
 const save = () => {
@@ -199,7 +266,7 @@ const save = () => {
             selectedGrade.value = null;
             selectedSubject.value = null;
             selectedQuarter.value = null;
-
+            fetchContents();
         },
         onError: (errors) => {
             // Handle errors if needed

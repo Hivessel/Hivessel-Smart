@@ -6,11 +6,23 @@
             <div class="card card-info mt-2">
                 
                 <div class="card-body">
-                    Proficiency Levels
                     <div class="d-flex justify-content-end mb-3">
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createProficiencyLevelModal">
+                        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#createProficiencyLevelModal">
                             <i class="fas fa-plus"></i> Add Proficiency
                         </button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table id="proficiencyLevelTable" class="table table-striped table-hover text-center">
+                            <thead class="" >
+                                <tr>
+                                    <th>ID</th>
+                                    <th>LEVEL</th>
+                                    <th>ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -46,6 +58,7 @@
     </div>
 </template>
 <script setup>
+import { onMounted } from 'vue';
 import Layout from '../../Shared/Layout.vue';
 import { useForm, router } from '@inertiajs/vue3';
 
@@ -63,13 +76,62 @@ const save = () => {
             toastr.success('Proficiency Level saved successfully.');
             $('#createProficiencyLevelModal').modal('hide'); // Hide the modal after saving
             form.reset(); // Reset the form after saving
-        
+            fetchProficiencyLevels(); // Reload the proficiency levels table
         },
         onError: (error) => {
             toastr.error(error?.level || 'An error occurred while saving the proficiency level.');
         }
     });
 }
+
+const fetchProficiencyLevels = async () => {
+    if ($.fn.DataTable.isDataTable("#proficiencyLevelTable")) {
+        $("#proficiencyLevelTable").DataTable().ajax.reload(); // ✅ Reload existing DataTable
+    } else {
+        $("#proficiencyLevelTable").DataTable({ // ✅ Initialize only if not initialized
+            responsive: true, // Enable responsive feature
+            processing: true,
+            serverSide: true,
+            autoWidth: false,
+            ajax: route('admin.proficiency-levels.ajax'),
+            columns: [
+                { data: "id" },
+                { data: "level" },
+                { data: "action", orderable: false, searchable: false }
+            ],
+            language: {
+                searchPlaceholder: "Search...",
+                search: "",
+                lengthMenu: "Show _MENU_ entries",
+                info: "Showing _START_ to _END_ of _TOTAL_ entries"
+            } 
+        });
+    }
+};
+
+onMounted(() => {
+    fetchProficiencyLevels();
+
+    // Handle Delete Button Click
+    $(document).on("click", ".delete-proficiency-level-btn", async function () {
+
+        if(confirm("Are you sure you want to delete this proficiency level?")) {
+            const id = $(this).data("id");
+            await axios.delete(route('admin.proficiency-levels.destroy', {id: id}))
+                .then(response => {
+                    if (response.status == 200) {
+                        toastr.success('Proficiency Level has been deleted successfully!');
+                        fetchProficiencyLevels();
+                    }
+                })
+                .catch(error => {
+                    console.log(error.response.data.message)
+                    // toastr.error(error.response.data.message);
+                });
+        }
+        
+    });
+})
 
 const close = () => {
     form.reset();

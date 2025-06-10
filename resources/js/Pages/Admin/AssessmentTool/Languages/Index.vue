@@ -6,11 +6,23 @@
             <div class="card card-info mt-2">
                 
                 <div class="card-body">
-                    Languages
                     <div class="d-flex justify-content-end mb-3">
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createLanguageModal">
+                        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#createLanguageModal">
                             <i class="fas fa-plus"></i> Add Language
                         </button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table id="languageTable" class="table table-striped table-hover text-center">
+                            <thead class="" >
+                                <tr>
+                                    <th>ID</th>
+                                    <th>LANGUAGE</th>
+                                    <th>ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -34,7 +46,7 @@
                             
                         </div>
                     </form>
-                    <pre>{{ form }}</pre>
+                    <!-- <pre>{{ form }}</pre> -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" @click="close">Close</button>
@@ -46,6 +58,7 @@
     </div>
 </template>
 <script setup>
+import { onMounted } from 'vue';
 import Layout from '../../Shared/Layout.vue';
 import { useForm, router } from '@inertiajs/vue3';
 
@@ -63,13 +76,62 @@ const save = () => {
             toastr.success('Language saved successfully.');
             $('#createLanguageModal').modal('hide'); // Hide the modal after saving
             form.reset(); // Reset the form after saving
-        
+            fetchLanguages(); // Reload the languages table
         },
         onError: (error) => {
             toastr.error(error?.language || 'An error occurred while saving the grade.');
         }
     });
 }
+
+const fetchLanguages = async () => {
+    if ($.fn.DataTable.isDataTable("#languageTable")) {
+        $("#languageTable").DataTable().ajax.reload(); // ✅ Reload existing DataTable
+    } else {
+        $("#languageTable").DataTable({ // ✅ Initialize only if not initialized
+            responsive: true, // Enable responsive feature
+            processing: true,
+            serverSide: true,
+            autoWidth: false,
+            ajax: route('admin.languages.ajax'),
+            columns: [
+                { data: "id" },
+                { data: "language" },
+                { data: "action", orderable: false, searchable: false }
+            ],
+            language: {
+                searchPlaceholder: "Search...",
+                search: "",
+                lengthMenu: "Show _MENU_ entries",
+                info: "Showing _START_ to _END_ of _TOTAL_ entries"
+            } 
+        });
+    }
+};
+
+onMounted(() => {
+    fetchLanguages();
+
+    // Handle Delete Button Click
+    $(document).on("click", ".delete-language-btn", async function () {
+
+        if(confirm("Are you sure you want to delete this language?")) {
+            const id = $(this).data("id");
+            await axios.delete(route('admin.languages.destroy', {id: id}))
+                .then(response => {
+                    if (response.status == 200) {
+                        toastr.success('Language has been deleted successfully!');
+                        fetchLanguages();
+                    }
+                })
+                .catch(error => {
+                    console.log(error.response.data.message)
+                    // toastr.error(error.response.data.message);
+                });
+        }
+        
+    });
+});
 
 const close = () => {
     form.reset();

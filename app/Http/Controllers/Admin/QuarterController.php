@@ -7,6 +7,7 @@ use App\Models\Quarter;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Throwable;
+use Yajra\DataTables\Facades\DataTables;
 
 class QuarterController extends Controller
 {
@@ -43,6 +44,52 @@ class QuarterController extends Controller
             return response()->json([
                 'error' => 'Internal Server Error',
                 'message' => $error->getMessage()
+            ], 500);
+        }
+    }
+
+    public function quarters(Request $request){
+        if ($request->ajax()) {
+            try {
+                $quarters = Quarter::select(['id', 'quarter', 'active'])->get();
+    
+                return DataTables::of($quarters)
+                    ->addColumn('active', function ($quarter) {
+                        return '<div class="form-check form-switch">
+                                    <input class="form-check-input custom-checkbox toggle-active-tag" type="checkbox" 
+                                        data-id="'.$quarter->id.'"
+                                    data-level="'.$quarter->level.'"
+                                    data-active-tag="'.$quarter->active.'" '.($quarter->active ? 'checked' : '').'>
+                                </div>';
+                    })
+                    ->addColumn('action', function ($quarter) {
+                        return '<button class="btn btn-md btn-secondary edit-grade-btn"
+                                    data-id="'.$quarter->id.'"
+                                    data-level="'.$quarter->level.'"
+                                    data-active-tag="'.$quarter->active.'">
+                                    <i class="fas fa-edit pr-2"></i>Edit</button>
+                                    <button class="btn btn-md btn-danger delete-quarter-btn"
+                                    data-id="'.$quarter->id.'"><i class="fas fa-trash pr-2"></i>Delete</button>';
+                    })
+                    ->rawColumns(['active', 'action']) // ✅ Ensure HTML rendering
+                    ->make(true);
+            } catch (\Exception $e) {
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
+        }
+    
+        return response()->json(['error' => 'Invalid request'], 400);
+    }
+
+    public function destroy(Request $request){
+        try {
+            $quarter = Quarter::findOrFail($request->id);
+            $quarter->delete();
+            return response('', 200);
+        } catch (Throwable $error) {
+            info($error->getMessage());
+            return response()->json([
+                'error' => $error->getMessage(),
             ], 500);
         }
     }

@@ -49,7 +49,9 @@ const formattedText = (string) => {
         />
       </svg>
     </div>
+    
     <section class="col-10 text-start ps-3" v-html="formattedText(content?.content)"></section>
+    <i class="fa-solid fa-print" v-if="props.content.role === 'assistant'"></i>
   </div>
 </template>
 

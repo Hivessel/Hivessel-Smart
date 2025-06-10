@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Throwable;
 use Illuminate\Validation\ValidationException;
+use Yajra\DataTables\Facades\DataTables;
+
 class ContentController extends Controller
 {
     public function index(){
@@ -111,6 +113,57 @@ class ContentController extends Controller
             }
             return $data->get();
 
+        } catch (Throwable $error) {
+            info($error->getMessage());
+            return response()->json([
+                'error' => $error->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function contents(Request $request){
+        if ($request->ajax()) {
+            try {
+                
+                $contents = Content::with('grade')->get();
+                return DataTables::of($contents)
+                    ->addColumn('grade', function ($content) {
+                        return $content->grade->level;
+                    })
+                    ->addColumn('subject', function ($content) {
+                        return $content->subject->subject;
+                    })
+                    ->addColumn('quarter', function ($content) {
+                        return $content->quarter->quarter;
+                    })
+                    
+                    ->addColumn('action', function ($content) {
+                        return '<button class="btn btn-md btn-secondary edit-subject-btn"
+                                    data-id="'.$content->id.'"
+                                    data-grade="'.$content->grade->level.'"
+                                    data-subject="'.$content->subject.'"
+                                    data-active-tag="'.$content->active.'">
+                                    <i class="fas fa-edit pr-2"></i>Edit</button>
+                                    <button class="btn btn-md btn-danger delete-content-btn"
+                                    data-id="'.$content->id.'">
+                                    <i class="fas fa-trash pr-2"></i>Delete</button>
+                                    ';
+                    })
+                    ->rawColumns(['action']) // Ensure HTML rendering
+                    ->make(true);
+            } catch (\Exception $e) {
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
+        }
+
+        return response()->json(['error' => 'Invalid request'], 400);
+    }
+
+    public function destroy(Request $request){
+        try {
+            $content = Content::findOrFail($request->id);
+            $content->delete();
+            return response('', 200);
         } catch (Throwable $error) {
             info($error->getMessage());
             return response()->json([
