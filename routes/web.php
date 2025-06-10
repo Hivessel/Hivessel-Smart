@@ -19,7 +19,9 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Http;
 
 
-Route::post('remote-login', [AuthController::class, 'remoteLogin'])->name('remote-login');
+// Route::post('remote-login', [AuthController::class, 'remoteLogin'])->name('remote-login');
+
+Route::post('custom-login', [AuthController::class, 'attempt'])->name('custom-login');
 
 Route::middleware(['auth'])->group(function(){
     Route::get('/', function () {

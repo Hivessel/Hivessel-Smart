@@ -15,10 +15,15 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        // User::factory()->create([
-        //     'name' => 'Administrator',
-        //     'email' => 'admin@mail.com',
-        // ]);
+
+        User::create([
+            'user_id' => 1,
+            'user_login' => 'admin',
+            'password' => bcrypt('admin123'),
+            'role' => 'admin',
+            'name' => 'Administrator',
+            'email' => 'admin@mail.com',
+        ]);
 
         // Grade Seeder
 
@@ -66,7 +71,7 @@ class DatabaseSeeder extends Seeder
             ['language' => 'Ilocano', 'active' => true],
             ['language' => 'Hiligaynon', 'active' => true],
         ];
-        
+
         foreach ($languages as $language) {
             \App\Models\Language::create($language);
         }

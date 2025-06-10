@@ -39,7 +39,7 @@ const credentials = useForm({
 })
 
 const login = () => {
-    credentials.post(route('remote-login'), {
+    credentials.post(route('custom-login'), {
         onSuccess: () => {
             router.get(route('client.home'));
         },
