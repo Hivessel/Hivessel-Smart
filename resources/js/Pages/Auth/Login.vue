@@ -2,12 +2,12 @@
     <div class="container">
         <form @submit.prevent="login">
             <div class="form-group">
-                <label for="email">Email</label>
+                <label for="email">Username</label>
                 <input
                     id="email"
                     type="text"
                     class="form-control"
-                    v-model="credentials.email"
+                    v-model="credentials.username"
                     autocomplete="username"
                 />
             </div>
@@ -24,6 +24,8 @@
             <button class="btn btn-secondary mt-2" type="submit" :disabled="credentials.processing">
                 Login
             </button>
+
+            <!-- <pre>{{ credentials }}</pre> -->
         </form>
     </div>
 </template>
@@ -32,12 +34,12 @@
 import { router, useForm } from '@inertiajs/vue3'
 
 const credentials = useForm({
-    email: '',
+    username: '',
     password: ''
 })
 
 const login = () => {
-    credentials.post(route('login'), {
+    credentials.post(route('remote-login'), {
         onSuccess: () => {
             router.get(route('client.home'));
         },

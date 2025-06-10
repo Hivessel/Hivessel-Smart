@@ -11,10 +11,15 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Plugins\AssessmentToolController;
 use App\Models\Chat;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Http;
 
-Route::post('login-attempt', [AuthController::class, 'attempt'])->name('login-attempt');
+
+Route::post('remote-login', [AuthController::class, 'remoteLogin'])->name('remote-login');
 
 Route::middleware(['auth'])->group(function(){
     Route::get('/', function () {
@@ -83,8 +88,4 @@ Route::middleware(['auth'])->group(function(){
 
         });
     });
-});
-
-Route::get('test-login', function(){
-    return 'fff';
 });
