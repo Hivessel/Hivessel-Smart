@@ -39,45 +39,45 @@ Route::middleware(['auth'])->group(function(){
     Route::prefix('admin')->group(function(){
         Route::get('/', function(){
             return Inertia::render('Admin/Home');
-        })->name('admin.home');
+        })->name('admin.home')->middleware('checkRole');
         Route::prefix('assessment-tool')->group(function(){
             // Grades
-            Route::get('grades', [GradeController::class, 'index'])->name('admin.grades.index');
+            Route::get('grades', [GradeController::class, 'index'])->name('admin.grades.index')->middleware('checkRole');
             Route::post('grades', [GradeController::class, 'store'])->name('admin.grades.store');
             Route::get('grades/all', [GradeController::class, 'all'])->name('admin.grades.all');
             Route::get('grades/ajax', [GradeController::class, 'grades'])->name('admin.grades.ajax');
             Route::delete('grades', [GradeController::class, 'destroy'])->name('admin.grades.destroy');
 
             // Subjects
-            Route::get('subjects', [SubjectController::class, 'index'])->name('admin.subjects.index');
+            Route::get('subjects', [SubjectController::class, 'index'])->name('admin.subjects.index')->middleware('checkRole');
             Route::post('subjects', [SubjectController::class, 'store'])->name('admin.subjects.store');
             Route::get('subjects/all', [SubjectController::class, 'all'])->name('admin.subjects.all');
             Route::get('subjects/ajax', [SubjectController::class, 'subjects'])->name('admin.subjects.ajax');
             Route::delete('subjects', [SubjectController::class, 'destroy'])->name('admin.subjects.destroy');
 
             // Quarters
-            Route::get('quarters', [QuarterController::class, 'index'])->name('admin.quarters.index');
+            Route::get('quarters', [QuarterController::class, 'index'])->name('admin.quarters.index')->middleware('checkRole');
             Route::post('quarters', [QuarterController::class, 'store'])->name('admin.quarters.store');
             Route::get('quarters/all', [QuarterController::class, 'all'])->name('admin.quarters.all');
             Route::get('quarters/ajax', [QuarterController::class, 'quarters'])->name('admin.quarters.ajax');
             Route::delete('quarters', [QuarterController::class, 'destroy'])->name('admin.quarters.destroy');
 
             // Contents
-            Route::get('contents', [ContentController::class, 'index'])->name('admin.contents.index');
+            Route::get('contents', [ContentController::class, 'index'])->name('admin.contents.index')->middleware('checkRole');
             Route::post('contents', [ContentController::class, 'store'])->name('admin.contents.store');
             Route::get('contents/all', [ContentController::class, 'all'])->name('admin.contents.all');
             Route::get('contents/ajax', [ContentController::class, 'contents'])->name('admin.contents.ajax');
             Route::delete('contents', [ContentController::class, 'destroy'])->name('admin.contents.destroy');
 
             // Proficiency Levels
-            Route::get('proficiency-levels', [ProficiencyLevelController::class, 'index'])->name('admin.proficiency-levels.index');
+            Route::get('proficiency-levels', [ProficiencyLevelController::class, 'index'])->name('admin.proficiency-levels.index')->middleware('checkRole');
             Route::post('proficiency-levels', [ProficiencyLevelController::class, 'store'])->name('admin.proficiency-levels.store');
             Route::get('proficiency-levels/all', [ProficiencyLevelController::class, 'all'])->name('admin.proficiency-levels.all');
             Route::get('proficiency-levels/ajax', [ProficiencyLevelController::class, 'proficiencyLevels'])->name('admin.proficiency-levels.ajax');
             Route::delete('proficiency-levels', [ProficiencyLevelController::class, 'destroy'])->name('admin.proficiency-levels.destroy');
 
             // Languages
-            Route::get('languages', [LanguageController::class, 'index'])->name('admin.languages.index');
+            Route::get('languages', [LanguageController::class, 'index'])->name('admin.languages.index')->middleware('checkRole');
             Route::post('languages', [LanguageController::class, 'store'])->name('admin.languages.store');
             Route::get('languages/all', [LanguageController::class, 'all'])->name('admin.languages.all');
             Route::get('languages/ajax', [LanguageController::class, 'languages'])->name('admin.languages.ajax');
