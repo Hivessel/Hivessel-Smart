@@ -1,0 +1,114 @@
+.main--sidebar {
+    background-color: #F8F9FA;
+}
+
+
+.main--sidebar .brand--logo {
+    background-color: #fff;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #2D3748;
+}
+
+.main--sidebar .brand--logo img {
+    max-width: 60px;
+    width: 60px;
+    height: auto;
+}
+
+.main--sidebar .brand--logo span {
+    text-transform: uppercase;
+}
+
+.main--sidebar .sidebar ul .nav-link i,
+.main--sidebar .sidebar ul .nav-link p {
+    color: #111731;
+}
+
+
+/* Credits */
+.remaining--credits {
+    background-image: url("https://media-cloud-hivessel.s3.ap-southeast-2.amazonaws.com/2025/06/bg_smart_cta.png");
+    background-position: center;
+    background-size: cover;
+    padding: 10px 20px !important;
+    border-radius: 10px;
+}
+
+
+/* CTA */
+.main--sidebar__cta {
+    background-image: url("https://media-cloud-hivessel.s3.ap-southeast-2.amazonaws.com/2025/06/bg_smart_cta.png");
+    background-position: center;
+    background-size: cover;
+    min-height: 200px;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 20px; 
+}
+@media (max-width: 767px) {
+    .main--sidebar__cta {
+        display: none; 
+    } 
+}
+.main--sidebar__cta img {
+    max-width: 35px;
+    margin-bottom: 30px; 
+}
+.main--sidebar__cta h3 {
+    font-size: 24px;
+    color: #fff; 
+}
+.main--sidebar__cta p {
+    color: #fff; 
+}
+
+.main--sidebar__cta .btn--primary {
+    background-color: #fff;
+    width: 100%;
+    color: #000;
+    font-size: 14px;
+    line-height: 38px;
+    padding: 4px 20px;
+    margin-top: 20px;
+    border-radius: 50px;
+    border: 0; 
+}
+.main--sidebar__cta .btn--primary:hover {
+    background-color: #000;
+    color: #fff; 
+}
+
+
+/* Assessement Tools */
+
+.assessment--box {
+    background-color: #f8f9fa;
+    padding: 40px !important;
+    border-radius: 30px;
+
+}
+
+.assessment--box .form-group .form-label {
+    font-size: 16px;
+    font-weight: normal;
+    color: #A0AEC0;
+}
+
+.assessment--box .multiselect,
+.assessment--box .multiselect__tags {
+    border-radius: 10px;
+    background-color: #F8F8F8;
+}
+
+
+.assessment--tools,
+.assessment--tools .card {
+    border-radius: 30px;
+}
+
+.assessment--tools .card {
+    padding: 20px;
+}

@@ -1,15 +1,15 @@
 <template>
     <aside
-        class="main-sidebar sidebar-dark-secondary elevation-4 text-white"
+        class="main-sidebar sidebar-dark-secondary elevation-4 text-white main--sidebar"
     >
         <!-- Brand Logo -->
-        <!-- <a>
+        <a href="hivessel.com" class="brand--logo">
             <img src="https://hivessel.com/wp-content/uploads/2024/03/cropped-hivessel_favicon.png"
-                class="brand-image img-circle elevation-3 bg-white" style="opacity: 1; width: 40px;">
-        </a> -->
+                class="hivesse-smart_logo">
+            <span>Hivessel Smart</span>
+        </a>
     
-        
-    
+
         <!-- Sidebar -->
         <div class="sidebar">
             <!-- Sidebar Menu -->
@@ -71,6 +71,13 @@
                     
                 </ul>
             </nav>
+
+            <div class="main--sidebar__cta">
+                <!-- <img src="/images/icon_info.png" alt=""> -->
+                <h3>Need help?</h3>
+                <p>Please check our docs</p>
+                <a href="#" class="btn btn--primary white">DOCUMENTATION</a>
+            </div>
             <!-- /.sidebar-menu -->
         </div>
         <div

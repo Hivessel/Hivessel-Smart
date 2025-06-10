@@ -1,6 +1,6 @@
 <template>
-  <div class="content-wrapper p-3">
-    <section class="content">
+  <div class="content-wrapper p-3 assessment--box">
+    <section class="content assessment--tools">
       <div class="card mt-3 border-0 shadow-sm">
         <div class="card-body">
           <div class="custom-tab-nav mb-0" role="tablist">

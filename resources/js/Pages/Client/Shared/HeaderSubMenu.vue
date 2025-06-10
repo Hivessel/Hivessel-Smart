@@ -17,7 +17,7 @@
         </ul>
         
         <!-- Right navbar links -->
-        <ul class="navbar-nav ml-auto bg-secondary p-2">
+        <ul class="navbar-nav ml-auto  p-2 remaining--credits">
             Credits: 12
         </ul>
     </nav>
