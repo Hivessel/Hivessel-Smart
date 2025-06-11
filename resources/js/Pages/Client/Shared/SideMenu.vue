@@ -27,7 +27,7 @@
                     >
                         <Link
                             :href="route('client.plugins.assessment-tool')"
-                            class="nav-link"
+                            class="nav-link active"
                             role="button"
                         >
                             <i class="fas fa-qrcode pr-2"></i>
@@ -35,6 +35,8 @@
                             <p>Assessment Tool</p>
                         </Link>
                     </li>
+
+                    
 
                     <!-- <li
                         class="nav-item"
@@ -64,6 +66,21 @@
                             <i class="fas fa-sign-in-alt pr-2"></i>
                         
                             <p>Sign Out</p>
+                        </Link>
+                    </li>
+                    <li
+                        class="nav-item"
+                        
+                    >
+                        <Link
+                            href="https://hivessel.com/my-account/edit-account/"
+                            target="_blank"
+                            class="nav-link"
+                            role="button"
+                            @click.prevent="logout"
+                        >
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            <p>Edit Account</p>
                         </Link>
                     </li>
 

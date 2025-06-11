@@ -1,9 +1,22 @@
 <template>
   <div class="content-wrapper p-3 assessment--box">
+    <section class="section--breadcrumbs">
+        <div class="profile--box">
+            <div class="profile--box__info">
+                <div class="profile--box__pic">
+                    <img src="https://hivessel.com/wp-content/uploads/2024/03/hivessel_logo.png" alt="">
+                </div>
+                <div class="profile--box__name">
+                    <p>Nikko Ador</p>
+                    <span>nikko@hivessel.com</span>
+                </div>
+            </div>
+        </div>
+    </section>
     <section class="content assessment--tools">
       <div class="card mt-3 border-0 shadow-sm">
         <div class="card-body">
-          <div class="custom-tab-nav mb-0" role="tablist">
+          <div class="custom-tab-nav mb-0 tab--links" role="tablist">
             <a
               class="nav-link"
               :class="{ active: currentTab === 'generate' }"
@@ -34,7 +47,7 @@
               id="generate"
               role="tabpanel"
             >
-              <div class="p-3 border rounded bg-white">
+              <div class="assessment--creation">
                 <div class="row">
                   <div class="col-12">
                     <div class="form-group">
@@ -186,13 +199,13 @@
                   </button>
                   </div> -->
 
-                  <div class="col-12">
+                  <div class="col-12 text-center mt-3">
                     <button 
-                      class="btn btn-warning w-100 text-white" 
+                      class="btn btn-warning w-100 text-white btn--primary" 
                       :disabled="isLoading" 
                       @click="submitGenerate"
                     >
-                      <span v-if="!isLoading">Generate</span>
+                      <span v-if="!isLoading">Generate Assessment</span>
                       <span v-else>
                         <span class="spinner-border spinner-border-sm text-dark" role="status">
                         </span>
@@ -633,7 +646,6 @@ watch(selectedContent, async (contentArray) => {
 
 <style scoped>
 .custom-tab-nav {
-  border: 1px solid #dee2e6;
   border-radius: 8px;
   display: inline-flex;
   overflow: hidden;
@@ -644,17 +656,18 @@ watch(selectedContent, async (contentArray) => {
   border: none;
   background: transparent;
   color: #6c757d;
-  padding: 5px 15px;
-  font-weight: 500;
+  padding: 10px 15px;
+  font-family: "Akatab", sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
   border-radius: 0;
   margin: 8px;
   cursor: pointer;
 }
 
 .custom-tab-nav .nav-link.active {
-  background-color: #fff;
-  color: #000;
-  box-shadow: 0 0 0 1px #dee2e6;
+  background-color: #fdc109;
+  color: #fff;
   border-radius: 8px;
 }
 
