@@ -105,6 +105,28 @@ class ContentController extends Controller
     public function all(Request $request){
         try {
             $data = Content::query();
+
+            if($request->filled('grade_id')){
+                $grade_id = $request->grade_id;
+                $data->where(function($query) use ($grade_id){
+                    $query->where('grade_id', $grade_id);
+                });
+            }
+
+            if($request->filled('subject_id')){
+                $subject_id = $request->subject_id;
+                $data->where(function($query) use ($subject_id){
+                    $query->where('subject_id', $subject_id);
+                });
+            }
+
+            if($request->filled('quarter_id')){
+                $quarter_id = $request->quarter_id;
+                $data->where(function($query) use ($quarter_id){
+                    $query->where('quarter_id', $quarter_id);
+                });
+            }
+
             if($request->filled('active')){
                 $active = $request->active;
                 $data->where(function($query) use ($active){

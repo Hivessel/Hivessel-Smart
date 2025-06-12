@@ -423,9 +423,9 @@ const fetchQuarters = async () => {
 const fetchContents = async (grade_id, subject_id, quarter_id) => {
   try {
     const response = await axios.get(route('admin.contents.all', {
-      grade_id,
-      subject_id,
-      quarter_id,
+      grade_id: grade_id,
+      subject_id: subject_id,
+      quarter_id: quarter_id,
       active: 1,
     }));
     apiData.contents = response.data;
@@ -606,6 +606,8 @@ watch(
     }
   }
 );
+
+
 
 watch(selectedContent, async (contentArray) => {
   apiData.competencies = [];
