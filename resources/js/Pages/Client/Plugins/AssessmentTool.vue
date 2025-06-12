@@ -7,8 +7,8 @@
                     <img src="https://hivessel.com/wp-content/uploads/2024/03/hivessel_logo.png" alt="">
                 </div>
                 <div class="profile--box__name">
-                    <p>Nikko Ador</p>
-                    <span>nikko@hivessel.com</span>
+                    <p>{{ page?.props?.authenticatedUser?.name || 'Unknown' }}</p>
+                    <span>{{ page?.props?.authenticatedUser?.email || 'unknown@mail.com' }}</span>
                 </div>
             </div>
         </div>

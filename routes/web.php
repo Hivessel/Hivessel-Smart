@@ -11,13 +11,14 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Plugins\AssessmentToolController;
 use App\Models\Chat;
+use App\Models\Invoice;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Http;
-
+use Carbon\Carbon;
 
 // Route::post('remote-login', [AuthController::class, 'remoteLogin'])->name('remote-login');
 
@@ -90,4 +91,53 @@ Route::middleware(['auth'])->group(function(){
 
         });
     });
+});
+
+
+Route::get('incept-invoice', function(){
+    try {
+        $response = Http::get('https://hivessel.com/wp-json/hivessel-api/v1/invoices');
+
+        if (!$response->successful()) {
+            throw new \Exception('Failed to fetch invoices. Status: ' . $response->status());
+        }
+
+        $invoices = $response->json();
+
+        // Check if invoices is an array
+        if (!is_array($invoices)) {
+            throw new \Exception('Invalid API response format');
+        }
+
+        foreach ($invoices as $invoice) {
+            // Validate required fields
+            if (empty($invoice['invoice_id']) || empty($invoice['date_purchase'])) {
+                info('Skipping invoice with missing required fields: ' . json_encode($invoice));
+                continue;
+            }
+
+            // Check if invoice already exists
+            $existingInvoice = Invoice::where('invoice_id', $invoice['invoice_id'])->first();
+
+            if (!$existingInvoice) {
+                Invoice::create([
+                    'source' => $invoice['source'] ?? null,
+                    'plugin_name' => $invoice['plugin_name'] ?? null,
+                    'invoice_id' => $invoice['invoice_id'],
+                    'order_id' => $invoice['order_id'] ?? null,
+                    'customer_email' => $invoice['customer_email'] ?? null,
+                    'product' => $invoice['product'] ?? null,
+                    'quantity' => $invoice['quantity'] ?? 0,
+                    'credit_points' => $invoice['credit_points'] ?? 0,
+                    'date_purchase' => Carbon::parse($invoice['date_purchase'])->toDateTimeString(),
+                ]);
+            }
+        }
+
+        return response()->json(['message' => 'Invoices processed successfully'], 200);
+
+    } catch (\Throwable $e) {
+        info($e->getMessage());
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
 });
