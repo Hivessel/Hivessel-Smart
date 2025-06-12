@@ -111,13 +111,17 @@ Route::get('incept-invoice', function(){
 
         foreach ($invoices as $invoice) {
             // Validate required fields
-            if (empty($invoice['invoice_id']) || empty($invoice['date_purchase'])) {
+            if (empty($invoice['invoice_id']) || empty($invoice['order_id']) || empty($invoice['customer_email']) || empty($invoice['date_purchase'])) {
                 info('Skipping invoice with missing required fields: ' . json_encode($invoice));
                 continue;
             }
 
             // Check if invoice already exists
-            $existingInvoice = Invoice::where('invoice_id', $invoice['invoice_id'])->first();
+            $existingInvoice = Invoice::where('invoice_id', $invoice['invoice_id'])
+            ->where('order_id', $invoice['order_id'])
+            ->where('customer_email', $invoice['customer_email'])
+            ->where('date_purchase', $invoice['date_purchase'])
+            ->first();
 
             if (!$existingInvoice) {
                 Invoice::create([
