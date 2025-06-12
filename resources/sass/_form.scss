@@ -1,0 +1,81 @@
+
+.form--container {
+    max-width: 600px;
+    margin: 0px auto;
+    padding: 40px;
+    width: 100%;
+    background: white;
+    border-radius: 4px;
+    box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;
+
+    .btn--submit {
+        margin-top: 20px;
+    }
+
+    .forgotpassword {
+        color: $primary-color;
+        text-decoration: none;
+        &:hover {
+            color: $color-gray;
+        }
+    }
+}
+
+.form {
+
+    &-title {
+        font-size: 18px;
+        margin-bottom: 16px;
+    }
+    &-group {
+        margin-bottom: 16px;
+    
+       
+    }
+
+    &-label {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    &-control {
+        height: 50px;
+
+        
+    }
+
+    &-select {
+        height: 50px;
+
+    }
+
+    &-footer-link {
+       .listing {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            span {
+                font-size: 16px;
+                a {
+                    text-decoration: none;
+                    color: $color-gray;
+                    &:hover {
+                        color: $primary-color;
+                    }
+                }
+            }
+       }
+
+       .ssolink {
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            margin: 25px 0;
+            color: $color-gray;
+            &:hover {
+                color: $primary-color;
+            }
+       }
+    }
+}
