@@ -82,6 +82,29 @@ class GradeController extends Controller
         return response()->json(['error' => 'Invalid request'], 400);
     }
 
+    public function update(Request $request){
+        // Validate the request data
+        $validated = $request->validate([
+            'id' => 'required|exists:grades,id',
+            'level' => 'required|string|max:255|unique:grades,level,'.$request->id,
+            'active' => 'required|boolean',
+        ]);
+
+        try {
+            $grade = Grade::findOrFail($validated['id']);
+            $grade->update([
+                'level' => $validated['level'],
+                'active' => $validated['active'],
+            ]);
+            return response('', 200);
+        } catch (Throwable $error) {
+            info($error->getMessage());
+            return response()->json([
+                'error' => $error->getMessage(),
+            ], 500);
+        }
+    }
+
     public function destroy(Request $request){
         try {
             $grade = Grade::findOrFail($request->id);

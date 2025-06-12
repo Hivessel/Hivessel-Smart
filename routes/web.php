@@ -48,6 +48,7 @@ Route::middleware(['auth'])->group(function(){
             Route::get('grades/all', [GradeController::class, 'all'])->name('admin.grades.all');
             Route::get('grades/ajax', [GradeController::class, 'grades'])->name('admin.grades.ajax');
             Route::delete('grades', [GradeController::class, 'destroy'])->name('admin.grades.destroy');
+            Route::put('grades', [GradeController::class, 'update'])->name('admin.grades.update');
 
             // Subjects
             Route::get('subjects', [SubjectController::class, 'index'])->name('admin.subjects.index')->middleware('checkRole');

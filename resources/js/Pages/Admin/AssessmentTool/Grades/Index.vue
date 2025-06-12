@@ -59,12 +59,17 @@
                 </div>
             </div>
         </div>
+
+        <!-- Edit Grade Modal -->
+         <edit-grade-modal ref="editGradeModal"/>
     </div>
 </template>
 <script setup>
-import { onBeforeMount, onMounted, nextTick } from 'vue';
+import { onBeforeMount, onMounted, nextTick, ref, onBeforeUnmount } from 'vue';
 import Layout from '../../Shared/Layout.vue';
 import { useForm, router } from '@inertiajs/vue3';
+import EditGradeModal from './EditGradeModal.vue';
+import eventBus from '../../../../Scripts/eventBus';
 defineOptions({
     layout: Layout,
 })
@@ -113,7 +118,14 @@ onMounted(() => {
                     // toastr.error(error.response.data.message);
                 });
         }
-        
+    });
+
+    // Handle Edit Button Click
+    $(document).on("click", ".edit-grade-btn", async function () {
+        const id = $(this).data("id");
+        const level = $(this).data("level");
+        $('#editGradeModal').modal('show');
+        eventBus.emit('setEditGradeData', { level: level, id: id });
     });
 });
 
@@ -136,6 +148,19 @@ const save = () => {
         }
     });
 }
+
+onBeforeMount(() => {
+    eventBus.on('gradeUpdated', (status) => {
+        if (status === 'success') {
+            toastr.success('Grade updated successfully.');
+            fetchGrades(); // Reload the grades table after update
+        }
+    });
+})
+
+onBeforeUnmount(() => {
+    eventBus.off('gradeUpdated');
+});
 
 const close = () => {
     form.reset();
