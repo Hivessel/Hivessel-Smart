@@ -55,13 +55,15 @@
                 </div>
             </div>
         </div>
+        <EditLanguageModal />
     </div>
 </template>
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, onBeforeUnmount, onBeforeMount } from 'vue';
 import Layout from '../../Shared/Layout.vue';
 import { useForm, router } from '@inertiajs/vue3';
-
+import EditLanguageModal from './EditLanguageModal.vue';
+import eventBus from '../../../../Scripts/eventBus';
 defineOptions({
     layout: Layout,
 })
@@ -131,6 +133,30 @@ onMounted(() => {
         }
         
     });
+
+
+    // Handle Edit Button Click
+    $(document).on("click", ".edit-language-btn", async function () {
+        const id = $(this).data("id");
+        const language = $(this).data("language");
+        $('#editLanguageModal').modal('show');
+        eventBus.emit('setEditLanguageData', { language: language, id: id });
+    });
+
+
+});
+
+onBeforeMount(() => {
+    eventBus.on('languageUpdated', (status) => {
+        if (status === 'success') {
+            toastr.success('Language updated successfully.');
+            fetchLanguages(); // Reload the grades table after update
+        }
+    });
+})
+
+onBeforeUnmount(() => {
+    eventBus.off('languageUpdated');
 });
 
 const close = () => {

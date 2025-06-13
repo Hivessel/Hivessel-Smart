@@ -87,6 +87,7 @@ Route::middleware(['auth'])->group(function(){
             Route::get('languages/all', [LanguageController::class, 'all'])->name('admin.languages.all');
             Route::get('languages/ajax', [LanguageController::class, 'languages'])->name('admin.languages.ajax');
             Route::delete('languages', [LanguageController::class, 'destroy'])->name('admin.languages.destroy');
+            Route::put('languages', [LanguageController::class, 'update'])->name('admin.languages.update');
 
             // Competencies
             Route::get('competencies/all', [CompetencyController::class, 'all'])->name('admin.competencies.all');

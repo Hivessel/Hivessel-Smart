@@ -63,9 +63,9 @@ class LanguageController extends Controller
                                 </div>';
                     })
                     ->addColumn('action', function ($language) {
-                        return '<button class="btn btn-md btn-secondary edit-grade-btn"
+                        return '<button class="btn btn-md btn-secondary edit-language-btn"
                                     data-id="'.$language->id.'"
-                                    data-level="'.$language->level.'"
+                                    data-language="'.$language->language.'"
                                     data-active-tag="'.$language->active.'">
                                     <i class="fas fa-edit pr-2"></i>Edit</button>
                                     <button class="btn btn-md btn-danger delete-language-btn"
@@ -79,6 +79,29 @@ class LanguageController extends Controller
         }
     
         return response()->json(['error' => 'Invalid request'], 400);
+    }
+
+    public function update(Request $request){
+        // Validate the request data
+        $validated = $request->validate([
+            'id' => 'required|exists:grades,id',
+            'language' => 'required|string|max:255|unique:languages,language,'.$request->id,
+            'active' => 'required|boolean',
+        ]);
+
+        try {
+            $language = Language::findOrFail($validated['id']);
+            $language->update([
+                'language' => $validated['language'],
+                'active' => $validated['active'],
+            ]);
+            return response('', 200);
+        } catch (Throwable $error) {
+            info($error->getMessage());
+            return response()->json([
+                'error' => $error->getMessage(),
+            ], 500);
+        }
     }
 
     public function destroy(Request $request){
