@@ -79,6 +79,7 @@ Route::middleware(['auth'])->group(function(){
             Route::get('proficiency-levels/all', [ProficiencyLevelController::class, 'all'])->name('admin.proficiency-levels.all');
             Route::get('proficiency-levels/ajax', [ProficiencyLevelController::class, 'proficiencyLevels'])->name('admin.proficiency-levels.ajax');
             Route::delete('proficiency-levels', [ProficiencyLevelController::class, 'destroy'])->name('admin.proficiency-levels.destroy');
+            Route::put('proficiency-levels', [ProficiencyLevelController::class, 'update'])->name('admin.proficiency-levels.update');
 
             // Languages
             Route::get('languages', [LanguageController::class, 'index'])->name('admin.languages.index')->middleware('checkRole');

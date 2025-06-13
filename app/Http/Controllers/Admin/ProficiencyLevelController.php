@@ -66,7 +66,7 @@ class ProficiencyLevelController extends Controller
                                 </div>';
                     })
                     ->addColumn('action', function ($level) {
-                        return '<button class="btn btn-md btn-secondary edit-grade-btn"
+                        return '<button class="btn btn-md btn-secondary edit-proficiency_level-btn"
                                     data-id="'.$level->id.'"
                                     data-level="'.$level->level.'"
                                     data-active-tag="'.$level->active.'">
@@ -82,6 +82,29 @@ class ProficiencyLevelController extends Controller
         }
     
         return response()->json(['error' => 'Invalid request'], 400);
+    }
+
+    public function update(Request $request){
+        // Validate the request data
+        $validated = $request->validate([
+            'id' => 'required|exists:proficiency_levels,id',
+            'level' => 'required|string|max:255|unique:proficiency_levels,level,'.$request->id,
+            'active' => 'required|boolean',
+        ]);
+
+        try {
+            $grade = ProficiencyLevel::findOrFail($validated['id']);
+            $grade->update([
+                'level' => $validated['level'],
+                'active' => $validated['active'],
+            ]);
+            return response('', 200);
+        } catch (Throwable $error) {
+            info($error->getMessage());
+            return response()->json([
+                'error' => $error->getMessage(),
+            ], 500);
+        }
     }
 
     public function destroy(Request $request){

@@ -55,13 +55,15 @@
                 </div>
             </div>
         </div>
+        <EditProficiencyLevelModal />
     </div>
 </template>
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, onBeforeMount, onBeforeUnmount  } from 'vue';
 import Layout from '../../Shared/Layout.vue';
 import { useForm, router } from '@inertiajs/vue3';
-
+import EditProficiencyLevelModal from './EditProficiencyLevelModal.vue';
+import eventBus from '../../../../Scripts/eventBus';
 defineOptions({
     layout: Layout,
 })
@@ -131,7 +133,30 @@ onMounted(() => {
         }
         
     });
+
+
+
+    // Handle Edit Button Click
+    $(document).on("click", ".edit-proficiency_level-btn", async function () {
+        const id = $(this).data("id");
+        const level = $(this).data("level");
+        $('#editProficiencyLevelModal').modal('show');
+        eventBus.emit('setEditProficiencyLevelData', { level: level, id: id });
+    });
 })
+
+onBeforeMount(() => {
+    eventBus.on('proficiencyLevelUpdated', (status) => {
+        if (status === 'success') {
+            toastr.success('Proficiency Level updated successfully.');
+            fetchProficiencyLevels(); // Reload the grades table after update
+        }
+    });
+})
+
+onBeforeUnmount(() => {
+    eventBus.off('proficiencyLevelUpdated');
+});
 
 const close = () => {
     form.reset();
