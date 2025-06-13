@@ -69,39 +69,6 @@ class SubjectController extends Controller
         }
     }
 
-    // public function subjects(Request $request){
-    //     if ($request->ajax()) {
-    //         try {
-    //             $subjects = Subject::select(['id', 'subject', 'active'])->get();
-    
-    //             return DataTables::of($subjects)
-    //                 ->addColumn('active', function ($subject) {
-    //                     return '<div class="form-check form-switch">
-    //                                 <input class="form-check-input custom-checkbox toggle-active-tag" type="checkbox" 
-    //                                     data-id="'.$subject->id.'"
-    //                                 data-subject="'.$subject->subject.'"
-    //                                 data-active-tag="'.$subject->active.'" '.($subject->active ? 'checked' : '').'>
-    //                             </div>';
-    //                 })
-    //                 ->addColumn('action', function ($subject) {
-    //                     return '<button class="btn btn-md btn-secondary edit-grade-btn"
-    //                                 data-id="'.$subject->id.'"
-    //                                 data-level="'.$subject->level.'"
-    //                                 data-active-tag="'.$subject->active.'">
-    //                                 <i class="fas fa-edit pr-2"></i>Edit</button>
-    //                                 <button class="btn btn-md btn-danger delete-grade-btn"
-    //                                 data-id="'.$subject->id.'"><i class="fas fa-trash pr-2"></i>Delete</button>';
-    //                 })
-    //                 ->rawColumns(['active', 'action']) // ✅ Ensure HTML rendering
-    //                 ->make(true);
-    //         } catch (\Exception $e) {
-    //             return response()->json(['error' => $e->getMessage()], 500);
-    //         }
-    //     }
-    
-    //     return response()->json(['error' => 'Invalid request'], 400);
-    // }
-
     public function subjects(Request $request){
         if ($request->ajax()) {
             try {
@@ -116,6 +83,7 @@ class SubjectController extends Controller
                         return '<button class="btn btn-md btn-secondary edit-subject-btn"
                                     data-id="'.$subject->id.'"
                                     data-grade="'.$subject->grade->level.'"
+                                    data-grade_id="'.$subject->grade->id.'"
                                     data-subject="'.$subject->subject.'"
                                     data-active-tag="'.$subject->active.'">
                                     <i class="fas fa-edit pr-2"></i>Edit</button>
@@ -134,6 +102,41 @@ class SubjectController extends Controller
         return response()->json(['error' => 'Invalid request'], 400);
     }
 
+    public function update(Request $request){
+        // Validate the request data
+        $validated = $request->validate([
+            'id' => 'required|exists:subjects,id',
+            'grade_id' => 'required|integer|exists:grades,id',
+            'subject' => 'required|string|max:255',
+            'active' => 'required|boolean',
+        ]);
+
+        $existingSubject = Subject::where('grade_id', $validated['grade_id'])
+            ->where('subject', $validated['subject'])
+            ->first();
+            
+        if ($existingSubject && $existingSubject->id !== $validated['id']) {
+            // Throw a ValidationException with a custom error message
+            throw ValidationException::withMessages([
+                'subject' => ['This subject already exists for the selected grade.'],
+            ]);
+        }
+
+        try {
+            $subject = Subject::findOrFail($validated['id']);
+            $subject->update([
+                'subject' => $validated['subject'],
+                'active' => $validated['active'],
+            ]);
+            return response('', 200);
+        } catch (Throwable $error) {
+            info($error->getMessage());
+            return response()->json([
+                'error' => $error->getMessage(),
+            ], 500);
+        }
+    }
+
     public function destroy(Request $request){
         try {
             $subject = Subject::findOrFail($request->id);
@@ -146,6 +149,8 @@ class SubjectController extends Controller
             ], 500);
         }
     }
+
+
 
 
 }

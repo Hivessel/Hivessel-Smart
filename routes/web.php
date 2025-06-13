@@ -56,6 +56,7 @@ Route::middleware(['auth'])->group(function(){
             Route::get('subjects/all', [SubjectController::class, 'all'])->name('admin.subjects.all');
             Route::get('subjects/ajax', [SubjectController::class, 'subjects'])->name('admin.subjects.ajax');
             Route::delete('subjects', [SubjectController::class, 'destroy'])->name('admin.subjects.destroy');
+            Route::put('subjects', [SubjectController::class, 'update'])->name('admin.subjects.update');
 
             // Quarters
             Route::get('quarters', [QuarterController::class, 'index'])->name('admin.quarters.index')->middleware('checkRole');

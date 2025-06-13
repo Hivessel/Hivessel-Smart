@@ -65,14 +65,17 @@
                 </div>
             </div>
         </div>
+        <EditSubjectModal />
     </div>
 </template>
 <script setup>
 import axios from 'axios';
 import Layout from '../../Shared/Layout.vue';
 import { useForm, router } from '@inertiajs/vue3';
-import { computed, nextTick, onMounted, reactive, ref } from 'vue';
+import { computed, nextTick, onMounted, reactive, ref, onBeforeMount, onBeforeUnmount } from 'vue';
 import Multiselect from 'vue-multiselect';
+import EditSubjectModal from './EditSubjectModal.vue';
+import eventBus from '../../../../Scripts/eventBus';
 defineOptions({
     layout: Layout,
 })
@@ -153,7 +156,30 @@ onMounted(() => {
         }
         
     });
+
+    // Handle Edit Button Click
+    $(document).on("click", ".edit-subject-btn", async function () {
+        const id = $(this).data("id");
+        const grade_id = $(this).data("grade_id");
+        const grade = $(this).data("grade");
+        const subject = $(this).data("subject");
+        $('#editSubjectModal').modal('show');
+        eventBus.emit('setEditSubjectData', { id: id, grade_id: grade_id, grade: grade, subject: subject });
+    });
 })
+
+onBeforeMount(() => {
+    eventBus.on('subjectUpdated', (status) => {
+        if (status === 'success') {
+            toastr.success('Subject updated successfully.');
+            fetchSubjects(); // Reload the grades table after update
+        }
+    });
+})
+
+onBeforeUnmount(() => {
+    eventBus.off('subjectUpdated');
+});
 
 const save = () => {
     form.post(route('admin.subjects.store'), {
