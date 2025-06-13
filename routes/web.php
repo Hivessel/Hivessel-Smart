@@ -64,6 +64,7 @@ Route::middleware(['auth'])->group(function(){
             Route::get('quarters/all', [QuarterController::class, 'all'])->name('admin.quarters.all');
             Route::get('quarters/ajax', [QuarterController::class, 'quarters'])->name('admin.quarters.ajax');
             Route::delete('quarters', [QuarterController::class, 'destroy'])->name('admin.quarters.destroy');
+            Route::put('quarters', [QuarterController::class, 'update'])->name('admin.quarters.update');
 
             // Contents
             Route::get('contents', [ContentController::class, 'index'])->name('admin.contents.index')->middleware('checkRole');

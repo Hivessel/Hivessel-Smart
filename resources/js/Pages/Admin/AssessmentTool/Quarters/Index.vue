@@ -55,12 +55,15 @@
                 </div>
             </div>
         </div>
+        <EditQuarterModal />
     </div>
 </template>
 <script setup>
 import Layout from '../../Shared/Layout.vue';
 import { useForm, router } from '@inertiajs/vue3';
-import { onMounted } from 'vue';
+import { onMounted, onBeforeMount, onBeforeUnmount } from 'vue';
+import EditQuarterModal from './EditQuarterModal.vue';
+import eventBus from '../../../../Scripts/eventBus';
 defineOptions({
     layout: Layout,
 })
@@ -116,6 +119,14 @@ onMounted(() => {
         }
         
     });
+
+    // Handle Edit Button Click
+    $(document).on("click", ".edit-quarter-btn", async function () {
+        const id = $(this).data("id");
+        const quarter = $(this).data("quarter");
+        $('#editQuarterModal').modal('show');
+        eventBus.emit('setEditQuarterData', { quarter: quarter, id: id });
+    });
 });
 
 const save = () => {
@@ -131,6 +142,19 @@ const save = () => {
         }
     });
 }
+
+onBeforeMount(() => {
+    eventBus.on('quarterUpdated', (status) => {
+        if (status === 'success') {
+            toastr.success('Quarter updated successfully.');
+            fetchQuarters(); // Reload the grades table after update
+        }
+    });
+})
+
+onBeforeUnmount(() => {
+    eventBus.off('quarterUpdated');
+});
 
 const close = () => {
     form.reset();

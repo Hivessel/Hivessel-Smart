@@ -63,9 +63,9 @@ class QuarterController extends Controller
                                 </div>';
                     })
                     ->addColumn('action', function ($quarter) {
-                        return '<button class="btn btn-md btn-secondary edit-grade-btn"
+                        return '<button class="btn btn-md btn-secondary edit-quarter-btn"
                                     data-id="'.$quarter->id.'"
-                                    data-level="'.$quarter->level.'"
+                                    data-quarter="'.$quarter->quarter.'"
                                     data-active-tag="'.$quarter->active.'">
                                     <i class="fas fa-edit pr-2"></i>Edit</button>
                                     <button class="btn btn-md btn-danger delete-quarter-btn"
@@ -79,6 +79,29 @@ class QuarterController extends Controller
         }
     
         return response()->json(['error' => 'Invalid request'], 400);
+    }
+
+    public function update(Request $request){
+        // Validate the request data
+        $validated = $request->validate([
+            'id' => 'required|exists:grades,id',
+            'quarter' => 'required|string|max:255|unique:quarters,quarter,'.$request->id,
+            'active' => 'required|boolean',
+        ]);
+
+        try {
+            $quarter = Quarter::findOrFail($validated['id']);
+            $quarter->update([
+                'quarter' => $validated['quarter'],
+                'active' => $validated['active'],
+            ]);
+            return response('', 200);
+        } catch (Throwable $error) {
+            info($error->getMessage());
+            return response()->json([
+                'error' => $error->getMessage(),
+            ], 500);
+        }
     }
 
     public function destroy(Request $request){

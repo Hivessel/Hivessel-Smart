@@ -1,21 +1,18 @@
 <template>
     <!-- Edit Grade -->
-    <div class="modal fade" id="editSubjectModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="editQuarterModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Subject</h1>
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Quarter</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="" class="form-label">Grade</label>
-                        <input type="text" id="" class="form-control" aria-describedby="passwordHelpBlock" v-model="form.grade" readonly/>
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="form-label">Subject</label>
-                        <input type="text" id="" class="form-control" aria-describedby="passwordHelpBlock" v-model="form.subject"/>
+                        <label for="" class="form-label">Quarter</label>
+                        <input type="text" id="" class="form-control" aria-describedby="passwordHelpBlock" v-model="form.quarter"/>
+                        
                     </div>
                 </form>
                 <!-- <pre>{{ form }}</pre> -->
@@ -36,45 +33,41 @@ import { onBeforeMount, onBeforeUnmount } from 'vue';
 import eventBus from '../../../../Scripts/eventBus';
 
 const form = useForm({
+    quarter: '',
     id: '',
-    grade_id: '',
-    grade: '',
-    subject: '',
     active: true
 });
 
 onBeforeMount(() => {
-    eventBus.on('setEditSubjectData', (data) => {
+    eventBus.on('setEditQuarterData', (data) => {
+        form.quarter = data.quarter;
         form.id = data.id;
-        form.grade_id = data.grade_id;
-        form.grade = data.grade;
-        form.subject = data.subject;
     });
 })
 
 onBeforeUnmount(() => {
-    eventBus.off('setEditSubjectData');
+    eventBus.off('setEditQuarterData');
 });
 
 const handleSubmit = () => {
-    form.put(route('admin.subjects.update', {
+    form.put(route('admin.quarters.update', {
         id: form.id,
-        subject: form.subject,
+        quarter: form.quarter,
         active: form.active
     }), {
         onSuccess: (response) => {
             form.reset();
-            $('#editSubjectModal').modal('hide');
-            eventBus.emit('subjectUpdated', 'success');
+            $('#editQuarterModal').modal('hide');
+            eventBus.emit('quarterUpdated', 'success');
         },
         onError: (error) => {
-            toastr.error(error?.subject || 'An error occurred while saving the subject.');
+            toastr.error(error?.quarter || 'An error occurred while saving the quarter.');
         }
     });
 };
 
 const close = () => {
     form.reset();
-    $('#editSubjectModal').modal('hide'); // Hide the modal when closing
+    $('#editQuarterModal').modal('hide'); // Hide the modal when closing
 }
 </script>
