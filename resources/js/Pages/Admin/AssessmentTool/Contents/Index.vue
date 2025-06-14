@@ -36,7 +36,7 @@
         
         <!-- Create Quarter -->
         <div class="modal fade" id="createContentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Contents</h1>
@@ -72,20 +72,24 @@
                         <table class="table table-borderless align-middle w-100">
                             <tbody>
                                 <tr v-for="(item, index) in form.competencies" :key="item.id || index">
-                                <td class="w-85">
+                                <td style="width: 90%;">
+                                    <div class="form-group mb-0">
                                     <textarea
-                                    v-model="item.competency"
-                                    class="form-control"
-                                    rows="2"
+                                        v-model="item.competency"
+                                        class="form-control"
+                                        rows="4"
+                                        placeholder="Enter competency..."
                                     ></textarea>
+                                    </div>
                                 </td>
-                                <td class="w-10 text-center">
+                                <td style="width: 10%;" class="text-center align-middle">
                                     <button
                                     type="button"
                                     class="btn btn-danger"
                                     @click.prevent="removeCompency(item.id)"
+                                    title="Remove"
                                     >
-                                    <i class="fa fa-trash"></i>
+                                    <i class="fas fa-trash"></i>
                                     </button>
                                 </td>
                                 </tr>
@@ -103,13 +107,16 @@
                 </div>
             </div>
         </div>
+        <EditContentModal />
     </div>
 </template>
 <script setup>
-import { reactive, ref, onMounted, watch, computed } from 'vue';
+import { reactive, ref, onMounted, watch, computed, onBeforeUnmount, onBeforeMount } from 'vue';
 import Layout from '../../Shared/Layout.vue';
 import { useForm, router } from '@inertiajs/vue3';
 import Multiselect from 'vue-multiselect';
+import EditContentModal from './EditContentModal.vue';
+import eventBus from '../../../../Scripts/eventBus';
 defineOptions({
     layout: Layout,
 })
@@ -253,6 +260,31 @@ onMounted(() => {
         }
         
     });
+
+    // Handle Edit Button Click
+    $(document).on("click", ".edit-content-btn", async function () {
+        const id = $(this).data("id");
+        const grade_id = $(this).data("grade_id");
+        const grade = $(this).data("grade");
+        const subject_id = $(this).data("subject_id");
+        const subject = $(this).data("subject");
+        const quarter_id = $(this).data("quarter_id");
+        const quarter = $(this).data("quarter");
+        const content = $(this).data("content");
+        const competencies = $(this).data("competencies");
+        $('#editContentModal').modal('show');
+        eventBus.emit('setEditContentData', { 
+            id: id,
+            grade_id: grade_id,
+            grade: grade,
+            subject_id: subject_id ,
+            subject: subject,
+            quarter_id: quarter_id ,
+            quarter: quarter,
+            content: content,
+            competencies: competencies
+        });
+    });
 })
 
 const save = () => {
@@ -291,6 +323,20 @@ const save = () => {
         }
     });
 }
+
+onBeforeMount(() => {
+    eventBus.on('contentUpdated', (status) => {
+        if (status === 'success') {
+            toastr.success('Content updated successfully.');
+            fetchContents();
+        }
+    });
+})
+
+onBeforeUnmount(() => {
+    eventBus.off('contentUpdated');
+});
+
 
 watch(() => selectedGrade.value, (grade) => {
     selectedSubject.value = null;

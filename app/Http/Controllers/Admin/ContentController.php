@@ -160,10 +160,16 @@ class ContentController extends Controller
                     })
                     
                     ->addColumn('action', function ($content) {
-                        return '<button class="btn btn-md btn-secondary edit-subject-btn"
+                        return '<button class="btn btn-md btn-secondary edit-content-btn"
                                     data-id="'.$content->id.'"
+                                    data-grade_id="'.$content->grade->id.'"
                                     data-grade="'.$content->grade->level.'"
-                                    data-subject="'.$content->subject.'"
+                                    data-subject_id="'.$content->subject->id.'"
+                                    data-subject="'.$content->subject->subject.'"
+                                    data-quarter_id="'.$content->quarter->id.'"
+                                    data-quarter="'.$content->quarter->quarter.'"
+                                    data-content="'.$content->content.'"
+                                    data-competencies="'.htmlspecialchars($content->competencies, ENT_QUOTES, 'UTF-8').'"
                                     data-active-tag="'.$content->active.'">
                                     <i class="fas fa-edit pr-2"></i>Edit</button>
                                     <button class="btn btn-md btn-danger delete-content-btn"
@@ -179,6 +185,60 @@ class ContentController extends Controller
         }
 
         return response()->json(['error' => 'Invalid request'], 400);
+    }
+
+    public function update(Request $request){
+        // Validate the request data
+        $validated = $request->validate([
+            'id' => 'required|exists:contents,id',
+            'grade_id' => 'required|integer|exists:grades,id',
+            'subject_id' => 'required|integer|exists:subjects,id',
+            'quarter_id' => 'required|integer|exists:quarters,id',
+            'content' => 'required|string|max:255',
+            'competencies' => 'required|array|min:1',
+            'active' => 'required|boolean',
+        ],[
+            'competencies.required' => 'Add one or more competencies to continue.'
+        ]);
+
+        $existingContent = Content::where('grade_id', $validated['grade_id'])
+            ->where('subject_id', $validated['subject_id'])
+            ->where('quarter_id', $validated['quarter_id'])
+            ->where('content', $validated['content'])
+            ->first();
+            
+        if ($existingContent && $existingContent->id !== $validated['id']) {
+            // Throw a ValidationException with a custom error message
+            throw ValidationException::withMessages([
+                'content' => ['This content already exists for the selected combinations.'],
+            ]);
+        }
+
+        try {
+            $content = Content::findOrFail($validated['id']);
+            $content->update([
+                'content' => $validated['content'],
+                'active' => $validated['active'],
+            ]);
+
+            // Delete old competencies first
+            $content->competencies()->delete();
+
+            // Re-create competencies with updated values
+            foreach ($validated['competencies'] as $data) {
+                $content->competencies()->create([
+                    'competency' => $data['competency'],
+                ]);
+            }
+
+            return response('', 200);
+        } catch (Throwable $error) {
+            return response()->json([
+                'error' => $error->getMessage(),
+            ], 500);
+        }
+
+
     }
 
     public function destroy(Request $request){
