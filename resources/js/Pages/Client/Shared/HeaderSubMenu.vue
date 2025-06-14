@@ -18,7 +18,8 @@
         
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto  p-2 remaining--credits">
-            Credits: 12
+            <!-- Credits: 12 -->
+             {{ `Credits: ${ $page?.props?.authenticatedUser?.credit_balance?.remaining_credit_points || 0 }`  }}
         </ul>
     </nav>
     </div>

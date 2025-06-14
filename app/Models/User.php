@@ -48,4 +48,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public $with = ['credit_balance'];
+
+    public function credit_balance(){
+        return $this->hasOne(CreditBalance::class, 'customer_email', 'email');
+    }
 }

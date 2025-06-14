@@ -532,7 +532,9 @@ const submitGenerate = () => {
     return false;
   }
 
-  const actualPromt = useForm({
+  const remaining_credits = page?.props?.authenticatedUser?.credit_balance?.remaining_credit_points || 0;
+  if(remaining_credits > 0){
+    const actualPromt = useForm({
     prompt: prompt.value,
     plugin: 'Assessment Tool'
   });
@@ -540,16 +542,18 @@ const submitGenerate = () => {
   isLoading.value = true;
 
   actualPromt.post(route('client.plugins.chats.store'), {
-    onSuccess: (response) => {
-      // console.log(response.data);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-    onFinish: () => {
-      isLoading.value = false;
-    }
-  });
+      onSuccess: (response) => {
+        // console.log(response.data);
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+      onFinish: () => {
+        isLoading.value = false;
+      }
+    });
+  }
+  
 
 }
 

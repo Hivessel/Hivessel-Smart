@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 // Route::post('remote-login', [AuthController::class, 'remoteLogin'])->name('remote-login');
 
@@ -130,6 +131,14 @@ Route::get('incept-invoice', function(){
             ->first();
 
             if (!$existingInvoice) {
+                $totalPoints = (int)$invoice['credit_points'];
+                // Add to total credits
+                DB::table('credit_balances')->updateOrInsert(
+                    ['customer_email' => $invoice['customer_email']],
+                    ['remaining_credit_points' => DB::raw("remaining_credit_points + $totalPoints")]
+                );
+
+                // Mark invoice as processed
                 Invoice::create([
                     'source' => $invoice['source'] ?? null,
                     'plugin_name' => $invoice['plugin_name'] ?? null,
@@ -151,3 +160,9 @@ Route::get('incept-invoice', function(){
         return response()->json(['error' => $e->getMessage()], 500);
     }
 });
+
+Route::get('balance', function(){
+    // return $user = User::where('email', 'info@hivessel.com')->first();
+    return Auth::user();
+});
+

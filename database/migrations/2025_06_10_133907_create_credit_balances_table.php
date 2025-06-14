@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('credit_balances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->decimal('remaining_credit_points', 10, 2)->default(0);
+            $table->string('customer_email')->constrained()->onDelete('cascade');
+            $table->decimal('remaining_credit_points', 10, 0)->default(0);
             $table->timestamps();
         });
     }
