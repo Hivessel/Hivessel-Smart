@@ -35,6 +35,22 @@ Route::middleware(['auth'])->group(function(){
         Route::get('assessment-tool', [AssessmentToolController::class, 'index'])->name('client.plugins.assessment-tool');
     });
 
+    // Subtract credit
+    Route::post('subtract-credit', function(Request $request){
+        // $email = $request->email;
+        $email = Auth::user()->email;
+        $deduct = (int) $request->credits;
+
+        $current = DB::table('credit_balances')->where('customer_email', $email)->first();
+
+        $remaining = $current ? max(0, $current->remaining_credit_points - $deduct) : 0;
+
+        DB::table('credit_balances')->updateOrInsert(
+            ['customer_email' => $email],
+            ['remaining_credit_points' => $remaining]
+        );
+    })->name('subtract-credit');
+
     // Prompt
     Route::post('prompt/{id?}', [ChatController::class, 'store'])->name('client.plugins.chats.store');
 

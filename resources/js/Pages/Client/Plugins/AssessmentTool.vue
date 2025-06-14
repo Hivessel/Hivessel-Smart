@@ -1,195 +1,123 @@
 <template>
   <div class="content-wrapper p-3 assessment--box">
     <section class="section--breadcrumbs">
-        <div class="profile--box">
-            <div class="profile--box__info">
-                <div class="profile--box__pic">
-                    <img src="https://hivessel.com/wp-content/uploads/2024/03/hivessel_logo.png" alt="">
-                </div>
-                <div class="profile--box__name">
-                    <p>{{ page?.props?.authenticatedUser?.name || 'Unknown' }}</p>
-                    <span>{{ page?.props?.authenticatedUser?.email || 'unknown@mail.com' }}</span>
-                </div>
-            </div>
+      <div class="profile--box">
+        <div class="profile--box__info">
+          <div class="profile--box__pic">
+            <img src="https://hivessel.com/wp-content/uploads/2024/03/hivessel_logo.png" alt="">
+          </div>
+          <div class="profile--box__name">
+            <p>{{ page?.props?.authenticatedUser?.name || 'Unknown' }}</p>
+            <span>{{ page?.props?.authenticatedUser?.email || 'unknown@mail.com' }}</span>
+          </div>
         </div>
+      </div>
     </section>
     <section class="content assessment--tools">
       <div class="card mt-3 border-0 shadow-sm">
         <div class="card-body">
           <div class="custom-tab-nav mb-0 tab--links" role="tablist">
-            <a
-              class="nav-link"
-              :class="{ active: currentTab === 'generate' }"
-              id="generate-tab"
-              role="tab"
-              :aria-selected="currentTab === 'generate'"
-              aria-controls="generate"
-              href="javascript:void(0);"
-              @click="switchTab('generate')"
-            >Generate</a>
+            <a class="nav-link" :class="{ active: currentTab === 'generate' }" id="generate-tab" role="tab"
+              :aria-selected="currentTab === 'generate'" aria-controls="generate" href="javascript:void(0);"
+              @click="switchTab('generate')">Generate</a>
 
-            <a
-              class="nav-link"
-              :class="{ active: currentTab === 'history' }"
-              id="history-tab"
-              role="tab"
-              :aria-selected="currentTab === 'history'"
-              aria-controls="history"
-              href="javascript:void(0);"
-              @click="switchTab('history')"
-            >History</a>
+            <a class="nav-link" :class="{ active: currentTab === 'history' }" id="history-tab" role="tab"
+              :aria-selected="currentTab === 'history'" aria-controls="history" href="javascript:void(0);"
+              @click="switchTab('history')">History</a>
           </div>
 
           <div class="tab-content">
-            <div
-              class="tab-pane fade"
-              :class="{ show: currentTab === 'generate', active: currentTab === 'generate' }"
-              id="generate"
-              role="tabpanel"
-            >
+            <div class="tab-pane fade" :class="{ show: currentTab === 'generate', active: currentTab === 'generate' }"
+              id="generate" role="tabpanel">
               <div class="assessment--creation">
                 <div class="row">
                   <div class="col-12">
                     <div class="form-group">
                       <label class="form-label">Grade</label>
-                      <Multiselect
-                        class="border" :class="gradeValidator.$invalid ? 'border-danger' : 'border-warning'"
-                        data-width="100%"
-                        track-by="id"
-                        :options="apiData.grades"
-                        placeholder="-- Select Grade --"
-                        v-model="selectedGrade"
-                        label="level"
-                      />
+                      <Multiselect class="border" :class="gradeValidator.$invalid ? 'border-danger' : 'border-warning'"
+                        data-width="100%" track-by="id" :options="apiData.grades" placeholder="-- Select Grade --"
+                        v-model="selectedGrade" label="level" />
                     </div>
                   </div>
 
                   <div class="col-6">
                     <div class="form-group">
                       <label class="form-label">Subject</label>
-                      <Multiselect
-                        class="border" :class="subjectValidator.$invalid ? 'border-danger' : 'border-warning'"
-                        data-width="100%"
-                        track-by="id"
-                        :key="selectedGrade?.id"
-                        :options="apiData.subjects"
-                        placeholder="-- Select Subject --"
-                        v-model="selectedSubject"
-                        label="subject"
-                      />
+                      <Multiselect class="border"
+                        :class="subjectValidator.$invalid ? 'border-danger' : 'border-warning'" data-width="100%"
+                        track-by="id" :key="selectedGrade?.id" :options="apiData.subjects"
+                        placeholder="-- Select Subject --" v-model="selectedSubject" label="subject" />
                     </div>
                   </div>
 
                   <div class="col-6">
                     <div class="form-group">
                       <label class="form-label">Quarter</label>
-                      <Multiselect
-                        class="border" :class="quarterValidator.$invalid ? 'border-danger' : 'border-warning'"
-                        data-width="100%"
-                        track-by="id"
-                        :key="selectedSubject?.id"
-                        :options="apiData.quarters"
-                        placeholder="-- Select Quarter --"
-                        v-model="selectedQuarter"
-                        label="quarter"
-                      />
+                      <Multiselect class="border"
+                        :class="quarterValidator.$invalid ? 'border-danger' : 'border-warning'" data-width="100%"
+                        track-by="id" :key="selectedSubject?.id" :options="apiData.quarters"
+                        placeholder="-- Select Quarter --" v-model="selectedQuarter" label="quarter" />
                     </div>
                   </div>
 
                   <div class="col-12">
                     <div class="form-group">
                       <label class="form-label">Content</label>
-                      <Multiselect
-                        class="border" :class="raw_contentValidator.$invalid ? 'border-danger' : 'border-warning'"
-                        multiple
-                        :close-on-select="false"
-                        data-width="100%"
-                        track-by="id"
-                        :options="apiData.contents"
-                        placeholder="-- Select Contents --"
-                        v-model="selectedContent"
-                        label="content"
-                      />
+                      <Multiselect class="border"
+                        :class="raw_contentValidator.$invalid ? 'border-danger' : 'border-warning'" multiple
+                        :close-on-select="false" data-width="100%" track-by="id" :options="apiData.contents"
+                        placeholder="-- Select Contents --" v-model="selectedContent" label="content" />
                     </div>
                   </div>
 
                   <div class="col-12">
                     <div class="form-group">
                       <label class="form-label">Competencies</label>
-                      <Multiselect
-                        class="border" :class="raw_competenciesValidator.$invalid ? 'border-danger' : 'border-warning'"
-                        multiple
-                        track-by="id"
-                        data-width="100%"
-                        :options="apiData.competencies"
-                        placeholder="-- Select Competencies --"
-                        v-model="selectedCompetencies"
-                        label="competency"
-                      />
+                      <Multiselect class="border"
+                        :class="raw_competenciesValidator.$invalid ? 'border-danger' : 'border-warning'" multiple
+                        track-by="id" data-width="100%" :options="apiData.competencies"
+                        placeholder="-- Select Competencies --" v-model="selectedCompetencies" label="competency" />
                     </div>
                   </div>
 
                   <div class="col-6">
                     <div class="form-group">
                       <label class="form-label">Proficiency Level</label>
-                      <Multiselect
-                        class="border" :class="proficiency_levelValidator.$invalid ? 'border-danger' : 'border-warning'"
-                        data-width="100%"
-                        track-by="id"
-                        :key="selectedGrade?.id"
-                        :options="apiData.proficiency_levels"
-                        placeholder="-- Select Proficiency Level --"
-                        v-model="selectedProficiencyLevel"
-                        label="level"
-                      />
+                      <Multiselect class="border"
+                        :class="proficiency_levelValidator.$invalid ? 'border-danger' : 'border-warning'"
+                        data-width="100%" track-by="id" :key="selectedGrade?.id" :options="apiData.proficiency_levels"
+                        placeholder="-- Select Proficiency Level --" v-model="selectedProficiencyLevel" label="level" />
                     </div>
                   </div>
 
                   <div class="col-6">
                     <div class="form-group">
                       <label class="form-label">Language</label>
-                      <Multiselect
-                        class="border" :class="languageValidator.$invalid ? 'border-danger' : 'border-warning'"
-                        data-width="100%"
-                        track-by="id"
-                        :key="selectedSubject?.id"
-                        :options="apiData.languages"
-                        placeholder="-- Select Language --"
-                        v-model="selectedLanguage"
-                        label="language"
-                      />
+                      <Multiselect class="border"
+                        :class="languageValidator.$invalid ? 'border-danger' : 'border-warning'" data-width="100%"
+                        track-by="id" :key="selectedSubject?.id" :options="apiData.languages"
+                        placeholder="-- Select Language --" v-model="selectedLanguage" label="language" />
                     </div>
                   </div>
 
                   <div class="col-6">
                     <div class="form-group">
                       <label class="form-label">No. Of Questions</label>
-                      <Multiselect
-                        class="border" :class="no_of_questionsValidator.$invalid ? 'border-danger' : 'border-warning'"
-                        data-width="100%"
-                        track-by="id"
-                        :key="selectedNoOfQuestions?.id"
-                        :options="apiData.no_of_questions"
-                        placeholder="-- Select No. Of Questions --"
-                        v-model="selectedNoOfQuestions"
-                        label="item"
-                      />
+                      <Multiselect class="border"
+                        :class="no_of_questionsValidator.$invalid ? 'border-danger' : 'border-warning'"
+                        data-width="100%" track-by="id" :key="selectedNoOfQuestions?.id"
+                        :options="apiData.no_of_questions" placeholder="-- Select No. Of Questions --"
+                        v-model="selectedNoOfQuestions" label="item" />
                     </div>
                   </div>
 
                   <div class="col-6">
                     <div class="form-group">
                       <label class="form-label">No. Of Choices</label>
-                      <Multiselect
-                        class="border" :class="no_of_choicesValidator.$invalid ? 'border-danger' : 'border-warning'"
-                        data-width="100%"
-                        track-by="id"
-                        :key="selectedNoOfChoices?.id"
-                        :options="apiData.no_of_choices"
-                        placeholder="-- Select No. Of Choices --"
-                        v-model="selectedNoOfChoices"
-                        label="item"
-                      />
+                      <Multiselect class="border"
+                        :class="no_of_choicesValidator.$invalid ? 'border-danger' : 'border-warning'" data-width="100%"
+                        track-by="id" :key="selectedNoOfChoices?.id" :options="apiData.no_of_choices"
+                        placeholder="-- Select No. Of Choices --" v-model="selectedNoOfChoices" label="item" />
                     </div>
                   </div>
 
@@ -200,11 +128,8 @@
                   </div> -->
 
                   <div class="col-12 text-center mt-3">
-                    <button 
-                      class="btn btn-warning w-100 text-white btn--primary" 
-                      :disabled="isLoading" 
-                      @click="submitGenerate"
-                    >
+                    <button class="btn btn-warning w-100 text-white btn--primary" :disabled="isLoading"
+                      @click="submitGenerate">
                       <span v-if="!isLoading">Generate Assessment</span>
                       <span v-else>
                         <span class="spinner-border spinner-border-sm text-dark" role="status">
@@ -224,70 +149,50 @@
               </div>
             </div>
 
-            <div
-              class="tab-pane fade"
-              :class="{ show: currentTab === 'history', active: currentTab === 'history' }"
-              id="history"
-              role="tabpanel"
-            >
+            <div class="tab-pane fade" :class="{ show: currentTab === 'history', active: currentTab === 'history' }"
+              id="history" role="tabpanel">
               <div class="p-3 border rounded bg-white">
                 <div class="row">
                   <div class="col-3">
                     <ul class="list-group">
-                    
-                    <li class="list-group-item text-truncate border-0 hover:bg-gray-900" v-for="(item, index) in messages" :key="index">
-                      <Link :href="route('client.plugins.assessment-tool', {id: item.id, tab: 'history'})">{{ item.context[0].content }}</Link>
-                    </li>
-                  </ul>
+
+                      <li class="list-group-item text-truncate border-0 hover:bg-gray-900"
+                        v-for="(item, index) in messages" :key="index">
+                        <Link :href="route('client.plugins.assessment-tool', { id: item.id, tab: 'history' })">{{
+                          item.context[0].content }}</Link>
+                      </li>
+                    </ul>
                   </div>
                   <div class="col-9" style="border-left: 2px solid gray;">
                     <template v-if="chat">
                       <div class="w-full flex h-screen bg-slate-900">
-                          <div class="w-full overflow-auto pb-36 scrollable-section" ref="chatContainer">
-                              <template v-for="(content, index) in chat?.context" :key="index">
-                                  <ChatContent :content="content"/>
-                              </template>
-                          </div>
-                        
-                          <div class="position-relative flex-grow-1 d-flex align-items-center">
-                          <input 
-                            type="text" 
-                            class="form-control rounded" 
-                            placeholder="Add more instructions if needed..." 
-                            v-model="inputText"
-                            @keyup.enter="addInstruction"
-                            ref="promptInput"
-                          >
+                        <div class="w-full overflow-auto pb-36 scrollable-section" ref="chatContainer">
+                          <template v-for="(content, index) in chat?.context" :key="index">
+                            <ChatContent :content="content" />
+                          </template>
+                        </div>
+
+                        <div class="position-relative flex-grow-1 d-flex align-items-center">
+                          <input type="text" class="form-control rounded"
+                            placeholder="Add more instructions if needed..." v-model="inputText"
+                            @keyup.enter="addInstruction" ref="promptInput">
                           <div class="position-absolute top-50 end-0 translate-middle-y pe-3 d-flex align-items-center">
-                            <svg 
-                              v-if="true" 
-                              xmlns="http://www.w3.org/2000/svg" 
-                              fill="none" 
-                              viewBox="0 0 24 24" 
-                              stroke-width="1.9" 
-                              stroke="rgb(252,185,50)" 
-                              class="me-2" 
+                            <svg v-if="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                              stroke-width="1.9" stroke="rgb(252,185,50)" class="me-2"
                               style="width: 1.5rem; height: 1.5rem; color: #cbd5e1;cursor: pointer;"
-                              @click="addInstruction"
-                            >
-                              <path 
-                                stroke-linecap="round" 
-                                stroke-linejoin="round" 
-                                d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" 
-                              />
+                              @click="addInstruction">
+                              <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
                             </svg>
                           </div>
                         </div>
                       </div>
-                  </template>
+                    </template>
 
 
                   </div>
                 </div>
-                <!-- <pre>ID: {{ page?.props?.urlQuery?.id || 'wala'  }}</pre>
-                <pre>Tab: {{ page?.props?.urlQuery?.tab || 'wala'  }}</pre> -->
-                
-                
+
               </div>
             </div>
           </div>
@@ -305,11 +210,12 @@ import Multiselect from 'vue-multiselect';
 import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 import ChatContent from './Components/ChatContent.vue';
+import axios from 'axios';
 defineOptions({ layout: Layout });
 
 const props = defineProps({
-    messages: Array,
-    chat: null | Object
+  messages: Array,
+  chat: null | Object
 });
 
 
@@ -325,21 +231,21 @@ const apiData = reactive({
   proficiency_levels: [],
   languages: [],
   no_of_questions: [
-    {id: 1, item: 5},
-    {id: 2, item: 10},
-    {id: 3, item: 15},
-    {id: 4, item: 20},
-    {id: 5, item: 25},
-    {id: 6, item: 30},
-    {id: 7, item: 35},
-    {id: 8, item: 40},
-    {id: 9, item: 45},
-    {id: 10, item: 50},
+    { id: 1, item: 5 },
+    { id: 2, item: 10 },
+    { id: 3, item: 15 },
+    { id: 4, item: 20 },
+    { id: 5, item: 25 },
+    { id: 6, item: 30 },
+    { id: 7, item: 35 },
+    { id: 8, item: 40 },
+    { id: 9, item: 45 },
+    { id: 10, item: 50 },
   ],
   no_of_choices: [
-    {id: 1, item: 4},
-    {id: 2, item: 5},
-    {id: 3, item: 6},
+    { id: 1, item: 4 },
+    { id: 2, item: 5 },
+    { id: 3, item: 6 },
   ]
 });
 
@@ -377,10 +283,10 @@ const form = useForm({
       ? selectedCompetencies.value.map(el => el.competency)
       : []
   ),
-  proficiency_level: computed(() =>selectedProficiencyLevel.value?.level || null),
-  language: computed(() =>selectedLanguage.value?.language || null),
-  no_of_questions: computed(() =>selectedNoOfQuestions.value?.item || null),
-  no_of_choices: computed(() =>selectedNoOfChoices.value?.item || null),
+  proficiency_level: computed(() => selectedProficiencyLevel.value?.level || null),
+  language: computed(() => selectedLanguage.value?.language || null),
+  no_of_questions: computed(() => selectedNoOfQuestions.value?.item || null),
+  no_of_choices: computed(() => selectedNoOfChoices.value?.item || null),
 });
 
 onMounted(() => {
@@ -476,16 +382,24 @@ function switchTab(tabId) {
 }
 
 const rules = computed(() => ({
-    grade: { required },
-    subject: { required },
-    quarter: { required },
-    raw_content: { required },
-    raw_competencies: { required },
-    proficiency_level: { required },
-    language: { required },
-    no_of_questions: { required },
-    no_of_choices: { required },
+  grade: { required },
+  subject: { required },
+  quarter: { required },
+  raw_content: { required },
+  raw_competencies: { required },
+  proficiency_level: { required },
+  language: { required },
+  no_of_questions: { required },
+  no_of_choices: { required },
 }))
+
+const subtractCredit = async (credits) => {
+  try {
+    const response = await axios.post(route('subtract-credit'), { credits: credits });
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 const generate$ = useVuelidate(rules, form);
 const gradeValidator = generate$.value.grade;
@@ -527,33 +441,36 @@ Guidelines:
 });
 
 const submitGenerate = () => {
-  if(gradeValidator.$invalid || gradeValidator.$invalid || subjectValidator.$invalid || quarterValidator.$invalid || raw_contentValidator.$invalid || raw_competenciesValidator.$invalid || proficiency_levelValidator.$invalid || languageValidator.$invalid || no_of_questionsValidator.$invalid || no_of_choicesValidator.$invalid){
+  if (gradeValidator.$invalid || gradeValidator.$invalid || subjectValidator.$invalid || quarterValidator.$invalid || raw_contentValidator.$invalid || raw_competenciesValidator.$invalid || proficiency_levelValidator.$invalid || languageValidator.$invalid || no_of_questionsValidator.$invalid || no_of_choicesValidator.$invalid) {
     toastr.error('Some of the fields required to proceed are currently empty or incomplete. Kindly fill in all the necessary details before continuing.');
     return false;
   }
 
   const remaining_credits = page?.props?.authenticatedUser?.credit_balance?.remaining_credit_points || 0;
-  if(remaining_credits > 0){
+  if (remaining_credits > 0) {
     const actualPromt = useForm({
-    prompt: prompt.value,
-    plugin: 'Assessment Tool'
-  });
+      prompt: prompt.value,
+      plugin: 'Assessment Tool'
+    });
 
-  isLoading.value = true;
-
-  actualPromt.post(route('client.plugins.chats.store'), {
+    isLoading.value = true;
+    subtractCredit(1);
+    actualPromt.post(route('client.plugins.chats.store'), {
       onSuccess: (response) => {
-        // console.log(response.data);
+        const authEmail = page?.props?.authenticatedUser?.email || '';
       },
       onError: (error) => {
         console.log(error);
       },
       onFinish: () => {
         isLoading.value = false;
+
       }
     });
+  }else{
+    alert('Your credit balance is 0.Please make a purchase.');
   }
-  
+
 
 }
 
@@ -682,7 +599,9 @@ watch(selectedContent, async (contentArray) => {
 }
 
 .scrollable-section {
-  max-height: 600px; /* Adjust height as needed */
-  overflow-y: auto; /* Enables vertical scrolling */
+  max-height: 600px;
+  /* Adjust height as needed */
+  overflow-y: auto;
+  /* Enables vertical scrolling */
 }
 </style>
