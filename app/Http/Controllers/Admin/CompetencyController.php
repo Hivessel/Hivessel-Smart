@@ -9,31 +9,6 @@ use Throwable;
 
 class CompetencyController extends Controller
 {
-    // public function all(Request $request){
-    //     try {
-    //         $data = Competency::query();
-
-    //         if($request->filled('active')){
-    //             $active = $request->active;
-    //             $data->where(function($query) use ($active){
-    //                 $query->where('active', $active);
-    //             });
-    //         }
-
-    //         if($request->filled('content_id')){
-    //             $content_id = $request->content_id;
-    //             $data->where(function($query) use ($content_id){
-    //                 $query->where('content_id', $content_id);
-    //             });
-    //         }
-    //         return $data->get();
-
-    //     } catch (Throwable $error) {
-    //         return response()->json([
-    //             'error' => $error->getMessage(),
-    //         ], 500);
-    //     }
-    // }
 
     public function all(Request $request)
     {
@@ -41,7 +16,7 @@ class CompetencyController extends Controller
             $data = Competency::query();
 
             if ($request->filled('active')) {
-                $active = $request->input('active');
+                $active = (int) $request->input('active');
                 $data->where(function ($query) use ($active) {
                     $query->where('active', $active);
                 });
@@ -66,7 +41,6 @@ class CompetencyController extends Controller
 
             return $data->get();
         } catch (Throwable $error) {
-            info($error->getMessage());
             return response()->json([
                 'error' => $error->getMessage(),
             ], 500);

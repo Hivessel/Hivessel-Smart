@@ -36,7 +36,7 @@ class ProficiencyLevelController extends Controller
         try {
             $data = ProficiencyLevel::query();
             if($request->filled('active')){
-                $active = $request->active;
+                $active = (int) $request->active;
                 $data->where(function($query) use ($active){
                     $query->where('active', $active);
                 });
@@ -44,10 +44,9 @@ class ProficiencyLevelController extends Controller
             return $data->get();
 
         } catch (Throwable $error) {
-            info($error->getMessage());
             return response()->json([
                 'error' => $error->getMessage(),
-            ], 500);
+            ]);
         }
     }
 
@@ -100,7 +99,6 @@ class ProficiencyLevelController extends Controller
             ]);
             return response('', 200);
         } catch (Throwable $error) {
-            info($error->getMessage());
             return response()->json([
                 'error' => $error->getMessage(),
             ], 500);
@@ -113,7 +111,6 @@ class ProficiencyLevelController extends Controller
             $level->delete();
             return response('', 200);
         } catch (Throwable $error) {
-            info($error->getMessage());
             return response()->json([
                 'error' => $error->getMessage(),
             ], 500);

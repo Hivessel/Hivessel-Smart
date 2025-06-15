@@ -26,9 +26,9 @@
     @inertiaHead
     @routes
     <style>
-      *{
+      /* *{
         font-family: 'Poppins';
-      }
+      } */
     </style>
   </head>
   <body>

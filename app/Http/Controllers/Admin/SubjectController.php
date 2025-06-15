@@ -54,7 +54,7 @@ class SubjectController extends Controller
             }
 
             if($request->filled('active')){
-                $active = $request->active;
+                $active = (int) $request->active;
                 $data->where(function($query) use ($active){
                     $query->where('active', $active);
                 });
@@ -62,10 +62,9 @@ class SubjectController extends Controller
             return $data->get();
 
         } catch (Throwable $error) {
-            info($error->getMessage());
             return response()->json([
                 'error' => $error->getMessage(),
-            ], 500);
+            ]);
         }
     }
 
@@ -130,7 +129,6 @@ class SubjectController extends Controller
             ]);
             return response('', 200);
         } catch (Throwable $error) {
-            info($error->getMessage());
             return response()->json([
                 'error' => $error->getMessage(),
             ], 500);
@@ -143,7 +141,6 @@ class SubjectController extends Controller
             $subject->delete();
             return response('', 200);
         } catch (Throwable $error) {
-            info($error->getMessage());
             return response()->json([
                 'error' => $error->getMessage(),
             ], 500);

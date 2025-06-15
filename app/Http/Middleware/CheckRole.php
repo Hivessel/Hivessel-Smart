@@ -13,6 +13,7 @@ class CheckRole
     {
         if (!Auth::check()) {
             return redirect()->route('login');
+            exit;
         }
 
         $user = Auth::user();
@@ -22,6 +23,7 @@ class CheckRole
             return redirect()->route('login')->withErrors([
                 'message' => 'You do not have permission to access this area.',
             ]);
+            exit;
         }
 
         return $next($request);

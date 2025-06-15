@@ -7,6 +7,7 @@ use App\Models\Grade;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Throwable;
+
 use Yajra\DataTables\Facades\DataTables;
 
 class GradeController extends Controller
@@ -30,24 +31,22 @@ class GradeController extends Controller
         return response('', 200);
     }
 
-    public function all(Request $request){
+    public function all(Request $request)
+    {
         try {
             $data = Grade::query();
-            if($request->filled('active')){
-                $active = $request->active;
-                $data->where(function($query) use ($active){
-                    $query->where('active', $active);
-                });
-            }
-            return $data->get();
 
-        } catch (Throwable $error) {
-            info($error->getMessage());
-            return response()->json([
-                'error' => $error->getMessage(),
-            ], 500);
+            if ($request->filled('active')) {
+                $active = (int) $request->active;
+                $data->where('active', $active);
+            }
+
+            return response()->json($data->get());
+        } catch (\Throwable $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
 
     public function grades(Request $request){
         if ($request->ajax()) {
@@ -98,7 +97,6 @@ class GradeController extends Controller
             ]);
             return response('', 200);
         } catch (Throwable $error) {
-            info($error->getMessage());
             return response()->json([
                 'error' => $error->getMessage(),
             ], 500);
@@ -111,7 +109,6 @@ class GradeController extends Controller
             $grade->delete();
             return response('', 200);
         } catch (Throwable $error) {
-            info($error->getMessage());
             return response()->json([
                 'error' => $error->getMessage(),
             ], 500);

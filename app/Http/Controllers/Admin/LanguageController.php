@@ -33,7 +33,7 @@ class LanguageController extends Controller
         try {
             $data = Language::query();
             if($request->filled('active')){
-                $active = $request->active;
+                $active = (int) $request->active;
                 $data->where(function($query) use ($active){
                     $query->where('active', $active);
                 });
@@ -41,10 +41,9 @@ class LanguageController extends Controller
             return $data->get();
 
         } catch (Throwable $error) {
-            info($error->getMessage());
             return response()->json([
                 'error' => $error->getMessage(),
-            ], 500);
+            ]);
         }
     }
 
@@ -97,7 +96,6 @@ class LanguageController extends Controller
             ]);
             return response('', 200);
         } catch (Throwable $error) {
-            info($error->getMessage());
             return response()->json([
                 'error' => $error->getMessage(),
             ], 500);
@@ -110,7 +108,6 @@ class LanguageController extends Controller
             $language->delete();
             return response('', 200);
         } catch (Throwable $error) {
-            info($error->getMessage());
             return response()->json([
                 'error' => $error->getMessage(),
             ], 500);

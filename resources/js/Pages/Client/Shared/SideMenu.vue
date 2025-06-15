@@ -3,7 +3,12 @@
         class="main-sidebar sidebar-dark-secondary elevation-4 text-white main--sidebar"
     >
         <!-- Brand Logo -->
-        <a href="hivessel.com" class="brand--logo">
+        <!-- <a href="hivessel.com" class="brand--logo">
+            <img src="https://hivessel.com/wp-content/uploads/2024/03/cropped-hivessel_favicon.png"
+                class="hivesse-smart_logo">
+            <span>Hivessel Smart</span>
+        </a> -->
+        <a :href="route('client.plugins.assessment-tool')" class="brand--logo">
             <img src="https://hivessel.com/wp-content/uploads/2024/03/cropped-hivessel_favicon.png"
                 class="hivesse-smart_logo">
             <span>Hivessel Smart</span>

@@ -37,6 +37,7 @@
                       <Multiselect class="border" :class="gradeValidator.$invalid ? 'border-danger' : 'border-warning'"
                         data-width="100%" track-by="id" :options="apiData.grades" placeholder="-- Select Grade --"
                         v-model="selectedGrade" label="level" />
+                        <span><small class="text-danger" v-if="gradeValidator.$invalid">Grade is a required field.</small></span>
                     </div>
                   </div>
 
@@ -47,6 +48,7 @@
                         :class="subjectValidator.$invalid ? 'border-danger' : 'border-warning'" data-width="100%"
                         track-by="id" :key="selectedGrade?.id" :options="apiData.subjects"
                         placeholder="-- Select Subject --" v-model="selectedSubject" label="subject" />
+                        <span><small class="text-danger" v-if="subjectValidator.$invalid">Subject is a required field.</small></span>
                     </div>
                   </div>
 
@@ -57,6 +59,7 @@
                         :class="quarterValidator.$invalid ? 'border-danger' : 'border-warning'" data-width="100%"
                         track-by="id" :key="selectedSubject?.id" :options="apiData.quarters"
                         placeholder="-- Select Quarter --" v-model="selectedQuarter" label="quarter" />
+                        <span><small class="text-danger" v-if="quarterValidator.$invalid">Quarter is a required field.</small></span>
                     </div>
                   </div>
 
@@ -67,6 +70,7 @@
                         :class="raw_contentValidator.$invalid ? 'border-danger' : 'border-warning'" multiple
                         :close-on-select="false" data-width="100%" track-by="id" :options="apiData.contents"
                         placeholder="-- Select Contents --" v-model="selectedContent" label="content" />
+                        <span><small class="text-danger" v-if="raw_contentValidator.$invalid">Add one or more content to continue</small></span>
                     </div>
                   </div>
 
@@ -77,6 +81,7 @@
                         :class="raw_competenciesValidator.$invalid ? 'border-danger' : 'border-warning'" multiple
                         track-by="id" data-width="100%" :options="apiData.competencies"
                         placeholder="-- Select Competencies --" v-model="selectedCompetencies" label="competency" />
+                        <span><small class="text-danger" v-if="raw_competenciesValidator.$invalid">Add one or more competencies to continue</small></span>
                     </div>
                   </div>
 
@@ -87,6 +92,7 @@
                         :class="proficiency_levelValidator.$invalid ? 'border-danger' : 'border-warning'"
                         data-width="100%" track-by="id" :key="selectedGrade?.id" :options="apiData.proficiency_levels"
                         placeholder="-- Select Proficiency Level --" v-model="selectedProficiencyLevel" label="level" />
+                        <span><small class="text-danger" v-if="proficiency_levelValidator.$invalid">Proficiency level is a required field.</small></span>
                     </div>
                   </div>
 
@@ -97,6 +103,7 @@
                         :class="languageValidator.$invalid ? 'border-danger' : 'border-warning'" data-width="100%"
                         track-by="id" :key="selectedSubject?.id" :options="apiData.languages"
                         placeholder="-- Select Language --" v-model="selectedLanguage" label="language" />
+                        <span><small class="text-danger" v-if="languageValidator.$invalid">Language is a required field.</small></span>
                     </div>
                   </div>
 
@@ -108,6 +115,7 @@
                         data-width="100%" track-by="id" :key="selectedNoOfQuestions?.id"
                         :options="apiData.no_of_questions" placeholder="-- Select No. Of Questions --"
                         v-model="selectedNoOfQuestions" label="item" />
+                        <span><small class="text-danger" v-if="no_of_questionsValidator.$invalid">No. of questions is a required field.</small></span>
                     </div>
                   </div>
 
@@ -118,6 +126,7 @@
                         :class="no_of_choicesValidator.$invalid ? 'border-danger' : 'border-warning'" data-width="100%"
                         track-by="id" :key="selectedNoOfChoices?.id" :options="apiData.no_of_choices"
                         placeholder="-- Select No. Of Choices --" v-model="selectedNoOfChoices" label="item" />
+                        <span><small class="text-danger" v-if="no_of_choicesValidator.$invalid">No. of choices is a required field.</small></span>
                     </div>
                   </div>
 
@@ -192,7 +201,7 @@
 
                   </div>
                 </div>
-
+                
               </div>
             </div>
           </div>
@@ -413,9 +422,6 @@ const no_of_questionsValidator = generate$.value.no_of_questions;
 const no_of_choicesValidator = generate$.value.no_of_choices;
 
 
-
-
-
 const prompt = computed(() => {
   return `
 Generate ${form.no_of_questions} multiple-choice questions, each with ${form.no_of_choices} choices.
@@ -468,7 +474,7 @@ const submitGenerate = () => {
       }
     });
   }else{
-    alert('Your credit balance is 0.Please make a purchase.');
+    toastr.error('Your credit balance is 0. Make a purchase to continue using the service.');
   }
 
 
@@ -477,23 +483,34 @@ const submitGenerate = () => {
 const inputText = ref('');
 
 const addInstruction = () => {
-  const input = useForm({
-    id: page.props.urlQuery.id,
-    prompt: computed(() => inputText.value),
-    plugin: 'Assessment Tool'
-  });
+  if(!inputText.value){
+    toastr.error('A message cannot be sent without providing instruction');
+    return false;
+  }
 
-  input.post(route('client.plugins.chats.store'), {
-    onSuccess: (response) => {
-      // console.log(response.data);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-    onFinish: () => {
-      isLoading.value = false;
-    }
-  });
+  const remaining_credits = page?.props?.authenticatedUser?.credit_balance?.remaining_credit_points || 0;
+  if (remaining_credits > 0) {
+    const input = useForm({
+      id: page.props.urlQuery.id,
+      prompt: computed(() => inputText.value),
+      plugin: 'Assessment Tool'
+    });
+    subtractCredit(1);
+    input.post(route('client.plugins.chats.store'), {
+      onSuccess: (response) => {
+        // console.log(response.data);
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+      onFinish: () => {
+        isLoading.value = false;
+      }
+    });
+  }else{
+    toastr.error('Your credit balance is 0. Make a purchase to continue using the service.');
+  }
+  
 }
 
 // Watchers
@@ -604,4 +621,5 @@ watch(selectedContent, async (contentArray) => {
   overflow-y: auto;
   /* Enables vertical scrolling */
 }
+
 </style>

@@ -29,6 +29,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/', function () {
         // return Inertia::render('Home');
         return redirect()->route('client.plugins.assessment-tool');
+        exit;
     })->name('client.home');
 
     Route::prefix('plugins')->group(function(){

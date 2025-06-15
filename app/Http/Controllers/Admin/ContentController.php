@@ -17,51 +17,6 @@ class ContentController extends Controller
     }
 
     public function store(Request $request){
-        // // Validate the request data
-        // $validated = $request->validate([
-        //     'grade_id' => 'required|integer|exists:grades,id',
-        //     'subject_id' => 'required|integer|exists:subjects,id',
-        //     'quarter_id' => 'required|integer|exists:quarters,id',
-        //     'content' => 'required|string|max:255',
-        //     'competencies' => 'required|array|min:1'
-        // ],[
-        //     'grade_id.required' => 'The grade field is required.',
-        //     'subject_id.required' => 'The subject field is required.',
-        //     'quarter_id.required' => 'The quarter field is required.',
-        //     'competencies.required' => 'Add one or more competencies to continue.'
-        // ]);
-
-        // $existingContent = Content::where('grade_id', $validated['grade_id'])
-        //     ->where('subject_id', $validated['grade_id'])
-        //     ->where('quarter_id', $validated['quarter_id'])
-        //     ->where('content', $validated['content'])
-        //     ->first();
-            
-        // if ($existingContent) {
-        //     // Throw a ValidationException with a custom error message
-        //     throw ValidationException::withMessages([
-        //         'subject' => ['This content already exists for the selected combinations.'],
-        //     ]);
-        // }
-
-        // // Create a new grade level (this is just a placeholder, implement your logic)
-        // $content = Content::create([
-        //     'grade_id' => $validated['grade_id'],
-        //     'subject_id' => $validated['subject_id'],
-        //     'quarter_id' => $validated['quarter_id'],
-        //     'content' => $validated['content'],
-        // ]);
-
-
-        // foreach($validated['competencies'] as $item){
-        //     $content->competencies()->create([
-        //         'competency' => $item['competency'],
-        //         'attachments' => $item['attachment'],
-        //     ]);
-        // }
-
-        // return response('', 200);
-
         // Validate the request data
         $validated = $request->validate([
             'grade_id' => 'required|integer|exists:grades,id',
@@ -107,7 +62,7 @@ class ContentController extends Controller
             $data = Content::query();
 
             if($request->filled('grade_id')){
-                $grade_id = $request->grade_id;
+                $grade_id = (int) $request->grade_id;
                 $data->where(function($query) use ($grade_id){
                     $query->where('grade_id', $grade_id);
                 });
@@ -136,10 +91,9 @@ class ContentController extends Controller
             return $data->get();
 
         } catch (Throwable $error) {
-            info($error->getMessage());
             return response()->json([
                 'error' => $error->getMessage(),
-            ], 500);
+            ]);
         }
     }
 
@@ -247,7 +201,6 @@ class ContentController extends Controller
             $content->delete();
             return response('', 200);
         } catch (Throwable $error) {
-            info($error->getMessage());
             return response()->json([
                 'error' => $error->getMessage(),
             ], 500);

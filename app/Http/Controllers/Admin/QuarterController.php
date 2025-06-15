@@ -33,18 +33,16 @@ class QuarterController extends Controller
             $data = Quarter::query();
 
             if ($request->has('active')) {
-                $active = $request->active;
-                $data->where('active', (bool) $active);
+                $active = (int) $request->active;
+                $data->where('active', $active);
             }
 
             return response()->json($data->get());
 
         } catch (Throwable $error) {
-            info('Quarter fetch error: ' . $error->getMessage());
             return response()->json([
-                'error' => 'Internal Server Error',
-                'message' => $error->getMessage()
-            ], 500);
+                'error' => $error->getMessage(),
+            ]);
         }
     }
 
@@ -97,7 +95,6 @@ class QuarterController extends Controller
             ]);
             return response('', 200);
         } catch (Throwable $error) {
-            info($error->getMessage());
             return response()->json([
                 'error' => $error->getMessage(),
             ], 500);
@@ -110,7 +107,6 @@ class QuarterController extends Controller
             $quarter->delete();
             return response('', 200);
         } catch (Throwable $error) {
-            info($error->getMessage());
             return response()->json([
                 'error' => $error->getMessage(),
             ], 500);
