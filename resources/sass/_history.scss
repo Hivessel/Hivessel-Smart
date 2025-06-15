@@ -1,0 +1,27 @@
+.history {
+
+    &--container {
+
+    }
+    &--list li{
+        background-color: #fff;
+    }
+
+    &--sidebar {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    &--content {
+        background-color: #fff;
+        padding: 30px;
+        border: 1px solid #f8f9fa;
+        border-radius: 8px;
+       font-family:  $primary-font;
+    }
+
+    &--content .text-start {
+       font-family:  $primary-font;
+    }
+}

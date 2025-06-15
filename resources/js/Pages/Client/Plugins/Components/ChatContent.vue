@@ -16,7 +16,7 @@ const formattedText = (string) => {
   <div
     class="d-flex text-muted py-3"
   >
-    <div class="col-2 d-flex justify-content-end pe-3">
+    <div class="col-1 d-flex justify-content-end pe-3">
       <svg
         v-if="props.content.role === 'user'"
         xmlns="http://www.w3.org/2000/svg"
@@ -50,7 +50,7 @@ const formattedText = (string) => {
       </svg>
     </div>
     
-    <section class="col-10 text-start ps-3" v-html="formattedText(content?.content)"></section>
+    <section class="col-11 text-start ps-3" v-html="formattedText(content?.content)"></section>
     <i class="fa-solid fa-print" v-if="props.content.role === 'assistant'"></i>
   </div>
 </template>
