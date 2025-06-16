@@ -111,16 +111,10 @@
                                     </div>
                                 </div>
 
-                                <!-- <div class="col-12">
-                                    <button class="btn btn-warning w-100 text-white" @click="submitGenerate">Generate
-                                    <div class="spinner-border" role="status"></div>
-                                </button>
-                                </div> -->
-
                                 <div class="col-12 text-center mt-3">
-                                    <button class="btn btn-warning w-100 text-white btn--primary" :disabled="isLoading"
+                                    <button class="btn btn-warning w-100 text-white btn--primary" :disabled="isGenerating"
                                     @click="submitGenerate">
-                                    <span v-if="!isLoading">Generate Assessment</span>
+                                    <span v-if="!isGenerating">Generate Assessment</span>
                                     <span v-else>
                                         <span class="spinner-border spinner-border-sm text-dark" role="status">
                                         </span>
@@ -129,9 +123,7 @@
                                     </button>
                                 </div>
 
-                                <!-- <div class="col-12">
-                                    <button class="btn btn-success w-100 text-white" @click="sendPrompt">Send Prompt</button>
-                                </div> -->
+
                             </div>
                             <!-- <pre>{{ prompt }}</pre> -->
                         </div>
@@ -187,20 +179,22 @@
                         <div class="position-relative flex-grow-1 d-flex align-items-center">
                             <input type="text" class="form-control rounded"
                             placeholder="Add more instructions if needed..." v-model="inputText"
-                            @keyup.enter="addInstruction" ref="promptInput">
+                            @keyup.enter="addInstruction" ref="promptInput" :disabled="isSendingInstruction">
                              <div class="position-absolute top-50 end-0 translate-middle-y pe-3 d-flex align-items-center">
-                                <svg v-if="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                <svg v-if="!isSendingInstruction" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                               stroke-width="1.9" stroke="rgb(252,185,50)" class="me-2"
-                              style="width: 1.5rem; height: 1.5rem; color: #cbd5e1;cursor: pointer;"
-                              @click="addInstruction">
+                              style="width: 1.5rem; height: 1.5rem; color: #fcb932;cursor: pointer;"
+                              @click="addInstruction" :disabled="isSendingInstruction">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
                                 </svg>
+                                <span v-if="isSendingInstruction" class="spinner-border spinner-border-sm" role="status" style=" color: #fcb932;">
+                                </span>
                             </div>
                         </div>
                       </div>
                     </template>
-
+                    
 
                   </div>
                 </div>
@@ -232,7 +226,8 @@ const props = defineProps({
 
 
 const page = usePage();
-const isLoading = ref(false);
+const isGenerating = ref(false);
+const isSendingInstruction = ref(false);
 
 const apiData = reactive({
   grades: [],
@@ -370,17 +365,7 @@ const fetchLanguages = async () => {
   }
 };
 
-const fetchCompetencies = async (contentIds = []) => {
-  try {
-    const response = await axios.get(route('admin.competencies.all', {
-      content_id: JSON.stringify(contentIds),
-      active: 1,
-    }));
-    apiData.competencies = response.data;
-  } catch (error) {
-    console.error(error);
-  }
-};
+
 
 // Tab management with URL sync
 const urlParams = new URLSearchParams(window.location.search);
@@ -426,28 +411,27 @@ const no_of_choicesValidator = generate$.value.no_of_choices;
 
 
 const prompt = computed(() => {
-  return `
-Generate ${form.no_of_questions} multiple-choice questions, each with ${form.no_of_choices} choices.
+    return `Generate an assessment with ${form.no_of_questions} multiple-choice questions, each with ${form.no_of_choices} choices.
+      Grade Level: ${form.grade}
+      Subject: ${form.subject}
+      Quarter: ${form.quarter}
+      Language: ${form.language}
+      Proficiency Level: ${form.proficiency_level}
+      Content Coverage:
+      ${form.raw_content.map((c, i) => `${i + 1}. ${c}`).join('\n')}
 
-Grade Level: ${form.grade}
-Subject: ${form.subject}
-Quarter: ${form.quarter}
-Language: ${form.language}
-Proficiency Level: ${form.proficiency_level}
+      Competency Focus:
+      ${form.raw_competencies.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+      Guidelines:
+      - Questions should be strictly based on the **Content Coverage** and aligned with the **Competency Focus**.
+      - Use language appropriate for ${form.grade} students.
+      - Ensure variety in question types and maintain the level of difficulty suitable for the "${form.proficiency_level}" proficiency level.
+      - Avoid repetition and ensure clarity in question and choices.
+      - Include the answer key at the end. Provide clear instructions and format the material to be printable
+      `.trim();
+  
+  });
 
-Content Coverage:
-${form.raw_content.map((c, i) => `${i + 1}. ${c}`).join('\n')}
-
-Competency Focus:
-${form.raw_competencies.map((c, i) => `${i + 1}. ${c}`).join('\n')}
-
-Guidelines:
-- Questions should be strictly based on the **Content Coverage** and aligned with the **Competency Focus**.
-- Use language appropriate for ${form.grade} students.
-- Ensure variety in question types and maintain the level of difficulty suitable for the "${form.proficiency_level}" proficiency level.
-- Avoid repetition and ensure clarity in question and choices.
-`.trim();
-});
 
 const submitGenerate = () => {
   if (gradeValidator.$invalid || gradeValidator.$invalid || subjectValidator.$invalid || quarterValidator.$invalid || raw_contentValidator.$invalid || raw_competenciesValidator.$invalid || proficiency_levelValidator.$invalid || languageValidator.$invalid || no_of_questionsValidator.$invalid || no_of_choicesValidator.$invalid) {
@@ -455,25 +439,23 @@ const submitGenerate = () => {
     return false;
   }
 
-  const remaining_credits = page?.props?.authenticatedUser?.credit_balance?.remaining_credit_points || 0;
-  if (remaining_credits > 0) {
-    const actualPromt = useForm({
-      prompt: prompt.value,
-      plugin: 'Assessment Tool'
-    });
+  const actualPromt = useForm({
+    prompt: prompt.value,
+    plugin: 'Assessment Tool'
+  });
 
-    isLoading.value = true;
+  const remaining_credits = page?.props?.authenticatedUser?.credit_balance?.remaining_credit_points || 0;
+  if (remaining_credits > 0 && !actualPromt.processing) {
+    isGenerating.value = true;
     subtractCredit(1);
     actualPromt.post(route('client.plugins.chats.store'), {
       onSuccess: (response) => {
-        const authEmail = page?.props?.authenticatedUser?.email || '';
       },
       onError: (error) => {
         console.log(error);
       },
       onFinish: () => {
-        isLoading.value = false;
-
+        isGenerating.value = false;
       }
     });
   }else{
@@ -485,29 +467,31 @@ const submitGenerate = () => {
 
 const inputText = ref('');
 
+
 const addInstruction = () => {
   if(!inputText.value){
     toastr.error('A message cannot be sent without providing instruction');
     return false;
   }
 
+  const input = useForm({
+    id: page.props.urlQuery.id,
+    prompt: computed(() => inputText.value),
+    plugin: 'Assessment Tool'
+  });
+
   const remaining_credits = page?.props?.authenticatedUser?.credit_balance?.remaining_credit_points || 0;
-  if (remaining_credits > 0) {
-    const input = useForm({
-      id: page.props.urlQuery.id,
-      prompt: computed(() => inputText.value),
-      plugin: 'Assessment Tool'
-    });
+  if (remaining_credits > 0 && !input.processing) {
+    isSendingInstruction.value = true; 
     subtractCredit(1);
     input.post(route('client.plugins.chats.store'), {
       onSuccess: (response) => {
-        // console.log(response.data);
       },
       onError: (error) => {
         console.log(error);
       },
       onFinish: () => {
-        isLoading.value = false;
+        isSendingInstruction.value = false; 
       }
     });
   }else{

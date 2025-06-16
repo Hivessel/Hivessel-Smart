@@ -39,6 +39,7 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'urlQuery' => $request->query(),
             'authenticatedUser' => Auth::check() ? Auth::user() : null,
+            
         ];
     }
 }
