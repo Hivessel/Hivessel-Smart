@@ -1,33 +1,4 @@
 <template>
-    <!-- <div class="container">
-        <form @submit.prevent="login">
-            <div class="form-group">
-                <label for="email">Username</label>
-                <input
-                    id="email"
-                    type="text"
-                    class="form-control"
-                    v-model="credentials.username"
-                    autocomplete="username"
-                />
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input
-                    id="password"
-                    type="password"
-                    class="form-control"
-                    v-model="credentials.password"
-                    autocomplete="current-password"
-                />
-            </div>
-            <button class="btn btn-secondary mt-2" type="submit" :disabled="credentials.processing">
-                Login
-            </button>
-
-            <pre>{{ credentials }}</pre>
-        </form>
-    </div> -->
     <section class="page--login">
         <div class="wrapper">
             <h1 class="page-heading">Hivessel Smart</h1>

@@ -1,0 +1,241 @@
+$color_1: #718096;
+$color_2: #2D3748;
+$color_3: #111731;
+$color_4: #ffc107;
+$color_5: #fff;
+$color_6: #000;
+$color_7: #080808;
+$font-family_1: "Akatab", sans-serif;
+$background-color_1: #fff;
+$background-color_2: #F8F9FA;
+$background-color_3: #000;
+$background-color_4: #f8f9fa;
+$background-color_5: #F8F8F8;
+$background-color_6: #111731;
+
+/* Breadcrumbs */
+/* Credits */
+/* CTA */
+/* Assessement Tools */
+/* BTN PRIMARY */
+body {
+	font-family: $font-family_1;
+}
+.section--breadcrumbs {
+	background-image: url("https://media-cloud-hivessel.s3.ap-southeast-2.amazonaws.com/2025/06/bg_breadcrumbs-scaled.jpg");
+	min-height: 180px;
+	background-position: center;
+	background-size: cover;
+	border-radius: 30px;
+	margin-bottom: 20px;
+	padding: 30px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	.profile--box {
+		background-color: $background-color_1;
+		min-height: 110px;
+		border-radius: 15px;
+		display: flex;
+		align-items: center;
+	}
+	.profile--box__info {
+		display: flex;
+		align-items: center;
+	}
+	.profile--box__pic {
+		width: 80px;
+		height: 80px;
+		border-radius: 12px;
+		overflow: hidden;
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	}
+	.profile--box__name {
+		p {
+			font-size: 18px;
+			margin-bottom: 0;
+		}
+		span {
+			font-size: 14px;
+			color: $color_1;
+		}
+	}
+}
+.main--sidebar {
+	background-color: $background-color_2;
+	position: fixed !important;
+	top: 0;
+	left: 0;
+	.brand--logo {
+		background-color: $background-color_1;
+		padding: 20px;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		color: $color_2;
+		img {
+			max-width: 60px;
+			width: 60px;
+			height: auto;
+		}
+		span {
+			text-transform: uppercase;
+			font-family: $font-family_1;
+		}
+	}
+	.nav-sidebar {
+		margin-top: 30px;
+	}
+	.sidebar {
+		ul {
+			.nav-item {
+				margin-bottom: 8px;
+			}
+			.nav-link {
+				display: flex;
+				align-items: center;
+				padding: 12px 10px;
+				gap: 10px;
+				border-radius: 15px;
+				color: $color_2;
+				text-decoration: none;
+				&:hover {
+					background-color: $background-color_1 !important;
+					box-shadow: initial !important;
+				}
+				i {
+					color: $color_3;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					width: 35px;
+					height: 35px;
+					border-radius: 12px;
+					background-color: $background-color_1;
+					color: $color_4;
+				}
+				p {
+					color: $color_3;
+					font-family: $font-family_1;
+				}
+			}
+			.nav-link.active {
+				background-color: $background-color_1 !important;
+				box-shadow: initial !important;
+			}
+		}
+	}
+}
+.remaining--credits {
+	background-image: url("https://media-cloud-hivessel.s3.ap-southeast-2.amazonaws.com/2025/06/bg_smart_cta.png");
+	background-position: center;
+	background-size: cover;
+	padding: 10px 20px !important;
+	border-radius: 10px;
+}
+.main--sidebar__cta {
+	background-image: url("https://media-cloud-hivessel.s3.ap-southeast-2.amazonaws.com/2025/06/bg_smart_cta.png");
+	background-position: center;
+	background-size: cover;
+	min-height: 200px;
+	padding: 20px;
+	margin: 20px;
+	border-radius: 20px;
+	img {
+		max-width: 35px;
+		margin-bottom: 30px;
+	}
+	h3 {
+		font-size: 24px;
+		color: $color_5;
+	}
+	p {
+		color: $color_5;
+	}
+	.btn--primary {
+		background-color: $background-color_1;
+		width: 100%;
+		color: $color_6;
+		font-size: 14px;
+		line-height: 38px;
+		padding: 4px 10px;
+		margin-top: 20px;
+		border-radius: 50px;
+		border: 0;
+		&:hover {
+			background-color: $background-color_3;
+			color: $color_5;
+		}
+	}
+}
+.assessment--box {
+	background-color: $background-color_4;
+	padding: 40px !important;
+	border-radius: 30px;
+    @media(max-width:767px) {
+	    padding: 10px !important;
+    }
+	.form-group {
+		.form-label {
+			font-family: $font-family_1;
+			font-size: 16px;
+			font-weight: normal;
+			color: $color_7;
+		}
+	}
+	.multiselect {
+		font-family: $font-family_1;
+		border-radius: 5px;
+		background-color: $background-color_5;
+	}
+	.multiselect__tags {
+		font-family: $font-family_1;
+		border-radius: 5px;
+		background-color: $background-color_5;
+	}
+}
+.assessment--tools {
+	border-radius: 30px;
+	.card {
+		border-radius: 30px;
+		padding: 20px;
+	}
+}
+.assessment--creation {
+	border-radius: 15px;
+	background-color: $background-color_1;
+	border: 1px solid #e8e8e8;
+	padding: 30px;
+     @media(max-width:767px) {
+	    margin-bottom: 20px;
+    }
+	.btn--primary {
+		font-family: $font-family_1;
+		text-transform: uppercase;
+		color: $color_3;
+		display: inline-block;
+		max-width: 280px;
+		padding: 10px;
+		margin: 0 auto;
+		&:hover {
+			background-color: $background-color_6;
+			border: 1px solid #111731;
+			span {
+				color: $color_4;
+			}
+		}
+		span {
+			font-family: $font-family_1;
+			color: $color_3;
+		}
+	}
+}
+@media (max-width: 767px) {
+	.main--sidebar__cta {
+		display: none;
+	}
+}

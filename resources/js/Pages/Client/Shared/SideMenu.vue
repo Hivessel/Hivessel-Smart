@@ -2,17 +2,21 @@
     <aside
         class="main-sidebar sidebar-dark-secondary elevation-4 text-white main--sidebar"
     >
+        <a
+            class="nav-link nav-mobile--icon"
+            data-widget="pushmenu"
+            href="#"
+            role="button"
+            ><i class="fas fa-close"></i
+        ></a>
         <!-- Brand Logo -->
-        <!-- <a href="hivessel.com" class="brand--logo">
-            <img src="https://hivessel.com/wp-content/uploads/2024/03/cropped-hivessel_favicon.png"
-                class="hivesse-smart_logo">
-            <span>Hivessel Smart</span>
-        </a> -->
-        <a :href="route('client.plugins.assessment-tool')" class="brand--logo">
+        <a href="https://hivessel.com/" class="brand--logo">
             <img src="https://hivessel.com/wp-content/uploads/2024/03/cropped-hivessel_favicon.png"
                 class="hivesse-smart_logo">
             <span>Hivessel Smart</span>
         </a>
+
+        
     
 
         <!-- Sidebar -->

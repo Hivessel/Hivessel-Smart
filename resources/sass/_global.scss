@@ -41,6 +41,14 @@ $color-gray: #697386;
     }
 }
 
+.nav-mobile--icon {
+    display: none;
+    @media(max-width:1007px) {
+        display: block;
+        text-align: right;
+    }
+}
+
 // Heading 
 .page-heading {
     text-align: center;

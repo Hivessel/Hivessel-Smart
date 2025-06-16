@@ -1,18 +1,6 @@
 <template>
   <div class="content-wrapper p-3 assessment--box">
-    <section class="section--breadcrumbs">
-      <div class="profile--box">
-        <div class="profile--box__info">
-          <div class="profile--box__pic">
-            <img src="https://hivessel.com/wp-content/uploads/2024/03/hivessel_logo.png" alt="">
-          </div>
-          <div class="profile--box__name">
-            <p>{{ page?.props?.authenticatedUser?.name || 'Unknown' }}</p>
-            <span>{{ page?.props?.authenticatedUser?.email || 'unknown@mail.com' }}</span>
-          </div>
-        </div>
-      </div>
-    </section>
+    
     <section class="content assessment--tools">
       <div class="card mt-3 border-0 shadow-sm">
         <div class="card-body">
@@ -29,133 +17,148 @@
           <div class="tab-content">
             <div class="tab-pane fade" :class="{ show: currentTab === 'generate', active: currentTab === 'generate' }"
               id="generate" role="tabpanel">
-              <div class="assessment--creation">
                 <div class="row">
-                  <div class="col-12">
-                    <div class="form-group">
-                      <label class="form-label">Grade</label>
-                      <Multiselect class="border" :class="gradeValidator.$invalid ? 'border-danger' : 'border-warning'"
-                        data-width="100%" track-by="id" :options="apiData.grades" placeholder="-- Select Grade --"
-                        v-model="selectedGrade" label="level" />
-                        <span><small class="text-danger" v-if="gradeValidator.$invalid">Grade is a required field.</small></span>
+                    <div class="col-md-8">
+                        <div class="assessment--creation">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                    <label class="form-label">Grade</label>
+                                    <Multiselect class="border" :class="gradeValidator.$invalid ? 'border-danger' : 'border-warning'"
+                                        data-width="100%" track-by="id" :options="apiData.grades" placeholder="Select Grade"
+                                        v-model="selectedGrade" label="level" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                    <label class="form-label">Subject</label>
+                                    <Multiselect class="border"
+                                        :class="subjectValidator.$invalid ? 'border-danger' : 'border-warning'" data-width="100%"
+                                        track-by="id" :key="selectedGrade?.id" :options="apiData.subjects"
+                                        placeholder="Select Subject" v-model="selectedSubject" label="subject" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                    <label class="form-label">Quarter</label>
+                                    <Multiselect class="border"
+                                        :class="quarterValidator.$invalid ? 'border-danger' : 'border-warning'" data-width="100%"
+                                        track-by="id" :key="selectedSubject?.id" :options="apiData.quarters"
+                                        placeholder="Select Quarter" v-model="selectedQuarter" label="quarter" />
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-group">
+                                    <label class="form-label">Content</label>
+                                    <Multiselect class="border"
+                                        :class="raw_contentValidator.$invalid ? 'border-danger' : 'border-warning'" multiple
+                                        :close-on-select="false" data-width="100%" track-by="id" :options="apiData.contents"
+                                        placeholder="Select Contents" v-model="selectedContent" label="content" />
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-group">
+                                    <label class="form-label">Competencies</label>
+                                    <Multiselect class="border"
+                                        :class="raw_competenciesValidator.$invalid ? 'border-danger' : 'border-warning'" multiple
+                                        track-by="id" data-width="100%" :options="apiData.competencies"
+                                        placeholder="Select Competencies" v-model="selectedCompetencies" label="competency" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                    <label class="form-label">Proficiency Level</label>
+                                    <Multiselect class="border"
+                                        :class="proficiency_levelValidator.$invalid ? 'border-danger' : 'border-warning'"
+                                        data-width="100%" track-by="id" :key="selectedGrade?.id" :options="apiData.proficiency_levels"
+                                        placeholder="Select Proficiency Level" v-model="selectedProficiencyLevel" label="level" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                    <label class="form-label">Language</label>
+                                    <Multiselect class="border"
+                                        :class="languageValidator.$invalid ? 'border-danger' : 'border-warning'" data-width="100%"
+                                        track-by="id" :key="selectedSubject?.id" :options="apiData.languages"
+                                        placeholder="Select Language" v-model="selectedLanguage" label="language" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                    <label class="form-label">No. Of Questions</label>
+                                    <Multiselect class="border"
+                                        :class="no_of_questionsValidator.$invalid ? 'border-danger' : 'border-warning'"
+                                        data-width="100%" track-by="id" :key="selectedNoOfQuestions?.id"
+                                        :options="apiData.no_of_questions" placeholder="Select No. Of Questions"
+                                        v-model="selectedNoOfQuestions" label="item" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                    <label class="form-label">No. Of Choices</label>
+                                    <Multiselect class="border"
+                                        :class="no_of_choicesValidator.$invalid ? 'border-danger' : 'border-warning'" data-width="100%"
+                                        track-by="id" :key="selectedNoOfChoices?.id" :options="apiData.no_of_choices"
+                                        placeholder="Select No. Of Choices" v-model="selectedNoOfChoices" label="item" />
+                                    </div>
+                                </div>
+
+                                <!-- <div class="col-12">
+                                    <button class="btn btn-warning w-100 text-white" @click="submitGenerate">Generate
+                                    <div class="spinner-border" role="status"></div>
+                                </button>
+                                </div> -->
+
+                                <div class="col-12 text-center mt-3">
+                                    <button class="btn btn-warning w-100 text-white btn--primary" :disabled="isLoading"
+                                    @click="submitGenerate">
+                                    <span v-if="!isLoading">Generate Assessment</span>
+                                    <span v-else>
+                                        <span class="spinner-border spinner-border-sm text-dark" role="status">
+                                        </span>
+                                        Generating...
+                                    </span>
+                                    </button>
+                                </div>
+
+                                <!-- <div class="col-12">
+                                    <button class="btn btn-success w-100 text-white" @click="sendPrompt">Send Prompt</button>
+                                </div> -->
+                            </div>
+                            <!-- <pre>{{ prompt }}</pre> -->
+                        </div>
                     </div>
-                  </div>
+                    <div class="col-md-4">
+                        <section class="section--breadcrumbs">
+                            <div class="profile--box">
+                                <div class="profile--box__info">
+                                <div class="profile--box__pic">
+                                    <img src="https://hivessel.com/wp-content/uploads/2024/03/hivessel_logo.png" alt="">
+                                </div>
+                                <div class="profile--box__name">
+                                    <p>{{ page?.props?.authenticatedUser?.name || 'Unknown' }}</p>
+                                    <span>{{ page?.props?.authenticatedUser?.email || 'unknown@mail.com' }}</span>
+                                </div>
+                                </div>
+                            </div>
+                        </section>
 
-                  <div class="col-6">
-                    <div class="form-group">
-                      <label class="form-label">Subject</label>
-                      <Multiselect class="border"
-                        :class="subjectValidator.$invalid ? 'border-danger' : 'border-warning'" data-width="100%"
-                        track-by="id" :key="selectedGrade?.id" :options="apiData.subjects"
-                        placeholder="-- Select Subject --" v-model="selectedSubject" label="subject" />
-                        <span><small class="text-danger" v-if="subjectValidator.$invalid">Subject is a required field.</small></span>
+                        <!-- Add More Credits -->
+                         <section class="section--add-credits">
+                                <h2>Need More Credit? Top Up Your Credit Points Now</h2>
+                                <p>Get the flexibility and access you need — buy more credit points now to keep your momentum going.</p>
+                                <a href="#" class="add--more-credits">Buy More Credits</a>
+                         </section>
                     </div>
-                  </div>
-
-                  <div class="col-6">
-                    <div class="form-group">
-                      <label class="form-label">Quarter</label>
-                      <Multiselect class="border"
-                        :class="quarterValidator.$invalid ? 'border-danger' : 'border-warning'" data-width="100%"
-                        track-by="id" :key="selectedSubject?.id" :options="apiData.quarters"
-                        placeholder="-- Select Quarter --" v-model="selectedQuarter" label="quarter" />
-                        <span><small class="text-danger" v-if="quarterValidator.$invalid">Quarter is a required field.</small></span>
-                    </div>
-                  </div>
-
-                  <div class="col-12">
-                    <div class="form-group">
-                      <label class="form-label">Content</label>
-                      <Multiselect class="border"
-                        :class="raw_contentValidator.$invalid ? 'border-danger' : 'border-warning'" multiple
-                        :close-on-select="false" data-width="100%" track-by="id" :options="apiData.contents"
-                        placeholder="-- Select Contents --" v-model="selectedContent" label="content" />
-                        <span><small class="text-danger" v-if="raw_contentValidator.$invalid">Add one or more content to continue</small></span>
-                    </div>
-                  </div>
-
-                  <div class="col-12">
-                    <div class="form-group">
-                      <label class="form-label">Competencies</label>
-                      <Multiselect class="border"
-                        :class="raw_competenciesValidator.$invalid ? 'border-danger' : 'border-warning'" multiple
-                        track-by="id" data-width="100%" :options="apiData.competencies"
-                        placeholder="-- Select Competencies --" v-model="selectedCompetencies" label="competency" />
-                        <span><small class="text-danger" v-if="raw_competenciesValidator.$invalid">Add one or more competencies to continue</small></span>
-                    </div>
-                  </div>
-
-                  <div class="col-6">
-                    <div class="form-group">
-                      <label class="form-label">Proficiency Level</label>
-                      <Multiselect class="border"
-                        :class="proficiency_levelValidator.$invalid ? 'border-danger' : 'border-warning'"
-                        data-width="100%" track-by="id" :key="selectedGrade?.id" :options="apiData.proficiency_levels"
-                        placeholder="-- Select Proficiency Level --" v-model="selectedProficiencyLevel" label="level" />
-                        <span><small class="text-danger" v-if="proficiency_levelValidator.$invalid">Proficiency level is a required field.</small></span>
-                    </div>
-                  </div>
-
-                  <div class="col-6">
-                    <div class="form-group">
-                      <label class="form-label">Language</label>
-                      <Multiselect class="border"
-                        :class="languageValidator.$invalid ? 'border-danger' : 'border-warning'" data-width="100%"
-                        track-by="id" :key="selectedSubject?.id" :options="apiData.languages"
-                        placeholder="-- Select Language --" v-model="selectedLanguage" label="language" />
-                        <span><small class="text-danger" v-if="languageValidator.$invalid">Language is a required field.</small></span>
-                    </div>
-                  </div>
-
-                  <div class="col-6">
-                    <div class="form-group">
-                      <label class="form-label">No. Of Questions</label>
-                      <Multiselect class="border"
-                        :class="no_of_questionsValidator.$invalid ? 'border-danger' : 'border-warning'"
-                        data-width="100%" track-by="id" :key="selectedNoOfQuestions?.id"
-                        :options="apiData.no_of_questions" placeholder="-- Select No. Of Questions --"
-                        v-model="selectedNoOfQuestions" label="item" />
-                        <span><small class="text-danger" v-if="no_of_questionsValidator.$invalid">No. of questions is a required field.</small></span>
-                    </div>
-                  </div>
-
-                  <div class="col-6">
-                    <div class="form-group">
-                      <label class="form-label">No. Of Choices</label>
-                      <Multiselect class="border"
-                        :class="no_of_choicesValidator.$invalid ? 'border-danger' : 'border-warning'" data-width="100%"
-                        track-by="id" :key="selectedNoOfChoices?.id" :options="apiData.no_of_choices"
-                        placeholder="-- Select No. Of Choices --" v-model="selectedNoOfChoices" label="item" />
-                        <span><small class="text-danger" v-if="no_of_choicesValidator.$invalid">No. of choices is a required field.</small></span>
-                    </div>
-                  </div>
-
-                  <!-- <div class="col-12">
-                    <button class="btn btn-warning w-100 text-white" @click="submitGenerate">Generate
-                      <div class="spinner-border" role="status"></div>
-                  </button>
-                  </div> -->
-
-                  <div class="col-12 text-center mt-3">
-                    <button class="btn btn-warning w-100 text-white btn--primary" :disabled="isLoading"
-                      @click="submitGenerate">
-                      <span v-if="!isLoading">Generate Assessment</span>
-                      <span v-else>
-                        <span class="spinner-border spinner-border-sm text-dark" role="status">
-                        </span>
-                        Generating...
-                      </span>
-                    </button>
-                  </div>
-
-                  <!-- <div class="col-12">
-                    <button class="btn btn-success w-100 text-white" @click="sendPrompt">Send Prompt</button>
-                  </div> -->
-
-
                 </div>
-                <!-- <pre>{{ prompt }}</pre> -->
-              </div>
             </div>
 
             <div class="tab-pane fade" :class="{ show: currentTab === 'history', active: currentTab === 'history' }"

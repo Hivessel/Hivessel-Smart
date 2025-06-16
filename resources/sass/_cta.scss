@@ -1,0 +1,63 @@
+
+
+// CTA ADD CREDITS
+
+.section--breadcrumbs {
+   @media(max-width:1100px) {
+        padding: 20px 20px;
+        margin-bottom: 20px;
+        min-height: auto;
+        .profile--box__info {
+            display: block;
+            text-align: center;
+            width: 100%;
+            padding: 10px;
+        }
+
+        .profile--box__pic {
+            margin: 0 auto;
+        }
+    } 
+}
+
+.section--add-credits {
+    background-color: #fee169;
+    padding: 40px 30px;
+    border-radius: 30px;
+    @media(max-width:1100px) {
+        padding: 20px 20px;
+    }
+    h2 {
+        font-size: 30px;
+        font-weight: bold;
+        text-transform: uppercase;
+        @media(max-width:1100px) {
+            font-size: 24px;
+        }
+    }
+
+    p {
+        font-size: 18px;
+        line-height: 32px;
+        @media(max-width:1100px) {
+            font-size: 16px;
+            line-height: 28px;
+        }
+    }
+
+    .add--more-credits {
+        display: inline-block;
+        width: 100%;
+        background-color: #fff;
+        color: #000;
+        text-align: center;
+        padding: 10px 20px;
+        border-radius: 10px;
+        border: 1px solid #000;
+
+        &:hover {
+            background-color: #000;
+            color: #fff;
+        }
+    }
+}
