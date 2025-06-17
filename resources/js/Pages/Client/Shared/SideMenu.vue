@@ -43,6 +43,16 @@
                         
                             <p>Assessment Tool</p>
                         </Link>
+
+                        <Link
+                            :href="route('client.plugins.lesson-plan-generator')"
+                            class="nav-link active"
+                            role="button"
+                        >
+                            <i class="fas fa-magic"></i>
+                        
+                            <p>Lesson Planner</p>
+                        </Link>
                     </li>
 
                     

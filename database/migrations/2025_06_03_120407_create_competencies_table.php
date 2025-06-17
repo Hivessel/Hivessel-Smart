@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('content_id');
             $table->text('competency');
-            $table->text('attachments')->nullable();
+            $table->text('exemplar')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();
         });

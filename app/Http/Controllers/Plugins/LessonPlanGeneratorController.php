@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Chat;
 use Illuminate\Support\Facades\Auth;
-class AssessmentToolController extends Controller
+class LessonPlanGeneratorController extends Controller
 {
     public function index(Request $request){
         $chat = null;
@@ -15,9 +15,10 @@ class AssessmentToolController extends Controller
             $id = $request->input('id');
             $chat = Chat::findOrFail($id) ?? null;
         }
-        return Inertia::render('Client/Plugins/AssessmentTool',[
+        return Inertia::render('Client/Plugins/LessonPlanGenerator',[
              'chat' => $chat,
-             'messages' => Chat::latest()->where('user_id', Auth::id())->where('plugin', 'Assessment Tool')->get()
+             'messages' => Chat::latest()->where('user_id', Auth::id())->where('plugin', 'Lesson Planner')->get()
         ]);
     }
 }
+

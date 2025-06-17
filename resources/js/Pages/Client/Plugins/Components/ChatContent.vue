@@ -10,19 +10,11 @@ const formattedText = (string) => {
   return string.replace(/\n/g, '<br>');
 };
 
-const copyToClipboard = () => {
-  const text = props.content?.content || '';
-  navigator.clipboard.writeText(text).then(() => {
-    // Optional: Show success feedback
-    console.log('Copied to clipboard!');
-  }).catch(err => {
-    console.error('Copy failed:', err);
-  });
-};
 </script>
 
 <template>
   <div class="d-flex text-muted py-3">
+   
     <div class="col-1 d-flex justify-content-end pe-3">
       <svg
         v-if="props.content.role === 'user'"
@@ -57,9 +49,12 @@ const copyToClipboard = () => {
       </svg>
     </div>
 
-    <section class="col-11 text-start ps-3 text-wrap" v-html="formattedText(content?.content)"></section>
+    <!-- <section class="col-11 text-start ps-3 text-wrap" v-html="formattedText(content?.content)"></section> -->
 
-    <i class="fa-solid fa-copy ms-2 text-secondary" title="Copy" @click="copyToClipboard" style="cursor: pointer;font-size:18px;"></i>
+    <section v-html="formattedText(content?.content)" style="width: 1080px;" class="mt-3 text-muted text-break custom-text-break"></section>
+     <!-- <div v-html="formattedText(content?.content)" class="mt-3 text-muted text-break custom-text-break"></div> -->
+
+    
 
   </div>
 </template>
@@ -70,3 +65,4 @@ const copyToClipboard = () => {
   height: 24px;
 }
 </style>
+

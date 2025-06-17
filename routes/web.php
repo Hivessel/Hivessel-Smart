@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\QuarterController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\Plugins\LessonPlanGeneratorController;
 use App\Http\Controllers\Plugins\AssessmentToolController;
 use App\Models\Chat;
 use App\Models\Invoice;
@@ -32,8 +33,13 @@ Route::middleware(['auth'])->group(function(){
         exit;
     })->name('client.home');
 
+    
     Route::prefix('plugins')->group(function(){
+        // Assesment Tool
         Route::get('assessment-tool', [AssessmentToolController::class, 'index'])->name('client.plugins.assessment-tool');
+
+        // Lesson Plan Generator
+        Route::get('lesson-plan-generator', [LessonPlanGeneratorController::class, 'index'])->name('client.plugins.lesson-plan-generator');
     });
 
     // Subtract credit

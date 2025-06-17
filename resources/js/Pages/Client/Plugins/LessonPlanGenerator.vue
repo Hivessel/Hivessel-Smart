@@ -1,11 +1,9 @@
 <template>
   <div class="content-wrapper p-3 assessment--box">
-    <h3><i class="fas fa-qrcode mr-2 text-warning"></i>Assessment Tool</h3>
+    <h3><i class="fas fa-magic mr-2 text-warning"></i>Lesson Plan Generator</h3>
     <section class="content assessment--tools">
       <div class="card mt-3 border-0 shadow-sm">
-        
         <div class="card-body">
-          
           <div class="custom-tab-nav mb-0 tab--links" role="tablist">
             <a class="nav-link" :class="{ active: currentTab === 'generate' }" id="generate-tab" role="tab"
               :aria-selected="currentTab === 'generate'" aria-controls="generate" href="javascript:void(0);"
@@ -15,7 +13,7 @@
               :aria-selected="currentTab === 'history'" aria-controls="history" href="javascript:void(0);"
               @click="switchTab('history')">History</a>
           </div>
-          
+
           <div class="tab-content">
             <div class="tab-pane fade" :class="{ show: currentTab === 'generate', active: currentTab === 'generate' }"
               id="generate" role="tabpanel">
@@ -72,17 +70,9 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                    <label class="form-label">Proficiency Level</label>
-                                    <Multiselect class="border"
-                                        :class="proficiency_levelValidator.$invalid ? 'border-danger' : 'border-warning'"
-                                        data-width="100%" track-by="id" :key="selectedGrade?.id" :options="apiData.proficiency_levels"
-                                        placeholder="Select Proficiency Level" v-model="selectedProficiencyLevel" label="level" />
-                                    </div>
-                                </div>
+                                
 
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                     <label class="form-label">Language</label>
                                     <Multiselect class="border"
@@ -92,31 +82,29 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                    <label class="form-label">No. Of Questions</label>
-                                    <Multiselect class="border"
-                                        :class="no_of_questionsValidator.$invalid ? 'border-danger' : 'border-warning'"
-                                        data-width="100%" track-by="id" :key="selectedNoOfQuestions?.id"
-                                        :options="apiData.no_of_questions" placeholder="Select No. Of Questions"
-                                        v-model="selectedNoOfQuestions" label="item" />
-                                    </div>
-                                </div>
 
-                                <div class="col-md-6">
+                                <!-- <div class="col-md-12">
                                     <div class="form-group">
-                                    <label class="form-label">No. Of Choices</label>
+                                    <label class="form-label">Template</label>
                                     <Multiselect class="border"
-                                        :class="no_of_choicesValidator.$invalid ? 'border-danger' : 'border-warning'" data-width="100%"
-                                        track-by="id" :key="selectedNoOfChoices?.id" :options="apiData.no_of_choices"
-                                        placeholder="Select No. Of Choices" v-model="selectedNoOfChoices" label="item" />
+                                        :class="languageValidator.$invalid ? 'border-danger' : 'border-warning'" data-width="100%"
+                                        track-by="id" :key="id" :options="[{id: 1, item: 'Template 1'}]"
+                                        placeholder="Select Template" label="item" />
                                     </div>
-                                </div>
+                                </div> -->
+
+                                
 
                                 <div class="col-12 text-center mt-3">
                                     <button class="btn btn-warning w-100 text-white btn--primary" :disabled="isGenerating"
+                                    @click="sendSample">Send sample prompt
+                                    </button>
+                                </div>
+
+                                <div class="col-12 text-center mt-3">
+                                    <button class="btn btn-warning w-100 text-white btn--primary" :disabled="isGenerating || true"
                                     @click="submitGenerate">
-                                    <span v-if="!isGenerating">Generate Assessment</span>
+                                    <span v-if="!isGenerating">Generate Lesson Plan</span>
                                     <span v-else>
                                         <span class="spinner-border spinner-border-sm text-dark" role="status">
                                         </span>
@@ -164,7 +152,7 @@
 
                       <li class="list-group-item text-truncate border-0 hover:bg-gray-900"
                         v-for="(item, index) in messages" :key="index">
-                        <Link :href="route('client.plugins.assessment-tool', { id: item.id, tab: 'history' })">{{
+                        <Link :href="route('client.plugins.lesson-plan-generator', { id: item.id, tab: 'history' })">{{
                           `${item.options?.grade} - ${item.options?.subject}` }}</Link>
                       </li>
                     </ul>
@@ -196,12 +184,8 @@
                         </div>
                       </div>
                     </template>
-                    
-
                   </div>
                 </div>
-                
-                
               </div>
             </div>
           </div>
@@ -212,7 +196,7 @@
 </template>
 
 <script setup>
-import { useForm, usePage, Link } from '@inertiajs/vue3';
+import { useForm, usePage, Link, router } from '@inertiajs/vue3';
 import { onMounted, reactive, ref, computed, watch } from 'vue';
 import Layout from '../Shared/Layout.vue';
 import Multiselect from 'vue-multiselect';
@@ -227,6 +211,38 @@ const props = defineProps({
   chat: null | Object
 });
 
+const sendSample = () => {
+  const data = useForm({
+    prompt: `
+    Create a daily lesson plan using the provided details.The ai response must be in printable format.                                                                                                                                    Grade: Grade 7  
+    Subject: Science 
+    Quarter: First Quarter
+    Language :English
+    Content: Scientific Models and the Particle Model of Matter
+    Learning Competency:Recognize that scientists use models to explain phenomena that cannot be easily seen or detected; and describe the Particle Model of Matter as “All matter is made up of tiny particles with each pure substance having its own kind of particles.”
+
+    Mimic this Sample Format: https://ncrdeped2-my.sharepoint.com/:w:/g/personal/antonette_castillo_ncr2_deped_gov_ph/Ebw9K708KEdAoDCnFc-BxGABVYnzm_Kphg_UrrLaNOvS8A?rtime=BT_yra-t3Ug
+    Read this Exemplar: https://media-cloud-hivessel.s3.ap-southeast-2.amazonaws.com/2025/06/Q1_LE_Science-7_Lesson-1_Week-1.pdf`.trim(),
+    plugin: 'Lesson Planner',
+    options: {
+      grade: 'Grade 7',
+      subject: 'Science',
+      quarter: 'First Quarter'
+    }
+  });
+
+  data.post(route('client.plugins.chats.store'), {
+      onSuccess: (response) => {
+        
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+      onFinish: () => {
+      }
+    });
+}
+
 
 const page = usePage();
 const isGenerating = ref(false);
@@ -238,25 +254,7 @@ const apiData = reactive({
   quarters: [],
   contents: [],
   competencies: [],
-  proficiency_levels: [],
   languages: [],
-  no_of_questions: [
-    { id: 1, item: 5 },
-    { id: 2, item: 10 },
-    { id: 3, item: 15 },
-    { id: 4, item: 20 },
-    { id: 5, item: 25 },
-    { id: 6, item: 30 },
-    { id: 7, item: 35 },
-    { id: 8, item: 40 },
-    { id: 9, item: 45 },
-    { id: 10, item: 50 },
-  ],
-  no_of_choices: [
-    { id: 1, item: 4 },
-    { id: 2, item: 5 },
-    { id: 3, item: 6 },
-  ]
 });
 
 const selectedGrade = ref(null);
@@ -264,10 +262,8 @@ const selectedSubject = ref(null);
 const selectedQuarter = ref(null);
 const selectedContent = ref(null);
 const selectedCompetencies = ref([]);
-const selectedProficiencyLevel = ref(null);
 const selectedLanguage = ref(null);
-const selectedNoOfQuestions = ref(null);
-const selectedNoOfChoices = ref(null);
+
 
 const form = useForm({
   grade: computed(() => selectedGrade.value?.level || null),
@@ -293,16 +289,12 @@ const form = useForm({
       ? selectedCompetencies.value.map(el => el.competency)
       : []
   ),
-  proficiency_level: computed(() => selectedProficiencyLevel.value?.level || null),
   language: computed(() => selectedLanguage.value?.language || null),
-  no_of_questions: computed(() => selectedNoOfQuestions.value?.item || null),
-  no_of_choices: computed(() => selectedNoOfChoices.value?.item || null),
 });
 
 onMounted(() => {
   fetchGrades();
   fetchQuarters();
-  fetchProficiencyLevels();
   fetchLanguages();
 });
 
@@ -350,15 +342,6 @@ const fetchContents = async (grade_id, subject_id, quarter_id) => {
   }
 };
 
-const fetchProficiencyLevels = async () => {
-  try {
-    const response = await axios.get(route('admin.proficiency-levels.all', { active: 1 }));
-    apiData.proficiency_levels = response.data;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 const fetchLanguages = async () => {
   try {
     const response = await axios.get(route('admin.languages.all', { active: 1 }));
@@ -387,10 +370,7 @@ const rules = computed(() => ({
   quarter: { required },
   raw_content: { required },
   raw_competencies: { required },
-  proficiency_level: { required },
   language: { required },
-  no_of_questions: { required },
-  no_of_choices: { required },
 }))
 
 const subtractCredit = async (credits) => {
@@ -407,44 +387,39 @@ const subjectValidator = generate$.value.subject;
 const quarterValidator = generate$.value.quarter;
 const raw_contentValidator = generate$.value.raw_content;
 const raw_competenciesValidator = generate$.value.raw_competencies;
-const proficiency_levelValidator = generate$.value.proficiency_level;
 const languageValidator = generate$.value.language;
-const no_of_questionsValidator = generate$.value.no_of_questions;
-const no_of_choicesValidator = generate$.value.no_of_choices;
+
 
 
 const prompt = computed(() => {
-    return `Create an assessment with ${form.no_of_questions} multiple-choice questions, each with ${form.no_of_choices} choices and the response must be in printable richtext editor format.
+    return `Create a daily lesson plan in tabular format using the provided details.
       Grade Level: ${form.grade}
       Subject: ${form.subject}
       Quarter: ${form.quarter}
       Language: ${form.language}
-      Proficiency Level: ${form.proficiency_level}
       Content Coverage:
       ${form.raw_content.map((c, i) => `${i + 1}. ${c}`).join('\n')}
 
       Competency Focus:
       ${form.raw_competencies.map((c, i) => `${i + 1}. ${c}`).join('\n')}
-      Guidelines:
-      - Questions should be strictly based on the **Content Coverage** and aligned with the **Competency Focus**.
-      - Use language appropriate for ${form.grade} students.
-      - Ensure variety in question types and maintain the level of difficulty suitable for the "${form.proficiency_level}" proficiency level.
-      - Avoid repetition and ensure clarity in question and choices.
-      - Include the answer key at the end. Provide clear instructions and format the material to be printable
+      
+
+      Response is in richtext format and follow this template:
+      
       `.trim();
   
   });
 
 
 const submitGenerate = () => {
-  if (gradeValidator.$invalid || gradeValidator.$invalid || subjectValidator.$invalid || quarterValidator.$invalid || raw_contentValidator.$invalid || raw_competenciesValidator.$invalid || proficiency_levelValidator.$invalid || languageValidator.$invalid || no_of_questionsValidator.$invalid || no_of_choicesValidator.$invalid) {
+  if (gradeValidator.$invalid || gradeValidator.$invalid || subjectValidator.$invalid || quarterValidator.$invalid || raw_contentValidator.$invalid || raw_competenciesValidator.$invalid || languageValidator.$invalid) {
     toastr.error('Some of the fields required to proceed are currently empty or incomplete. Kindly fill in all the necessary details before continuing.');
     return false;
   }
 
   const actualPromt = useForm({
     prompt: prompt.value,
-    plugin: 'Assessment Tool',
+    plugin: 'Lesson Planner',
     options: {
       grade: form.grade,
       subject: form.subject,

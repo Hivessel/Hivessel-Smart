@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('plugin');
             $table->foreignId('user_id');
             $table->json('context');
+            $table->json('options')->nullable();
             $table->timestamps();
         });
     }
