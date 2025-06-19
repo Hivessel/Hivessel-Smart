@@ -361,7 +361,7 @@ const languageValidator = generate$.value.language;
 
 const prompt = computed(() => {
   return `
-  Prepare a lesson plan based on the attached exemplar, using the specified template.
+  Create a daily lesson plan in tabular format using the provided template based on the attached exemplar.  
   Grade Level: ${form.grade}
   Subject: ${form.subject}
   Quarter: ${form.quarter}
@@ -374,7 +374,7 @@ const prompt = computed(() => {
   Exemplar:
   ${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
 
-  Strictly follow this template format:
+  Strictly follow this template table format:
   ${form.template}  
   
     `.trim();
