@@ -558,7 +558,7 @@ watch(() => selectedLanguage.value, (language) => {
         {
           id: 1,
           caption: 'English daily lesson log',
-          link: 'https://media-cloud-hivessel.s3.ap-southeast-2.amazonaws.com/2025/06/DLL_ENGLISH-TEMPLATE.pdf'
+          link: 'https://hivessel.com/LE/DLL_ENGLISH%20TEMPLATE.pdf'
         },
         {
           id: 3,
