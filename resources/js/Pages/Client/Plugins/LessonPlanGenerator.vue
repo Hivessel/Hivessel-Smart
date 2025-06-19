@@ -385,8 +385,184 @@ const languageValidator = generate$.value.language;
 
 const prompt = computed(() => {
   return (`
-Create a one-week lesson plan in HTML table format using the provided template and exemplar; remove <br> tags Strictly follow this template link for the format:
-${form.template}.
+Create a one-week lesson plan in HTML table format using the provided template and exemplar; remove <br> tags Strictly follow this template link for the format code for the result <!-- Daily Lesson Log Header -->
+<table border="1" cellpadding="5" cellspacing="0">
+  <tr>
+    <th>DAILY LESSON LOG</th>
+    <th>Department of Education</th>
+  </tr>
+  <tr>
+    <td><strong>School:</strong></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>Grade Level:</strong></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>Teacher:</strong></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>Learning Area:</strong></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>Teaching Dates and Time:</strong></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>Quarter:</strong></td>
+    <td></td>
+  </tr>
+</table>
+
+<br>
+
+<!-- Daily Lesson Log Sessions Table -->
+<table border="1" cellpadding="5" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Session / Section</th>
+      <th>Session 1</th>
+      <th>Session 2</th>
+      <th>Session 3</th>
+      <th>Session 4</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>I. OBJECTIVES</strong></td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;A. Content Standards</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;B. Performance Standards</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;C. Learning Competencies/Objectives – Write the LC Code for each</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td><strong>II. CONTENT</strong></td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td><strong>III. LEARNING RESOURCES</strong></td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;A. References</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;&emsp;1. Teacher’s Guides / Pages</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;&emsp;2. Learner’s Materials / Pages</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;&emsp;3. Textbook / Pages</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;&emsp;4. Additional Materials from LR portal</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;B. Other Learning Resources</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td><strong>IV. PROCEDURES</strong></td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;A. Reviewing previous lesson or presenting the new lesson</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;B. Establishing a purpose for the lesson</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;C. Presenting examples/instances of the new lesson</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;D. Discussing new concepts and practicing new skills #1</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;E. Discussing new concepts and practicing new skills #2</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;F. Developing mastery (Leads to formative assessment)</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;G. Finding practical/applications of concepts and skills in daily living</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;H. Making generalizations and abstractions about the lesson</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;I. Evaluating Learning</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;J. Additional activities for application or remediation</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td><strong>V. REMARKS</strong></td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td><strong>VI. REFLECTION</strong></td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;A. No. of learners who earned 80% of the formative assessment</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;B. No. of learners who require additional activities or remediation</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;C. Did the remedial lessons work? No. of learners who have caught up with the lesson</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;D. No. of learners who continue to require remediation</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;E. Which of my teaching strategies worked well? Why did these work?</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;F. What difficulties did I encounter which my principal or supervisor can help me solve?</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>&emsp;G. What innovation or localized material did I use/discover which I wish to share with other teachers?</td>
+      <td></td><td></td><td></td><td></td>
+    </tr>
+  </tbody>
+</table>
+:
+
 
 Grade Level: ${form.grade}  
 Subject: ${form.subject}  
@@ -407,7 +583,7 @@ Read this exemplar reference:
 ${form.raw_reference
     .map((c, i) => `${i + 1}. ${c}`)
     .join('\n')}
-    
+
 Return the result as a full <table> element in HTML. Do NOT use markdown. Avoid excessive <br> tags. Do NOT wrap it in <pre> or <code>.
   `).trim()
 })
