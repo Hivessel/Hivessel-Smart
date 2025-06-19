@@ -382,56 +382,37 @@ const languageValidator = generate$.value.language;
 
 // });
 
-const tableSkeleton = `
-<table border="1">
-  <thead>
-    <tr>
-      <th>Day</th><th>Learning Objectives</th><th>Activities</th>
-      <th>Materials</th><th>Assessment</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Monday</td><td></td><td></td><td></td><td></td></tr>
-    <tr><td>Tuesday</td><td></td><td></td><td></td><td></td></tr>
-    <tr><td>Wednesday</td><td></td><td></td><td></td><td></td></tr>
-    <tr><td>Thursday</td><td></td><td></td><td></td><td></td></tr>
-    <tr><td>Friday</td><td></td><td></td><td></td><td></td></tr>
-  </tbody>
-</table>`;
 
-const messages = [
-  {
-    role: 'system',
-    content:
-      `You are an assistant that returns ONLY valid HTML tables (no markdown, no extra text).`
-  },
-  {
-    role: 'user',
-    content: `
-Fill in the one-week lesson plan table below.  
-Replace the empty cells with appropriate content; keep the structure identical.  
-Output ONLY the completed <table> element, nothing else.
+const prompt = computed(() => {
+  return (`
+Create a one-week lesson plan in HTML table format using the provided template and exemplar; remove <br> tags.
 
---- TEMPLATE START ---
-${tableSkeleton}
---- TEMPLATE END ---
-
-Grade Level: ${form.grade}
-Subject: ${form.subject}
-Quarter: ${form.quarter}
-Language of Instruction: ${form.language}
+Grade Level: ${form.grade}  
+Subject: ${form.subject}  
+Quarter: ${form.quarter}  
+Language: ${form.language}  
 
 Content Coverage:
-${form.raw_content.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+${form.raw_content
+    .map((c, i) => `${i + 1}. ${c}`)
+    .join('\n')}
 
 Competency Focus:
-${form.raw_competencies.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+${form.raw_competencies
+    .map((c, i) => `${i + 1}. ${c}`)
+    .join('\n')}
 
-Exemplar Reference (for style only – do not copy text verbatim):
-${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
-`
-  }
-];
+Read this exemplar reference:
+${form.raw_reference
+    .map((c, i) => `${i + 1}. ${c}`)
+    .join('\n')}
+
+Strictly follow this template link for the format:
+${form.template}
+
+Return the result as a full <table> element in HTML. Do NOT use markdown. Avoid excessive <br> tags. Do NOT wrap it in <pre> or <code>.
+  `).trim()
+})
 
 
 
