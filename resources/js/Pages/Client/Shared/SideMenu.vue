@@ -87,7 +87,7 @@
                             <p>Sign Out</p>
                         </Link>
                     </li>
-                    <li
+                    <!-- <li
                         class="nav-item"
                         
                     >
@@ -101,7 +101,7 @@
                             <i class="fa-solid fa-pen-to-square"></i>
                             <p>Edit Account</p>
                         </Link>
-                    </li>
+                    </li> -->
 
                     
                     
