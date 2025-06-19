@@ -411,7 +411,7 @@ ${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
 **Strictly follow this template table format:**  
 ${form.template}
 
-Return the response in **rich text format** (not markdown or plain text).
+Return the response in **make it in html table format** (not markdown or plain text).
 `.trim();
 });  
 
