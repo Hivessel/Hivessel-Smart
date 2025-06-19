@@ -359,30 +359,61 @@ const raw_competenciesValidator = generate$.value.raw_competencies;
 const languageValidator = generate$.value.language;
 
 
+// const prompt = computed(() => {
+//   return `
+//   Create a daily lesson plan in tabular format using the provided template based on the attached exemplar.  
+//   Grade Level: ${form.grade}
+//   Subject: ${form.subject}
+//   Quarter: ${form.quarter}
+//   Language: ${form.language}
+//   Content Coverage:
+//   ${form.raw_content.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+//   Competency Focus:
+//   ${form.raw_competencies.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+  
+//   Exemplar:
+//   ${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+
+//   Strictly follow this template table format:
+//   ${form.template}
+//   Response must be on richtext format.  
+  
+//     `.trim();
+
+// });
+
 const prompt = computed(() => {
   return `
-  Create a daily lesson plan in tabular format using the provided template based on the attached exemplar.  
-  Grade Level: ${form.grade}
-  Subject: ${form.subject}
-  Quarter: ${form.quarter}
-  Language: ${form.language}
-  Content Coverage:
-  ${form.raw_content.map((c, i) => `${i + 1}. ${c}`).join('\n')}
-  Competency Focus:
-  ${form.raw_competencies.map((c, i) => `${i + 1}. ${c}`).join('\n')}
-  
-  Exemplar:
-  ${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+Create a daily lesson plan in tabular format using the provided template based on the attached exemplar.
 
-  Strictly follow this template table format:
-  ${form.template}
-  Response must be on richtext format.  
-  
-    `.trim();
+**Grade Level:** ${form.grade}  
+**Subject:** ${form.subject}  
+**Quarter:** ${form.quarter}  
+**Language:** ${form.language}  
 
-});
+---
 
-  
+**Content Coverage:**  
+${form.raw_content.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+
+---
+
+**Competency Focus:**  
+${form.raw_competencies.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+
+---
+
+**Exemplar Reference:**  
+${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+
+---
+
+**Strictly follow this template table format:**  
+${form.template}
+
+Return the response in **rich text format** (not markdown or plain text).
+`.trim();
+});  
 
 
 const submitGenerate = () => {
