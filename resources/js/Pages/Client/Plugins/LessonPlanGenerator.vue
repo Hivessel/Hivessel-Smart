@@ -543,7 +543,7 @@ watch(() => selectedLanguage.value, (language) => {
       ];
     }
 
-    if(language.language == 'Filipino'){
+    if(language.language == 'Tagalog'){
       apiData.templates = [
         {
           id: 2,

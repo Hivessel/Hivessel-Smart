@@ -107,7 +107,7 @@ objects can be moved and/or changed in shape.',
 
         $languages = [
             ['language' => 'English', 'active' => true],
-            ['language' => 'Filipino', 'active' => true]
+            ['language' => 'Tagalog', 'active' => true]
         ];
 
         foreach ($languages as $language) {
