@@ -50,7 +50,7 @@ class ContentController extends Controller
         foreach($validated['competencies'] as $item){
             $content->competencies()->create([
                 'competency' => $item['competency'],
-                'attachments' => $item['attachment']
+                'reference' => $item['reference']
             ]);
         }
         
@@ -124,6 +124,7 @@ class ContentController extends Controller
                                     data-quarter="'.$content->quarter->quarter.'"
                                     data-content="'.$content->content.'"
                                     data-competencies="'.htmlspecialchars($content->competencies, ENT_QUOTES, 'UTF-8').'"
+                                    data-reference="'.htmlspecialchars($content->reference, ENT_QUOTES, 'UTF-8').'"
                                     data-active-tag="'.$content->active.'">
                                     <i class="fas fa-edit pr-2"></i>Edit</button>
                                     <button class="btn btn-md btn-danger delete-content-btn"
@@ -142,6 +143,7 @@ class ContentController extends Controller
     }
 
     public function update(Request $request){
+        
         // Validate the request data
         $validated = $request->validate([
             'id' => 'required|exists:contents,id',
@@ -182,6 +184,7 @@ class ContentController extends Controller
             foreach ($validated['competencies'] as $data) {
                 $content->competencies()->create([
                     'competency' => $data['competency'],
+                    'reference' => $data['reference'],
                 ]);
             }
 

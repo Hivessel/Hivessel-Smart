@@ -12,9 +12,9 @@ use Throwable;
 class ChatController extends Controller
 {
     public function store(Request $request, string $id = null){
-        set_time_limit(0);
-        ini_set('max_execution_time', '99999999999');
-        ini_set('memory_limit', '-1');
+        // set_time_limit(0);
+        // ini_set('max_execution_time', '99999999999');
+        // ini_set('memory_limit', '-1');
         
         try{
             
@@ -26,21 +26,25 @@ class ChatController extends Controller
                 $messages = $chat->context;
             }
 
-        
             // Append the user's message (prompt) to the messages array
             $messages[] = [
                 'role' => 'user',
                 'content' => $request->input('prompt'),
             ];
 
+            if($request->plugin === 'Assessment Tool'){
+                $model = config('openai.assessment_tool_model') ?? 'gpt-4.1-nano';
+            }else if($request->plugin === 'Lesson Planner'){
+                $model = config('openai.lesson_planner_model') ?? 'gpt-4.1-nano';
+            }else{
+                $model = 'gpt-4.1-nano';
+            }
+
             // Send the conversation history and user input to OpenAI to get a response
             $response = OpenAI::chat()->create([
-                // 'model' => 'gpt-4.1-2025-04-14',
-                'model' => 'gpt-3.5-turbo-0125',
+                'model' => $model, 
                 'messages' => $messages,
             ]);
-
-            
 
             // Add the assistant's reply to the messages array
             $messages[] = [

@@ -30,7 +30,7 @@
                             <button class="btn btn-secondary" @click.prevent="addCompetency"><i class="fa fa-plus"></i> Add Competencies</button>
                     </div>
 
-                    <div class="">
+                    <!-- <div class="">
                         <table class="table table-borderless align-middle w-100">
                             <tbody>
                                 <tr v-for="(item, index) in form.competencies" :key="item.id || index">
@@ -58,6 +58,47 @@
                             </tbody>
                         </table>
 
+                    </div> -->
+
+                    <div class="">
+                        <table class="table table-borderless align-middle w-100">
+                            <tbody>
+                                <tr v-for="(item, index) in form.competencies" :key="item.id || index">
+                                <td style="width: 45%;">
+                                    <div class="form-group mb-0">
+                                    <label for="inputPassword5" class="form-label">Competency</label>
+                                    <textarea
+                                        v-model="item.competency"
+                                        class="form-control"
+                                        rows="4"
+                                        placeholder="Enter competency..."
+                                    ></textarea>
+                                    </div>
+                                </td>
+                                <td style="width: 45%;">
+                                    <div class="form-group mb-0">
+                                    <label for="inputPassword5" class="form-label">Link/Reference</label>
+                                    <textarea
+                                        v-model="item.reference"
+                                        class="form-control"
+                                        rows="4"
+                                        placeholder="Enter reference link..."
+                                    ></textarea>
+                                    </div>
+                                </td>
+                                <td style="width: 10%;" class="text-center align-middle">
+                                    <button
+                                    type="button"
+                                    class="btn btn-danger"
+                                    @click.prevent="removeCompency(item.id)"
+                                    title="Remove"
+                                    >
+                                    <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
 
                 </form>
@@ -122,7 +163,7 @@ const addCompetency = () => {
     form.competencies.push({
         id: generateUUIDv4(),
         competency: '',
-        attachment: null,
+        reference: null,
         active: true
     })
 }

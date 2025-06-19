@@ -83,26 +83,19 @@
                                 </div>
 
 
-                                <!-- <div class="col-md-12">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                     <label class="form-label">Template</label>
                                     <Multiselect class="border"
                                         :class="languageValidator.$invalid ? 'border-danger' : 'border-warning'" data-width="100%"
-                                        track-by="id" :key="id" :options="[{id: 1, item: 'Template 1'}]"
-                                        placeholder="Select Template" label="item" />
+                                        track-by="id" :key="selectedTemplate?.id" :options="apiData.templates"
+                                        placeholder="Select Template" v-model="selectedTemplate" label="caption" />
                                     </div>
-                                </div> -->
+                                </div>
 
-                                
 
                                 <div class="col-12 text-center mt-3">
                                     <button class="btn btn-warning w-100 text-white btn--primary" :disabled="isGenerating"
-                                    @click="sendSample">Send sample prompt
-                                    </button>
-                                </div>
-
-                                <div class="col-12 text-center mt-3">
-                                    <button class="btn btn-warning w-100 text-white btn--primary" :disabled="isGenerating || true"
                                     @click="submitGenerate">
                                     <span v-if="!isGenerating">Generate Lesson Plan</span>
                                     <span v-else>
@@ -115,7 +108,8 @@
 
 
                             </div>
-                            <!-- <pre>{{ prompt }}</pre> -->
+                            <!-- <pre class="bg-success">{{ form }}</pre>
+                            <pre>{{ prompt }}</pre> -->
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -211,39 +205,6 @@ const props = defineProps({
   chat: null | Object
 });
 
-const sendSample = () => {
-  const data = useForm({
-    prompt: `
-    Create a daily lesson plan using the provided details.The ai response must be in printable format.                                                                                                                                    Grade: Grade 7  
-    Subject: Science 
-    Quarter: First Quarter
-    Language :English
-    Content: Scientific Models and the Particle Model of Matter
-    Learning Competency:Recognize that scientists use models to explain phenomena that cannot be easily seen or detected; and describe the Particle Model of Matter as “All matter is made up of tiny particles with each pure substance having its own kind of particles.”
-
-    Mimic this Sample Format: https://ncrdeped2-my.sharepoint.com/:w:/g/personal/antonette_castillo_ncr2_deped_gov_ph/Ebw9K708KEdAoDCnFc-BxGABVYnzm_Kphg_UrrLaNOvS8A?rtime=BT_yra-t3Ug
-    Read this Exemplar: https://media-cloud-hivessel.s3.ap-southeast-2.amazonaws.com/2025/06/Q1_LE_Science-7_Lesson-1_Week-1.pdf`.trim(),
-    plugin: 'Lesson Planner',
-    options: {
-      grade: 'Grade 7',
-      subject: 'Science',
-      quarter: 'First Quarter'
-    }
-  });
-
-  data.post(route('client.plugins.chats.store'), {
-      onSuccess: (response) => {
-        
-      },
-      onError: (error) => {
-        console.log(error);
-      },
-      onFinish: () => {
-      }
-    });
-}
-
-
 const page = usePage();
 const isGenerating = ref(false);
 const isSendingInstruction = ref(false);
@@ -255,6 +216,7 @@ const apiData = reactive({
   contents: [],
   competencies: [],
   languages: [],
+  templates: [],
 });
 
 const selectedGrade = ref(null);
@@ -263,6 +225,7 @@ const selectedQuarter = ref(null);
 const selectedContent = ref(null);
 const selectedCompetencies = ref([]);
 const selectedLanguage = ref(null);
+const selectedTemplate = ref(null);
 
 
 const form = useForm({
@@ -289,7 +252,13 @@ const form = useForm({
       ? selectedCompetencies.value.map(el => el.competency)
       : []
   ),
+  raw_reference: computed(() =>
+    Array.isArray(selectedCompetencies.value)
+      ? selectedCompetencies.value.map(el => el.reference)
+      : []
+  ),
   language: computed(() => selectedLanguage.value?.language || null),
+  template: computed(() => selectedTemplate.value?.link || null),
 });
 
 onMounted(() => {
@@ -390,25 +359,29 @@ const raw_competenciesValidator = generate$.value.raw_competencies;
 const languageValidator = generate$.value.language;
 
 
-
 const prompt = computed(() => {
-    return `Create a daily lesson plan in tabular format using the provided details.
-      Grade Level: ${form.grade}
-      Subject: ${form.subject}
-      Quarter: ${form.quarter}
-      Language: ${form.language}
-      Content Coverage:
-      ${form.raw_content.map((c, i) => `${i + 1}. ${c}`).join('\n')}
-
-      Competency Focus:
-      ${form.raw_competencies.map((c, i) => `${i + 1}. ${c}`).join('\n')}
-      
-
-      Response is in richtext format and follow this template:
-      
-      `.trim();
+  return `
+  Prepare a lesson plan based on the attached exemplar, using the specified template.
+  Grade Level: ${form.grade}
+  Subject: ${form.subject}
+  Quarter: ${form.quarter}
+  Language: ${form.language}
+  Content Coverage:
+  ${form.raw_content.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+  Competency Focus:
+  ${form.raw_competencies.map((c, i) => `${i + 1}. ${c}`).join('\n')}
   
-  });
+  Exemplar:
+  ${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+
+  Strictly follow this template format:
+  ${form.template}  
+  
+    `.trim();
+
+});
+
+  
 
 
 const submitGenerate = () => {
@@ -512,6 +485,7 @@ watch(
     if (grade?.id && subject?.id && quarter?.id) {
       fetchContents(grade.id, subject.id, quarter.id);
     }
+    
   }
 );
 
@@ -551,6 +525,48 @@ watch(selectedContent, async (contentArray) => {
   apiData.competencies = allCompetencies;
   selectedCompetencies.value = [...allCompetencies];
 });
+
+watch(() => selectedLanguage.value, (language) => {
+  if(language){
+    if(language.language == 'English'){
+      apiData.templates = [
+        {
+          id: 1,
+          caption: 'English daily lesson log',
+          link: 'https://ncrdeped2-my.sharepoint.com/:w:/g/personal/antonette_castillo_ncr2_deped_gov_ph/Ebw9K708KEdAoDCnFc-BxGABVYnzm_Kphg_UrrLaNOvS8A?rtime=CNuIlf2u3Ug'
+        },
+        {
+          id: 3,
+          caption: 'English detailed lesson Plan',
+          link: 'https://ncrdeped2-my.sharepoint.com/:w:/g/personal/antonette_castillo_ncr2_deped_gov_ph/EUAwGaaHwSlHp1AUYNCOE40BB3retUjEqWdwGb10oWaveQ?e=LMJ0ex'
+        },
+      ];
+    }
+
+    if(language.language == 'Filipino'){
+      apiData.templates = [
+        {
+          id: 2,
+          caption: 'Tagalog daily lesson log',
+          link: 'https://ncrdeped2-my.sharepoint.com/:w:/g/personal/antonette_castillo_ncr2_deped_gov_ph/EdCURPB1lr9Ov4KrKryLN_IBoggKgTek9abmWJ3hvne9sg?e=Dzp6Uf'
+        },
+        {
+          id: 4,
+          caption: 'Tagalog detailed lesson Plan',
+          link: 'https://ncrdeped2-my.sharepoint.com/:w:/g/personal/antonette_castillo_ncr2_deped_gov_ph/ETWSm35dopdLvpIuwiU-jR4BfJPojbnpYEF_ROioTpjkrg?e=T5bNCf'
+        },
+      ];
+    }
+  }else{
+    apiData.templates = [];
+  }
+});
+
+
+    
+    
+  
+
 
 </script>
 

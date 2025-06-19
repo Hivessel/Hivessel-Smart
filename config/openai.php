@@ -46,4 +46,7 @@ return [
     */
 
     'request_timeout' => env('OPENAI_REQUEST_TIMEOUT', 30),
+    'assessment_tool_model' => 'gpt-3.5-turbo-0125',
+    // 'lesson_planner_model' => 'gpt-4.1-nano',
+    'lesson_planner_model' => 'o4-mini',
 ];

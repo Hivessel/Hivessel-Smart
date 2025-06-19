@@ -430,7 +430,7 @@ const prompt = computed(() => {
       - Use language appropriate for ${form.grade} students.
       - Ensure variety in question types and maintain the level of difficulty suitable for the "${form.proficiency_level}" proficiency level.
       - Avoid repetition and ensure clarity in question and choices.
-      - Include the answer key at the end. Provide clear instructions and format the material to be printable
+      - Include the answer key at the end. Provide clear instructions and format the material to be printable and in richtext view
       `.trim();
   
   });

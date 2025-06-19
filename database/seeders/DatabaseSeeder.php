@@ -87,7 +87,7 @@ class DatabaseSeeder extends Seeder
                 'content_id' => 1,
                 'competency' => 'The learners participate in guided activities to discover and predict how rigid and soft
 objects can be moved and/or changed in shape.',
-                'exemplar' => null,
+                'reference' => 'https://drive.google.com/file/d/1zZEyv7jjxQLmgqRDGaTA2QpbUQ01W4ib/view?usp=drive_link',
             ]
         ];
 

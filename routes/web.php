@@ -186,6 +186,7 @@ Route::get('incept-invoice', function(){
 
 Route::get('balance', function(){
     // return $user = User::where('email', 'info@hivessel.com')->first();
-    return Auth::user();
+    // return Auth::user();
+    return config('openai.lesson_planner_model');
 });
 
