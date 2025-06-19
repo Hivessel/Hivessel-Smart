@@ -384,26 +384,29 @@ const languageValidator = generate$.value.language;
 
 const prompt = computed(() => {
   return `
-Create a daily lesson plan in tabular format using the provided template based on the attached exemplar.
-**Grade Level:** ${form.grade}  
-**Subject:** ${form.subject}  
-**Quarter:** ${form.quarter}  
-**Language:** ${form.language}  
----
-**Content Coverage:**  
+Create a one-week lesson plan in HTML table format using the provided template and exemplar.
+
+Grade Level: ${form.grade}  
+Subject: ${form.subject}  
+Quarter: ${form.quarter}  
+Language: ${form.language}  
+
+Content Coverage:
 ${form.raw_content.map((c, i) => `${i + 1}. ${c}`).join('\n')}
----
-**Competency Focus:**  
+
+Competency Focus:
 ${form.raw_competencies.map((c, i) => `${i + 1}. ${c}`).join('\n')}
----
-**Exemplar Reference:**  
+
+Exemplar Reference:
 ${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
----
-**Strictly follow link provided template table format:**  
+
+Strictly follow this HTML table structure:
 ${form.template}
-Return the response in **make it in html table format and remove excess <br> elements** (not markdown or plain text).
+
+Return the result as a full <table> element in HTML. Do NOT use markdown. Avoid excessive <br> tags. Do not wrap it in <pre> or <code>.
 `.trim();
-});  
+});
+
 
 
 const submitGenerate = () => {
