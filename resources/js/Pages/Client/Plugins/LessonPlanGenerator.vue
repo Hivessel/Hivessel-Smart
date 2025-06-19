@@ -533,7 +533,7 @@ watch(() => selectedLanguage.value, (language) => {
         {
           id: 1,
           caption: 'English daily lesson log',
-          link: 'https://ncrdeped2-my.sharepoint.com/:w:/g/personal/antonette_castillo_ncr2_deped_gov_ph/Ebw9K708KEdAoDCnFc-BxGABVYnzm_Kphg_UrrLaNOvS8A?rtime=CNuIlf2u3Ug'
+          link: 'https://media-cloud-hivessel.s3.ap-southeast-2.amazonaws.com/2025/06/DLL_ENGLISH-TEMPLATE.pdf'
         },
         {
           id: 3,
