@@ -385,7 +385,11 @@ const languageValidator = generate$.value.language;
 
 const prompt = computed(() => {
   return (`
-Create a one-week lesson plan in HTML table format using the provided template and exemplar; remove <br> tags Strictly follow this template link for the format code for the result <!-- Daily Lesson Log Header -->
+Create a one-week lesson plan in HTML table format using the provided template and exemplar; remove <br> tags Strictly follow this template link for the format code for the result 
+
+Add all the cntent on each table cell please.
+
+<!-- Daily Lesson Log Header -->
 <table border="1" cellpadding="5" cellspacing="0">
   <tr>
     <th>DAILY LESSON LOG</th>
