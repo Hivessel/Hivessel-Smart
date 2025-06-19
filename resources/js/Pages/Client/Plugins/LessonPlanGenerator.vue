@@ -384,98 +384,17 @@ const languageValidator = generate$.value.language;
 
 const prompt = computed(() => {
   return (`
-Grade 7
-Science
-Quarter 1
-Content: Scientific Models and the Particle Model of Matter
-Learning Competency: Recognize that scientists use models to explain phenomena that cannot be easily seen or detected; and describe the Particle Model of Matter as “All matter is made up of tiny particles with each pure substance having its own kind of particles.”
-Language: English
+You are an educational assistant tasked with generating a complete and detailed Daily Lesson Log (DLL) for:
 
-<!-- Daily Lesson Log Header -->
-<table border="1" cellpadding="5" cellspacing="0">
-  <tr>
-    <th>DAILY LESSON LOG</th>
-    <th>Department of Education</th>
-  </tr>
-  <tr>
-    <td><strong>School:</strong></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>Grade Level:</strong></td>
-    <td>${form.grade}</td>
-  </tr>
-  <tr>
-    <td><strong>Teacher:</strong></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>Learning Area:</strong></td>
-    <td>${form.subject}</td>
-  </tr>
-  <tr>
-    <td><strong>Teaching Dates and Time:</strong></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>Quarter:</strong></td>
-    <td>${form.quarter}</td>
-  </tr>
-</table>
+Grade Level: ${form.grade}  
+Subject: ${form.subject}  
+Quarter: ${form.quarter}  
+Language: ${form.language}
 
-<br>
+Topic: Scientific Models and the Particle Model of Matter  
+Key Concept: "All matter is made up of tiny particles with each pure substance having its own kind of particles."
 
-<!-- Daily Lesson Log Sessions Table -->
-<table border="1" cellpadding="5" cellspacing="0">
-  <thead>
-    <tr>
-      <th>Session / Section</th>
-      <th>Session 1</th>
-      <th>Session 2</th>
-      <th>Session 3</th>
-      <th>Session 4</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td><strong>I. OBJECTIVES</strong></td><td colspan="4"></td></tr>
-    <tr><td>&emsp;A. Content Standards</td><td>{{content_standards}}</td><td></td><td></td><td></td></tr>
-    <tr><td>&emsp;B. Performance Standards</td><td>{{performance_standards}}</td><td></td><td></td><td></td></tr>
-    <tr><td>&emsp;C. Learning Competencies/Objectives</td><td>{{learning_competencies}}</td><td></td><td></td><td></td></tr>
-
-    <tr><td><strong>II. CONTENT</strong></td><td>{{content}}</td><td></td><td></td><td></td></tr>
-
-    <tr><td><strong>III. LEARNING RESOURCES</strong></td><td colspan="4"></td></tr>
-    <tr><td>&emsp;A. References</td><td></td><td></td><td></td><td></td></tr>
-    <tr><td>&emsp;&emsp;1. Teacher’s Guides / Pages</td><td>{{teachers_guide}}</td><td></td><td></td><td></td></tr>
-    <tr><td>&emsp;&emsp;2. Learner’s Materials / Pages</td><td>{{learners_materials}}</td><td></td><td></td><td></td></tr>
-    <tr><td>&emsp;&emsp;3. Textbook / Pages</td><td>{{textbook}}</td><td></td><td></td><td></td></tr>
-    <tr><td>&emsp;&emsp;4. Additional Materials from LR portal</td><td>{{additional_materials}}</td><td></td><td></td><td></td></tr>
-    <tr><td>&emsp;B. Other Learning Resources</td><td>{{other_resources}}</td><td></td><td></td><td></td></tr>
-
-    <tr><td><strong>IV. PROCEDURES</strong></td><td colspan="4"></td></tr>
-    <tr><td>&emsp;A. Reviewing previous lesson or presenting the new lesson</td><td>{{review}}</td><td></td><td></td><td></td></tr>
-    <tr><td>&emsp;B. Establishing a purpose for the lesson</td><td>{{purpose}}</td><td></td><td></td><td></td></tr>
-    <tr><td>&emsp;C. Presenting examples/instances of the new lesson</td><td>{{examples}}</td><td></td><td></td><td></td></tr>
-    <tr><td>&emsp;D. Discussing new concepts and practicing new skills #1</td><td>{{new_concept_1}}</td><td></td><td></td><td></td></tr>
-    <tr><td>&emsp;E. Discussing new concepts and practicing new skills #2</td><td>{{new_concept_2}}</td><td></td><td></td><td></td></tr>
-    <tr><td>&emsp;F. Developing mastery</td><td>{{mastery}}</td><td></td><td></td><td></td></tr>
-    <tr><td>&emsp;G. Finding practical/application of skills</td><td>{{application}}</td><td></td><td></td><td></td></tr>
-    <tr><td>&emsp;H. Making generalizations</td><td>{{generalization}}</td><td></td><td></td><td></td></tr>
-    <tr><td>&emsp;I. Evaluating learning</td><td>{{evaluation}}</td><td></td><td></td><td></td></tr>
-    <tr><td>&emsp;J. Additional activities</td><td>{{additional_activities}}</td><td></td><td></td><td></td></tr>
-
-    <tr><td><strong>V. REMARKS</strong></td><td>{{remarks}}</td><td></td><td></td><td></td></tr>
-
-    <tr><td><strong>VI. REFLECTION</strong></td><td colspan="4"></td></tr>
-    <tr><td>&emsp;A. Learners who earned 80%</td><td>{{reflection_a}}</td><td></td><td></td><td></td></tr>
-    <tr><td>&emsp;B. Learners needing remediation</td><td>{{reflection_b}}</td><td></td><td></td><td></td></tr>
-    <tr><td>&emsp;C. Learners who caught up</td><td>{{reflection_c}}</td><td></td><td></td><td></td></tr>
-    <tr><td>&emsp;D. Still need remediation</td><td>{{reflection_d}}</td><td></td><td></td><td></td></tr>
-    <tr><td>&emsp;E. Teaching strategies that worked</td><td>{{reflection_e}}</td><td></td><td></td><td></td></tr>
-    <tr><td>&emsp;F. Challenges the principal can help with</td><td>{{reflection_f}}</td><td></td><td></td><td></td></tr>
-    <tr><td>&emsp;G. Innovations to share</td><td>{{reflection_g}}</td><td></td><td></td><td></td></tr>
-  </tbody>
-</table>
+---
 
 Content Coverage:
 ${form.raw_content.map((c, i) => `${i + 1}. ${c}`).join('\n')}
@@ -486,7 +405,21 @@ ${form.raw_competencies.map((c, i) => `${i + 1}. ${c}`).join('\n')}
 Reference Materials:
 ${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
 
-Fill only **Session 1** column. Leave Session 2–4 empty. Replace the {{}} placeholders with appropriate detailed content based on the inputs. Return the updated table as valid HTML only. Do NOT use markdown, <pre>, or <code> tags.
+---
+
+Your task:
+- Return a complete and fully filled HTML table
+- Fill in all rows and columns for **Sessions 1 to 4**
+- Include unique and meaningful lesson content in each cell
+- Do **not** use markdown, <pre>, or <code> tags
+- If content is long, horizontal and vertical scrolling on display is acceptable
+
+Output:
+- One full HTML <table> with all cells filled
+- Use strong educational language appropriate for Grade 7 science
+- Make each session's content slightly different to reflect progression or reinforcement
+
+Do not skip any section or cell. Fill everything. Respond only with valid <table> HTML.
 `).trim();
 });
 
