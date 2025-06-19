@@ -384,11 +384,12 @@ const languageValidator = generate$.value.language;
 
 
 const prompt = computed(() => {
-  return (`
-Create a one-week lesson plan in HTML table format using the provided template and exemplar; remove <br> tags Strictly follow this template link for the format code for the result 
-
-Add all the cntent on each table cell please.
-
+  return (`Grade 7
+Science
+Quarter 1
+Content: Scientific Models and the Particle Model of Matter
+Learning Competency: Learning Competency: Recognize that scientists use models to explain phenomena that cannot be easily seen or detected; and describe the Particle Model of Matter as “All matter is made up of tiny particles with each pure substance having its own kind of particles.”
+English Language
 <!-- Daily Lesson Log Header -->
 <table border="1" cellpadding="5" cellspacing="0">
   <tr>
@@ -565,7 +566,6 @@ Add all the cntent on each table cell please.
     </tr>
   </tbody>
 </table>
-:
 
 
 Grade Level: ${form.grade}  
