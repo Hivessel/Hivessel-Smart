@@ -382,14 +382,15 @@ const languageValidator = generate$.value.language;
 
 // });
 
-
 const prompt = computed(() => {
-  return (`Grade 7
+  return (`
+Grade 7
 Science
 Quarter 1
 Content: Scientific Models and the Particle Model of Matter
-Learning Competency: Learning Competency: Recognize that scientists use models to explain phenomena that cannot be easily seen or detected; and describe the Particle Model of Matter as “All matter is made up of tiny particles with each pure substance having its own kind of particles.”
-English Language
+Learning Competency: Recognize that scientists use models to explain phenomena that cannot be easily seen or detected; and describe the Particle Model of Matter as “All matter is made up of tiny particles with each pure substance having its own kind of particles.”
+Language: English
+
 <!-- Daily Lesson Log Header -->
 <table border="1" cellpadding="5" cellspacing="0">
   <tr>
@@ -402,7 +403,7 @@ English Language
   </tr>
   <tr>
     <td><strong>Grade Level:</strong></td>
-    <td></td>
+    <td>${form.grade}</td>
   </tr>
   <tr>
     <td><strong>Teacher:</strong></td>
@@ -410,7 +411,7 @@ English Language
   </tr>
   <tr>
     <td><strong>Learning Area:</strong></td>
-    <td></td>
+    <td>${form.subject}</td>
   </tr>
   <tr>
     <td><strong>Teaching Dates and Time:</strong></td>
@@ -418,7 +419,7 @@ English Language
   </tr>
   <tr>
     <td><strong>Quarter:</strong></td>
-    <td></td>
+    <td>${form.quarter}</td>
   </tr>
 </table>
 
@@ -436,161 +437,59 @@ English Language
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td><strong>I. OBJECTIVES</strong></td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;A. Content Standards</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;B. Performance Standards</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;C. Learning Competencies/Objectives – Write the LC Code for each</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td><strong>II. CONTENT</strong></td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td><strong>III. LEARNING RESOURCES</strong></td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;A. References</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;&emsp;1. Teacher’s Guides / Pages</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;&emsp;2. Learner’s Materials / Pages</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;&emsp;3. Textbook / Pages</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;&emsp;4. Additional Materials from LR portal</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;B. Other Learning Resources</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td><strong>IV. PROCEDURES</strong></td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;A. Reviewing previous lesson or presenting the new lesson</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;B. Establishing a purpose for the lesson</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;C. Presenting examples/instances of the new lesson</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;D. Discussing new concepts and practicing new skills #1</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;E. Discussing new concepts and practicing new skills #2</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;F. Developing mastery (Leads to formative assessment)</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;G. Finding practical/applications of concepts and skills in daily living</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;H. Making generalizations and abstractions about the lesson</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;I. Evaluating Learning</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;J. Additional activities for application or remediation</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td><strong>V. REMARKS</strong></td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td><strong>VI. REFLECTION</strong></td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;A. No. of learners who earned 80% of the formative assessment</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;B. No. of learners who require additional activities or remediation</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;C. Did the remedial lessons work? No. of learners who have caught up with the lesson</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;D. No. of learners who continue to require remediation</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;E. Which of my teaching strategies worked well? Why did these work?</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;F. What difficulties did I encounter which my principal or supervisor can help me solve?</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>&emsp;G. What innovation or localized material did I use/discover which I wish to share with other teachers?</td>
-      <td></td><td></td><td></td><td></td>
-    </tr>
+    <tr><td><strong>I. OBJECTIVES</strong></td><td colspan="4"></td></tr>
+    <tr><td>&emsp;A. Content Standards</td><td>{{content_standards}}</td><td></td><td></td><td></td></tr>
+    <tr><td>&emsp;B. Performance Standards</td><td>{{performance_standards}}</td><td></td><td></td><td></td></tr>
+    <tr><td>&emsp;C. Learning Competencies/Objectives</td><td>{{learning_competencies}}</td><td></td><td></td><td></td></tr>
+
+    <tr><td><strong>II. CONTENT</strong></td><td>{{content}}</td><td></td><td></td><td></td></tr>
+
+    <tr><td><strong>III. LEARNING RESOURCES</strong></td><td colspan="4"></td></tr>
+    <tr><td>&emsp;A. References</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>&emsp;&emsp;1. Teacher’s Guides / Pages</td><td>{{teachers_guide}}</td><td></td><td></td><td></td></tr>
+    <tr><td>&emsp;&emsp;2. Learner’s Materials / Pages</td><td>{{learners_materials}}</td><td></td><td></td><td></td></tr>
+    <tr><td>&emsp;&emsp;3. Textbook / Pages</td><td>{{textbook}}</td><td></td><td></td><td></td></tr>
+    <tr><td>&emsp;&emsp;4. Additional Materials from LR portal</td><td>{{additional_materials}}</td><td></td><td></td><td></td></tr>
+    <tr><td>&emsp;B. Other Learning Resources</td><td>{{other_resources}}</td><td></td><td></td><td></td></tr>
+
+    <tr><td><strong>IV. PROCEDURES</strong></td><td colspan="4"></td></tr>
+    <tr><td>&emsp;A. Reviewing previous lesson or presenting the new lesson</td><td>{{review}}</td><td></td><td></td><td></td></tr>
+    <tr><td>&emsp;B. Establishing a purpose for the lesson</td><td>{{purpose}}</td><td></td><td></td><td></td></tr>
+    <tr><td>&emsp;C. Presenting examples/instances of the new lesson</td><td>{{examples}}</td><td></td><td></td><td></td></tr>
+    <tr><td>&emsp;D. Discussing new concepts and practicing new skills #1</td><td>{{new_concept_1}}</td><td></td><td></td><td></td></tr>
+    <tr><td>&emsp;E. Discussing new concepts and practicing new skills #2</td><td>{{new_concept_2}}</td><td></td><td></td><td></td></tr>
+    <tr><td>&emsp;F. Developing mastery</td><td>{{mastery}}</td><td></td><td></td><td></td></tr>
+    <tr><td>&emsp;G. Finding practical/application of skills</td><td>{{application}}</td><td></td><td></td><td></td></tr>
+    <tr><td>&emsp;H. Making generalizations</td><td>{{generalization}}</td><td></td><td></td><td></td></tr>
+    <tr><td>&emsp;I. Evaluating learning</td><td>{{evaluation}}</td><td></td><td></td><td></td></tr>
+    <tr><td>&emsp;J. Additional activities</td><td>{{additional_activities}}</td><td></td><td></td><td></td></tr>
+
+    <tr><td><strong>V. REMARKS</strong></td><td>{{remarks}}</td><td></td><td></td><td></td></tr>
+
+    <tr><td><strong>VI. REFLECTION</strong></td><td colspan="4"></td></tr>
+    <tr><td>&emsp;A. Learners who earned 80%</td><td>{{reflection_a}}</td><td></td><td></td><td></td></tr>
+    <tr><td>&emsp;B. Learners needing remediation</td><td>{{reflection_b}}</td><td></td><td></td><td></td></tr>
+    <tr><td>&emsp;C. Learners who caught up</td><td>{{reflection_c}}</td><td></td><td></td><td></td></tr>
+    <tr><td>&emsp;D. Still need remediation</td><td>{{reflection_d}}</td><td></td><td></td><td></td></tr>
+    <tr><td>&emsp;E. Teaching strategies that worked</td><td>{{reflection_e}}</td><td></td><td></td><td></td></tr>
+    <tr><td>&emsp;F. Challenges the principal can help with</td><td>{{reflection_f}}</td><td></td><td></td><td></td></tr>
+    <tr><td>&emsp;G. Innovations to share</td><td>{{reflection_g}}</td><td></td><td></td><td></td></tr>
   </tbody>
 </table>
 
-
-Grade Level: ${form.grade}  
-Subject: ${form.subject}  
-Quarter: ${form.quarter}  
-Language: ${form.language}  
-
 Content Coverage:
-${form.raw_content
-    .map((c, i) => `${i + 1}. ${c}`)
-    .join('\n')}
+${form.raw_content.map((c, i) => `${i + 1}. ${c}`).join('\n')}
 
 Competency Focus:
-${form.raw_competencies
-    .map((c, i) => `${i + 1}. ${c}`)
-    .join('\n')}
+${form.raw_competencies.map((c, i) => `${i + 1}. ${c}`).join('\n')}
 
-Read this exemplar reference:
-${form.raw_reference
-    .map((c, i) => `${i + 1}. ${c}`)
-    .join('\n')}
+Reference Materials:
+${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
 
-Return the result as a full <table> element in HTML. Do NOT use markdown. Avoid excessive <br> tags. Do NOT wrap it in <pre> or <code>.
-  `).trim()
-})
+Fill only **Session 1** column. Leave Session 2–4 empty. Replace the {{}} placeholders with appropriate detailed content based on the inputs. Return the updated table as valid HTML only. Do NOT use markdown, <pre>, or <code> tags.
+`).trim();
+});
+
 
 
 
