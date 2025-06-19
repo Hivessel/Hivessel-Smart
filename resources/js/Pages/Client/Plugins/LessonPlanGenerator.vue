@@ -409,6 +409,8 @@ ${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
 
 Your task:
 - Return a complete and fully filled HTML table
+- Read this file ${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+- Follow this format ${form.template}
 - Fill in all rows and columns for **Sessions 1 to 4**
 - Include unique and meaningful lesson content in each cell
 - Do **not** use markdown, <pre>, or <code> tags
