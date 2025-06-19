@@ -375,7 +375,8 @@ const prompt = computed(() => {
   ${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
 
   Strictly follow this template table format:
-  ${form.template}  
+  ${form.template}
+  Response must be on richtext format.  
   
     `.trim();
 
