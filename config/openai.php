@@ -46,8 +46,15 @@ return [
     */
 
     'request_timeout' => env('OPENAI_REQUEST_TIMEOUT', 30),
+<<<<<<< HEAD
     // 'assessment_tool_model' => 'gpt-3.5-turbo-0125',
     'assessment_tool_model' => 'gpt-3.5-turbo',
     // 'lesson_planner_model' => 'gpt-3.5-turbo-1106',
     'lesson_planner_model' => 'gpt-4.1-mini',
+=======
+    'assessment_tool_model' => 'gpt-3.5-turbo-0125',
+    'lesson_planner_model' => 'gpt-3.5-turbo-1106',
+    // 'lesson_planner_model' => 'gpt-4.1-mini',
+    // 'lesson_planner_model' => 'gpt-4O',
+>>>>>>> 61fec7f3e2f3ecf20904cd60381e31d8cdbcc26a
 ];
