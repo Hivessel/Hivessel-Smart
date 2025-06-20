@@ -361,11 +361,7 @@ const languageValidator = generate$.value.language;
 
 // const prompt = computed(() => {
 //   return `
-<<<<<<< HEAD
 //   Prepare a lesson plan based on the attached exemplar, using the specified template.
-=======
-//   Create a daily lesson plan in tabular format using the provided template based on the attached exemplar.  
->>>>>>> 61fec7f3e2f3ecf20904cd60381e31d8cdbcc26a
 //   Grade Level: ${form.grade}
 //   Subject: ${form.subject}
 //   Quarter: ${form.quarter}
@@ -378,43 +374,23 @@ const languageValidator = generate$.value.language;
 //   Exemplar:
 //   ${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
 
-<<<<<<< HEAD
 //   Strictly follow this template format:
 //   ${form.template}  
-=======
-//   Strictly follow this template table format:
-//   ${form.template}
-//   Response must be on richtext format.  
->>>>>>> 61fec7f3e2f3ecf20904cd60381e31d8cdbcc26a
   
 //     `.trim();
 
 // });
 
-<<<<<<< HEAD
 
 const prompt = computed(() => {
   return (`
 Prepare a lesson plan based on the attached exemplar and the specified template.:
-=======
-const prompt = computed(() => {
-  return (`
-You are an educational assistant tasked with generating a complete and detailed Daily Lesson Log (DLL) for:
->>>>>>> 61fec7f3e2f3ecf20904cd60381e31d8cdbcc26a
 
 Grade Level: ${form.grade}  
 Subject: ${form.subject}  
 Quarter: ${form.quarter}  
 Language: ${form.language}
 
-<<<<<<< HEAD
-=======
-Topic: Scientific Models and the Particle Model of Matter  
-Key Concept: "All matter is made up of tiny particles with each pure substance having its own kind of particles."
-
----
-
->>>>>>> 61fec7f3e2f3ecf20904cd60381e31d8cdbcc26a
 Content Coverage:
 ${form.raw_content.map((c, i) => `${i + 1}. ${c}`).join('\n')}
 
@@ -427,7 +403,6 @@ ${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
 ---
 
 Your task:
-<<<<<<< HEAD
 - Return a complete and fully filled HTML table with cell border
 - Read this file ${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
 - Follow this format ${form.template}
@@ -448,31 +423,12 @@ REMARKS
 ,REFLECTION under row['A: No. of learners who earned 80% of the formative assessment', 'B: No. of learners who require additional activities to remediation', 'C: Did the remedial lessons work? No. of learners who have caught up with the lesson', 'D: No. of learners who continue to require remediation', 'E: Which of my teaching strategies worked well? Why did these work?', 'F: What difficulties did I encounter which my principal or supervisor can help me solve?', 'G: What innovation or localized material did I use/discover which I wish to share with other teachers?']
 Output:
 - One full HTML <table> with all cells filled
-=======
-- Return a complete and fully filled HTML table
-- Read this file ${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
-- Follow this format ${form.template}
-- Fill in all rows and columns for **Sessions 1 to 4**
-- Include unique and meaningful lesson content in each cell
-- Do **not** use markdown, <pre>, or <code> tags
-- If content is long, horizontal and vertical scrolling on display is acceptable
-
-Output:
-- One full HTML <table> with all cells filled
-- Use strong educational language appropriate for Grade 7 science
->>>>>>> 61fec7f3e2f3ecf20904cd60381e31d8cdbcc26a
 - Make each session's content slightly different to reflect progression or reinforcement
 
 Do not skip any section or cell. Fill everything. Respond only with valid <table> HTML.
 `).trim();
 });
-<<<<<<< HEAD
   
-=======
-
-
-
->>>>>>> 61fec7f3e2f3ecf20904cd60381e31d8cdbcc26a
 
 
 const submitGenerate = () => {
