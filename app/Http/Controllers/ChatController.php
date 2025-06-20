@@ -46,6 +46,8 @@ class ChatController extends Controller
                 'messages' => $messages,
             ]);
 
+            // dd($response);
+
             // Add the assistant's reply to the messages array
             $messages[] = [
                 'role' => 'assistant',

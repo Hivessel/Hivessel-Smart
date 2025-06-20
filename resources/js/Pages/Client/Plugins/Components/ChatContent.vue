@@ -79,8 +79,11 @@ const formatContent = (rawContent) => {
     <span class="fw-bold text-danger">{{ props.content.role === 'user' ? 'You' : 'AI Assistant' }}</span>
   </div>
 
-    <div class="mb-4">
+    <!-- <div class="mb-4">
       <div v-html="formatContent(content.content)" class="p-3 bg-white rounded shadow-sm"></div>
+    </div> -->
+    <div class="mb-4">
+      <div v-html="content.content" class="p-3 bg-white rounded shadow-sm"></div>
     </div>
   </div>
 </template>

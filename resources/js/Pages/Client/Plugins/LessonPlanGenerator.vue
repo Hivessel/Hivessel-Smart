@@ -359,28 +359,75 @@ const raw_competenciesValidator = generate$.value.raw_competencies;
 const languageValidator = generate$.value.language;
 
 
+// const prompt = computed(() => {
+//   return `
+//   Prepare a lesson plan based on the attached exemplar, using the specified template.
+//   Grade Level: ${form.grade}
+//   Subject: ${form.subject}
+//   Quarter: ${form.quarter}
+//   Language: ${form.language}
+//   Content Coverage:
+//   ${form.raw_content.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+//   Competency Focus:
+//   ${form.raw_competencies.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+  
+//   Exemplar:
+//   ${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+
+//   Strictly follow this template format:
+//   ${form.template}  
+  
+//     `.trim();
+
+// });
+
+
 const prompt = computed(() => {
-  return `
-  Prepare a lesson plan based on the attached exemplar, using the specified template.
-  Grade Level: ${form.grade}
-  Subject: ${form.subject}
-  Quarter: ${form.quarter}
-  Language: ${form.language}
-  Content Coverage:
-  ${form.raw_content.map((c, i) => `${i + 1}. ${c}`).join('\n')}
-  Competency Focus:
-  ${form.raw_competencies.map((c, i) => `${i + 1}. ${c}`).join('\n')}
-  
-  Exemplar:
-  ${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+  return (`
+Prepare a lesson plan based on the attached exemplar and the specified template.:
 
-  Strictly follow this template format:
-  ${form.template}  
-  
-    `.trim();
+Grade Level: ${form.grade}  
+Subject: ${form.subject}  
+Quarter: ${form.quarter}  
+Language: ${form.language}
 
+Content Coverage:
+${form.raw_content.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+
+Competency Focus:
+${form.raw_competencies.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+
+Reference Materials:
+${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+
+---
+
+Your task:
+- Return a complete and fully filled HTML table with cell border
+- Read this file ${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+- Follow this format ${form.template}
+- Fill in all rows and columns for **Sessions 1 to 4** in specified template, session column on the top and others at the left
+- Include unique and meaningful lesson content in each cell
+- content must have 
+OBJECTIVES under row[Content Standards, Performance Standards, Learning Competencies/Objectives Write the LC Code for each],
+CONTENT,
+LEARNING RESOURCES under row['A. References' => [
+  '1: Teacher's Guides/Pages',
+  '2. Learner's Materials Pages',
+  '3. Textbook Pages'
+  '4. Additional Materials from Learning Resources (LR) portal'],
+  'B. 1. Other Learning Resources'
+],
+PROCEDURES under row['A: Reviewing previous lesson or presenting the new lesson', 'B: Establishing a purpose for the lesson ', 'C: Presenting examples/instances of the new lesson', 'D: Discussing new concepts and practicing new skills #1', 'E: Discussing new concepts and practicing new skills #2', 'F: Developing mastery (Leads to formative assessment)', 'G: Finding practical/applications of concepts and skills in daily living', 'H: Making generalizations and abstractions about the lesson', 'I: Evaluating Learning', 'J: Additional activities for application or remediation'],
+REMARKS
+,REFLECTION under row['A: No. of learners who earned 80% of the formative assessment', 'B: No. of learners who require additional activities to remediation', 'C: Did the remedial lessons work? No. of learners who have caught up with the lesson', 'D: No. of learners who continue to require remediation', 'E: Which of my teaching strategies worked well? Why did these work?', 'F: What difficulties did I encounter which my principal or supervisor can help me solve?', 'G: What innovation or localized material did I use/discover which I wish to share with other teachers?']
+Output:
+- One full HTML <table> with all cells filled
+- Make each session's content slightly different to reflect progression or reinforcement
+
+Do not skip any section or cell. Fill everything. Respond only with valid <table> HTML.
+`).trim();
 });
-
   
 
 

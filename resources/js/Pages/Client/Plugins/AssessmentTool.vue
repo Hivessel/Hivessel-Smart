@@ -413,7 +413,30 @@ const no_of_questionsValidator = generate$.value.no_of_questions;
 const no_of_choicesValidator = generate$.value.no_of_choices;
 
 
-const prompt = computed(() => {
+// const prompt = computed(() => {
+//  return `Create an assessment with ${form.no_of_questions} multiple-choice questions, each with ${form.no_of_choices} choices and the response must be in printable richtext editor format.
+//       Grade Level: ${form.grade}
+//       Subject: ${form.subject}
+//       Quarter: ${form.quarter}
+//       Language: ${form.language}
+//       Proficiency Level: ${form.proficiency_level}
+//       Content Coverage:
+//       ${form.raw_content.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+
+//       Competency Focus:
+//       ${form.raw_competencies.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+//       Guidelines:
+//       - Questions should be strictly based on the **Content Coverage** and aligned with the **Competency Focus**.
+//       - Use language appropriate for ${form.grade} students.
+//       - Ensure variety in question types and maintain the level of difficulty suitable for the "${form.proficiency_level}" proficiency level.
+//       - Avoid repetition and ensure clarity in question and choices.
+//       - Include the answer key at the end. Provide clear instructions and format the material to be printable and in richtext view
+//       `.trim();
+  
+//   });
+
+
+  const prompt = computed(() => {
     return `Create an assessment with ${form.no_of_questions} multiple-choice questions, each with ${form.no_of_choices} choices and the response must be in printable richtext editor format.
       Grade Level: ${form.grade}
       Subject: ${form.subject}
@@ -430,7 +453,7 @@ const prompt = computed(() => {
       - Use language appropriate for ${form.grade} students.
       - Ensure variety in question types and maintain the level of difficulty suitable for the "${form.proficiency_level}" proficiency level.
       - Avoid repetition and ensure clarity in question and choices.
-      - Include the answer key at the end. Provide clear instructions and format the material to be printable and in richtext view
+      - Include the answer key at the end. Provide clear instructions and format the material to html response
       `.trim();
   
   });
