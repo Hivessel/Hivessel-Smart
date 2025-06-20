@@ -400,7 +400,7 @@ ${form.raw_competencies.map((c, i) => `${i + 1}. ${c}`).join('\n')}
 Reference Materials:
 ${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
 
----
+----
 
 Your task:
 - Return a complete and fully filled HTML table with cell border
