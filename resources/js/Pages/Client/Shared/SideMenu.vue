@@ -44,7 +44,13 @@
                             <p>Assessment Tool</p>
                         </Link>
 
-                        <Link
+                        
+                    </li>
+                    <li
+                        class="nav-item"
+                        
+                    >
+                    <Link
                             :href="route('client.plugins.lesson-plan-generator')"
                             class="nav-link active"
                             role="button"
