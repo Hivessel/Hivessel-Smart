@@ -1,7 +1,7 @@
 
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
 const props = defineProps({
   content: Object // e.g. content.content is a JSON string or array
@@ -39,10 +39,25 @@ const formatContent = (rawContent) => {
   }
 };
 
+onMounted(() => {
+const firstPrintArea = document.querySelector(".printArea:first-child");
+document.querySelectorAll(".printArea.highlight").forEach(el => {
+  el.remove();
+});
+
+if (firstPrintArea) {
+  firstPrintArea.classList.add("highlight");
+}
+
+
+
+
+})
+
 </script>
 
 <template>
-  <div class="container my-4" id="printArea">
+  <div class="container my-4 printArea">
     <div class="d-flex align-items-center gap-2 mb-2">
     <svg
       v-if="props.content.role === 'user'"
@@ -78,10 +93,6 @@ const formatContent = (rawContent) => {
 
     <span class="fw-bold text-danger">{{ props.content.role === 'user' ? 'You' : 'AI Assistant' }}</span>
   </div>
-
-    <!-- <div class="mb-4">
-      <div v-html="formatContent(content.content)" class="p-3 bg-white rounded shadow-sm"></div>
-    </div> -->
     <div class="mb-4">
       <div v-html="content.content" class="p-3 bg-white rounded shadow-sm"></div>
     </div>

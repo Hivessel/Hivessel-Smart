@@ -19,6 +19,13 @@
         border: 1px solid #f8f9fa;
         border-radius: 8px;
        font-family:  $primary-font;
+
+       table {
+            td {
+                border: 1px solid #000 !important;
+                padding: 10px !important;
+            }
+       }
     }
 
     &--content .text-start {

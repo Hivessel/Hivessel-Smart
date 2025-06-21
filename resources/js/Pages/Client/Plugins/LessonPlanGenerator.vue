@@ -154,7 +154,7 @@
                   <div class="col-md-9 history--content">
                     <template v-if="chat">
                       <div class="w-full flex h-screen bg-slate-900">
-                        <div class="w-full overflow-auto pb-36 scrollable-section" ref="chatContainer">
+                        <div class="w-full overflow-auto pb-36 scrollable-section section--history" ref="chatContainer">
                           <template v-for="(content, index) in chat?.context" :key="index">
                             <ChatContent :content="content" />
                           </template>
