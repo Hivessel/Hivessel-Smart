@@ -92,6 +92,16 @@
                                     </div>
                                 </div>
 
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                    <label class="form-label">Blooms Taxonomy Level of Learnings</label>
+                                    <Multiselect class="border"
+                                        :class="blooms_taxonomyValidator.$invalid ? 'border-danger' : 'border-warning'" data-width="100%"
+                                        track-by="id" :key="selectedBloomsTaxonomy?.id" :options="apiData.blooms_taxonomy"
+                                        placeholder="Select Blooms Taxonomy Level" v-model="selectedBloomsTaxonomy" label="item" />
+                                    </div>
+                                </div>
+
                                 <div class="col-md-6">
                                     <div class="form-group">
                                     <label class="form-label">No. Of Questions</label>
@@ -127,7 +137,7 @@
 
 
                             </div>
-                            <!-- <pre>{{ prompt }}</pre> -->
+                            <pre>{{ prompt }}</pre>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -248,6 +258,14 @@ const apiData = reactive({
   competencies: [],
   proficiency_levels: [],
   languages: [],
+  blooms_taxonomy: [
+    { id: 1, item: 'Remembering' },
+    { id: 2, item: 'Understanding' },
+    { id: 3, item: 'Applying' },
+    { id: 4, item: 'Analyzing' },
+    { id: 5, item: 'Evaluating' },
+    { id: 6, item: 'Creating' },
+  ],
   no_of_questions: [
     { id: 1, item: 5 },
     { id: 2, item: 10 },
@@ -276,6 +294,7 @@ const selectedProficiencyLevel = ref(null);
 const selectedLanguage = ref(null);
 const selectedNoOfQuestions = ref(null);
 const selectedNoOfChoices = ref(null);
+const selectedBloomsTaxonomy = ref(null);
 
 const form = useForm({
   grade: computed(() => selectedGrade.value?.level || null),
@@ -303,6 +322,7 @@ const form = useForm({
   ),
   proficiency_level: computed(() => selectedProficiencyLevel.value?.level || null),
   language: computed(() => selectedLanguage.value?.language || null),
+  blooms_taxonomy: computed(() => selectedBloomsTaxonomy.value?.item || null),
   no_of_questions: computed(() => selectedNoOfQuestions.value?.item || null),
   no_of_choices: computed(() => selectedNoOfChoices.value?.item || null),
 });
@@ -397,6 +417,7 @@ const rules = computed(() => ({
   raw_competencies: { required },
   proficiency_level: { required },
   language: { required },
+  blooms_taxonomy: { required },
   no_of_questions: { required },
   no_of_choices: { required },
 }))
@@ -417,6 +438,7 @@ const raw_contentValidator = generate$.value.raw_content;
 const raw_competenciesValidator = generate$.value.raw_competencies;
 const proficiency_levelValidator = generate$.value.proficiency_level;
 const languageValidator = generate$.value.language;
+const blooms_taxonomyValidator = generate$.value.blooms_taxonomy;
 const no_of_questionsValidator = generate$.value.no_of_questions;
 const no_of_choicesValidator = generate$.value.no_of_choices;
 
@@ -451,6 +473,7 @@ const no_of_choicesValidator = generate$.value.no_of_choices;
       Quarter: ${form.quarter}
       Language: ${form.language}
       Proficiency Level: ${form.proficiency_level}
+      Blooms Taxonomy Level of Learnings: ${form.blooms_taxonomy}
       Content Coverage:
       ${form.raw_content.map((c, i) => `${i + 1}. ${c}`).join('\n')}
 
@@ -468,7 +491,7 @@ const no_of_choicesValidator = generate$.value.no_of_choices;
 
 
 const submitGenerate = () => {
-  if (gradeValidator.$invalid || gradeValidator.$invalid || subjectValidator.$invalid || quarterValidator.$invalid || raw_contentValidator.$invalid || raw_competenciesValidator.$invalid || proficiency_levelValidator.$invalid || languageValidator.$invalid || no_of_questionsValidator.$invalid || no_of_choicesValidator.$invalid) {
+  if (gradeValidator.$invalid || gradeValidator.$invalid || subjectValidator.$invalid || quarterValidator.$invalid || raw_contentValidator.$invalid || raw_competenciesValidator.$invalid || proficiency_levelValidator.$invalid || languageValidator.$invalid || blooms_taxonomyValidator.$invalid || no_of_questionsValidator.$invalid || no_of_choicesValidator.$invalid) {
     toastr.error('Some of the fields required to proceed are currently empty or incomplete. Kindly fill in all the necessary details before continuing.');
     return false;
   }
