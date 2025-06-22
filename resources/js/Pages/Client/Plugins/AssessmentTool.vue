@@ -167,7 +167,8 @@
                           id: i.id,
                           plugin: i.plugin,
                           user_id: i.user_id,
-                          options: i.options
+                          options: i.options,
+                          updated_at: i.updated_at
                         }
                       })" :key="index">
 

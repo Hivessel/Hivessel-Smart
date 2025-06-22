@@ -30,6 +30,7 @@ class ChatController extends Controller
             $messages[] = [
                 'role' => 'user',
                 'content' => $request->input('prompt'),
+                'created_at' => now()
             ];
 
             if($request->plugin === 'Assessment Tool'){
@@ -51,38 +52,11 @@ class ChatController extends Controller
             // Add the assistant's reply to the messages array
             $messages[] = [
                 'role' => 'assistant',
-                'content' => $response->choices[0]->message->content
+                'content' => $response->choices[0]->message->content,
+                'created_at' => now()
             ];
 
             // Save or update the chat in the database with the new conversation context
-            // if($request->options){
-            //     $chat = Chat::updateOrCreate([
-            //         'id' => $request->id,
-            //         'plugin' => $request->plugin,
-            //         'user_id' => Auth::user()->id,
-            //     ],[
-            //         'context' => $messages,
-            //         'options' => [
-            //             'grade' => $request->options['grade'],
-            //             'subject' => $request->options['subject'],
-            //             'quarter' => $request->options['quarter'],
-            //         ]
-            //     ]);
-            // }else{
-            //     $chat = Chat::updateOrCreate([
-            //         'id' => $request->id,
-            //         'plugin' => $request->plugin,
-            //         'user_id' => Auth::user()->id,
-            //     ],[
-            //         'context' => $messages,
-            //         'options' => [
-            //             'grade' => $request->options['grade'],
-            //             'subject' => $request->options['subject'],
-            //             'quarter' => $request->options['quarter'],
-            //         ]
-            //     ]);
-            // }
-
             $chat = Chat::updateOrCreate([
                 'id' => $request->id,
                 'plugin' => $request->plugin,
