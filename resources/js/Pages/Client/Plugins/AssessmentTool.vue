@@ -137,7 +137,7 @@
 
 
                             </div>
-                            <pre>{{ prompt }}</pre>
+                            <!-- <pre>{{ prompt }}</pre> -->
                         </div>
                     </div>
                     <div class="col-md-4">
