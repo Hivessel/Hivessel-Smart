@@ -166,6 +166,9 @@
                         v-for="(item, index) in messages" :key="index">
                         <Link :href="route('client.plugins.assessment-tool', { id: item.id, tab: 'history' })">{{
                           `${item.options?.grade} - ${item.options?.subject}` }}</Link>
+
+                          <!-- <Link :href="route('client.plugins.assessment-tool', { id: item.id, tab: 'history' })">{{
+                          `${item.options.grade}` }}</Link> -->
                       </li>
                     </ul>
                   </div>
@@ -508,7 +511,12 @@ const addInstruction = () => {
   const input = useForm({
     id: page.props.urlQuery.id,
     prompt: computed(() => inputText.value),
-    plugin: 'Assessment Tool'
+    plugin: 'Assessment Tool',
+    options: {
+      grade: props?.chat?.options?.grade || '',
+      subject: props?.chat?.options?.subject || '',
+      quarter: props?.chat?.options?.quarter || ''
+    }
   });
 
   const remaining_credits = page?.props?.authenticatedUser?.credit_balance?.remaining_credit_points || 0;

@@ -148,6 +148,7 @@
                         v-for="(item, index) in messages" :key="index">
                         <Link :href="route('client.plugins.lesson-plan-generator', { id: item.id, tab: 'history' })">{{
                           `${item.options?.grade} - ${item.options?.subject}` }}</Link>
+                          <!-- <pre>{{ chat }}</pre> -->
                       </li>
                     </ul>
                   </div>
@@ -506,7 +507,12 @@ const addInstruction = () => {
   const input = useForm({
     id: page.props.urlQuery.id,
     prompt: computed(() => inputText.value),
-    plugin: 'Assessment Tool'
+    plugin: 'Lesson Planner',
+    options: {
+      grade: props?.chat?.options?.grade || '',
+      subject: props?.chat?.options?.subject || '',
+      quarter: props?.chat?.options?.quarter || ''
+    }
   });
 
   const remaining_credits = page?.props?.authenticatedUser?.credit_balance?.remaining_credit_points || 0;

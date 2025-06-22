@@ -55,28 +55,46 @@ class ChatController extends Controller
             ];
 
             // Save or update the chat in the database with the new conversation context
-            if($request->options){
-                $chat = Chat::updateOrCreate([
-                    'id' => $request->id,
-                    'plugin' => $request->plugin,
-                    'user_id' => Auth::user()->id,
-                ],[
-                    'context' => $messages,
-                    'options' => [
-                        'grade' => $request->options['grade'],
-                        'subject' => $request->options['subject'],
-                        'quarter' => $request->options['quarter'],
-                    ]
-                ]);
-            }else{
-                $chat = Chat::updateOrCreate([
-                    'id' => $request->id,
-                    'plugin' => $request->plugin,
-                    'user_id' => Auth::user()->id,
-                ],[
-                    'context' => $messages,
-                ]);
-            }
+            // if($request->options){
+            //     $chat = Chat::updateOrCreate([
+            //         'id' => $request->id,
+            //         'plugin' => $request->plugin,
+            //         'user_id' => Auth::user()->id,
+            //     ],[
+            //         'context' => $messages,
+            //         'options' => [
+            //             'grade' => $request->options['grade'],
+            //             'subject' => $request->options['subject'],
+            //             'quarter' => $request->options['quarter'],
+            //         ]
+            //     ]);
+            // }else{
+            //     $chat = Chat::updateOrCreate([
+            //         'id' => $request->id,
+            //         'plugin' => $request->plugin,
+            //         'user_id' => Auth::user()->id,
+            //     ],[
+            //         'context' => $messages,
+            //         'options' => [
+            //             'grade' => $request->options['grade'],
+            //             'subject' => $request->options['subject'],
+            //             'quarter' => $request->options['quarter'],
+            //         ]
+            //     ]);
+            // }
+
+            $chat = Chat::updateOrCreate([
+                'id' => $request->id,
+                'plugin' => $request->plugin,
+                'user_id' => Auth::user()->id,
+            ],[
+                'context' => $messages,
+                'options' => [
+                    'grade' => $request->options['grade'],
+                    'subject' => $request->options['subject'],
+                    'quarter' => $request->options['quarter'],
+                ]
+            ]);
 
             if($request->plugin === 'Assessment Tool'){
                 return Inertia::location(route('client.plugins.assessment-tool', [

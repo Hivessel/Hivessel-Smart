@@ -40,14 +40,14 @@ const formatContent = (rawContent) => {
 };
 
 onMounted(() => {
-const firstPrintArea = document.querySelector(".printArea:first-child");
-document.querySelectorAll(".printArea.highlight").forEach(el => {
-  el.remove();
-});
+// const firstPrintArea = document.querySelector(".printArea:first-child");
+// document.querySelectorAll(".printArea.highlight").forEach(el => {
+//   el.remove();
+// });
 
-if (firstPrintArea) {
-  firstPrintArea.classList.add("highlight");
-}
+// if (firstPrintArea) {
+//   firstPrintArea.classList.add("highlight");
+// }
 
 
 
