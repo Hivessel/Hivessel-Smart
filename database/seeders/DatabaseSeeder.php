@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
             ['level' => 'Grade 7', 'active' => true],
             ['level' => 'Grade 8', 'active' => true],
             ['level' => 'Grade 9', 'active' => true],
+            ['level' => 'Grade 10', 'active' => true],
         ];
 
         foreach ($grades as $grade) {
@@ -56,10 +57,10 @@ class DatabaseSeeder extends Seeder
 
         // Quarters Seeder
         $quarters = [
-            ['quarter' => 'First Quarter', 'active' => true],
-            ['quarter' => 'Second Quarter', 'active' => true],
-            ['quarter' => 'Third Quarter', 'active' => true],
-            ['quarter' => 'Fourth Quarter', 'active' => true],
+            ['quarter' => 'Quarter 1', 'active' => true],
+            ['quarter' => 'Quarter 2', 'active' => true],
+            ['quarter' => 'Quarter 3', 'active' => true],
+            ['quarter' => 'Quarter 4', 'active' => true],
         ];
 
         foreach ($quarters as $quarter) {
@@ -97,6 +98,8 @@ objects can be moved and/or changed in shape.',
 
         $proficiencies = [
             ['level' => 'Novice', 'active' => true],
+            ['level' => 'Apprentice', 'active' => true],
+            ['level' => 'Practitioner', 'active' => true],
             ['level' => 'Expert', 'active' => true],
             ['level' => 'Master', 'active' => true],
         ];

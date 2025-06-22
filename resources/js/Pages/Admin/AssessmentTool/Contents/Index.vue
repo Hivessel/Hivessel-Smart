@@ -11,6 +11,9 @@
                         <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#createContentModal">
                             <i class="fas fa-plus"></i> Add Contents
                         </button>
+                        <button class="btn btn-secondary ml-1" data-bs-toggle="modal" data-bs-target="#importContentModal">
+                            <i class="fas fa-plus"></i> Import
+                        </button>
                     </div>
 
                     <div class="table-responsive">
@@ -150,6 +153,7 @@
             </div>
         </div>
         <EditContentModal />
+        <Import />
     </div>
 </template>
 <script setup>
@@ -158,6 +162,7 @@ import Layout from '../../Shared/Layout.vue';
 import { useForm, router } from '@inertiajs/vue3';
 import Multiselect from 'vue-multiselect';
 import EditContentModal from './EditContentModal.vue';
+import Import from './Import.vue';
 import eventBus from '../../../../Scripts/eventBus';
 defineOptions({
     layout: Layout,

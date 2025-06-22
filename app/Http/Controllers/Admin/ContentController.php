@@ -9,7 +9,8 @@ use Inertia\Inertia;
 use Throwable;
 use Illuminate\Validation\ValidationException;
 use Yajra\DataTables\Facades\DataTables;
-
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\ContentsImport;
 class ContentController extends Controller
 {
     public function index(){
@@ -208,5 +209,16 @@ class ContentController extends Controller
                 'error' => $error->getMessage(),
             ], 500);
         }
+    }
+
+    public function import(Request $request){
+        // Validate incoming request data
+    $request->validate([
+        'file' => 'required|max:2048',
+    ]);
+
+    Excel::import(new ContentsImport, $request->file('file'));
+                
+    return back()->with('success', 'Users imported successfully.');
     }
 }

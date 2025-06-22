@@ -11,6 +11,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Plugins\LessonPlanGeneratorController;
 use App\Http\Controllers\Plugins\AssessmentToolController;
+
 use App\Models\Chat;
 use App\Models\Invoice;
 use App\Models\User;
@@ -21,6 +22,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+
 
 // Route::post('remote-login', [AuthController::class, 'remoteLogin'])->name('remote-login');
 
@@ -97,6 +99,7 @@ Route::middleware(['auth'])->group(function(){
             Route::get('contents/ajax', [ContentController::class, 'contents'])->name('admin.contents.ajax');
             Route::delete('contents', [ContentController::class, 'destroy'])->name('admin.contents.destroy');
             Route::put('contents', [ContentController::class, 'update'])->name('admin.contents.update');
+            Route::post('import-contents', [ContentController::class, 'import'])->name('admin.contents.import');
 
             // Proficiency Levels
             Route::get('proficiency-levels', [ProficiencyLevelController::class, 'index'])->name('admin.proficiency-levels.index')->middleware('checkRole');
@@ -189,4 +192,3 @@ Route::get('balance', function(){
     // return Auth::user();
     return config('openai.lesson_planner_model');
 });
-
