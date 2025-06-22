@@ -445,7 +445,7 @@ const no_of_choicesValidator = generate$.value.no_of_choices;
 
 
   const prompt = computed(() => {
-    return `Create an assessment with ${form.no_of_questions} multiple-choice questions, each with ${form.no_of_choices} choices and the response must be in printable richtext editor format.
+    return `Create an assessment with ${form.no_of_questions} multiple-choice questions, each with ${form.no_of_choices} choices and the response must be in printable richtext editor format and do not make it form.
       Grade Level: ${form.grade}
       Subject: ${form.subject}
       Quarter: ${form.quarter}

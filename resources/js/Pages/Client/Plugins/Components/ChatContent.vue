@@ -54,12 +54,19 @@ const timeAgo = (date) => {
     const months = Math.floor(days / 30);
     const years = Math.floor(days / 365);
 
-    if (years > 0) return `${years} year${years > 1 ? 's' : ''} ago`;
-    if (months > 0) return `${months} month${months > 1 ? 's' : ''} ago`;
-    if (days > 0) return `${days} day${days > 1 ? 's' : ''} ago`;
-    if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
-    if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
-    return `${seconds} second${seconds > 1 ? 's' : ''} ago`;
+    // if (years > 0) return `${years} year${years > 1 ? 's' : ''} ago`;
+    // if (months > 0) return `${months} month${months > 1 ? 's' : ''} ago`;
+    // if (days > 0) return `${days} day${days > 1 ? 's' : ''} ago`;
+    // if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    // if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+    // return `${seconds} second${seconds > 1 ? 's' : ''} ago`;
+
+    if (years > 0) return `${years}y${years > 1 ? '' : ''} ago`;
+    if (months > 0) return `${months}m${months > 1 ? '' : ''} ago`;
+    if (days > 0) return `${days}d${days > 1 ? '' : ''} ago`;
+    if (hours > 0) return `${hours}h${hours > 1 ? '' : ''} ago`;
+    if (minutes > 0) return `${minutes} min${minutes > 1 ? '' : ''} ago`;
+    return `${seconds} sec${seconds > 1 ? 's' : ''} ago`;
   }
 
 </script>
