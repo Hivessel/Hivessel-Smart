@@ -145,10 +145,17 @@
                     <ul class="list-group history--list">
 
                       <li class="list-group-item text-truncate border-0 hover:bg-gray-900"
-                        v-for="(item, index) in messages" :key="index">
+                        v-for="(item, index) in messages.map((i) => {
+                        return {
+                          id: i.id,
+                          plugin: i.plugin,
+                          user_id: i.user_id,
+                          options: i.options
+                        }
+                      })" :key="index">
                         <Link :href="route('client.plugins.lesson-plan-generator', { id: item.id, tab: 'history' })">{{
                           `${item.options?.grade} - ${item.options?.subject}` }}</Link>
-                          <!-- <pre>{{ chat }}</pre> -->
+  
                       </li>
                     </ul>
                   </div>
@@ -157,7 +164,7 @@
                       <div class="w-full flex h-screen bg-slate-900">
                         <div class="w-full overflow-auto pb-36 scrollable-section section--history" ref="chatContainer">
                           <template v-for="(content, index) in chat?.context" :key="index">
-                            <ChatContent :content="content" />
+                            <ChatContent :content="content" v-if="index != 0" />
                           </template>
                         </div>
 
