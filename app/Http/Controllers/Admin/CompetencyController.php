@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Competency;
 use Illuminate\Http\Request;
 use Throwable;
-
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\CompetenciesImport;
 class CompetencyController extends Controller
 {
 
@@ -45,5 +46,16 @@ class CompetencyController extends Controller
                 'error' => $error->getMessage(),
             ], 500);
         }
+    }
+
+    public function import(Request $request){
+        // Validate incoming request data
+        $request->validate([
+            'file' => 'required|max:2048',
+        ]);
+
+        Excel::import(new CompetenciesImport, $request->file('file'));
+                    
+        return back();
     }
 }

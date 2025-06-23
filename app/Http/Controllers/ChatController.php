@@ -12,9 +12,9 @@ use Throwable;
 class ChatController extends Controller
 {
     public function store(Request $request, string $id = null){
-        // set_time_limit(0);
-        // ini_set('max_execution_time', '99999999999');
-        // ini_set('memory_limit', '-1');
+        set_time_limit(0);
+        ini_set('max_execution_time', '99999999999');
+        ini_set('memory_limit', '-1');
         
         try{
             
@@ -22,7 +22,9 @@ class ChatController extends Controller
             $messages = [];
             // If a chat ID is provided, retrieve the existing chat and its context
             if($request->id){
-                $chat = Chat::findOrFail($request->id);
+                $chat = Chat::where('id', $request->id)
+                ->where('user_id', Auth::user()->id)
+                ->firstOrFail();
                 $messages = $chat->context;
             }
 

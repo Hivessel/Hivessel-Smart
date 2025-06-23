@@ -213,12 +213,12 @@ class ContentController extends Controller
 
     public function import(Request $request){
         // Validate incoming request data
-    $request->validate([
-        'file' => 'required|max:2048',
-    ]);
+        $request->validate([
+            'file' => 'required|max:2048',
+        ]);
 
-    Excel::import(new ContentsImport, $request->file('file'));
-                
-    return back()->with('success', 'Users imported successfully.');
+        Excel::import(new ContentsImport, $request->file('file'));
+                    
+        return back();
     }
 }

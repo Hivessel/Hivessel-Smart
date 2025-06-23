@@ -62,7 +62,7 @@ const submitFile = () => {
         forceFormData: true, // Important for file uploads with Inertia
         onSuccess: () => {
             $('#importContentModal').modal('hide');
-            alert('File imported successfully!');
+            toastr.success('Contents imported successfully!');
             data.reset(); // Clear the form
             fileInput.value.value = ''; // Clear the file input display
             // You might want to close the modal here using Bootstrap's JS

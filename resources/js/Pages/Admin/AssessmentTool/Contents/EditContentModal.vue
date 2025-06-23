@@ -30,36 +30,6 @@
                             <button class="btn btn-secondary" @click.prevent="addCompetency"><i class="fa fa-plus"></i> Add Competencies</button>
                     </div>
 
-                    <!-- <div class="">
-                        <table class="table table-borderless align-middle w-100">
-                            <tbody>
-                                <tr v-for="(item, index) in form.competencies" :key="item.id || index">
-                                <td style="width: 90%;">
-                                    <div class="form-group mb-0">
-                                    <textarea
-                                        v-model="item.competency"
-                                        class="form-control"
-                                        rows="4"
-                                        placeholder="Enter competency..."
-                                    ></textarea>
-                                    </div>
-                                </td>
-                                <td style="width: 10%;" class="text-center align-middle">
-                                    <button
-                                    type="button"
-                                    class="btn btn-danger"
-                                    @click.prevent="removeCompency(item.id)"
-                                    title="Remove"
-                                    >
-                                    <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                    </div> -->
-
                     <div class="">
                         <table class="table table-borderless align-middle w-100">
                             <tbody>

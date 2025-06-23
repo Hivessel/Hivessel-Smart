@@ -12,8 +12,9 @@ class LessonPlanGeneratorController extends Controller
     public function index(Request $request){
         $chat = null;
         if($request->filled('id')){
-            $id = $request->input('id');
-            $chat = Chat::findOrFail($id) ?? null;
+            $chat = Chat::where('id', $request->id)
+                ->where('user_id', Auth::user()->id)
+                ->firstOrFail() ?? null;
         }
         return Inertia::render('Client/Plugins/LessonPlanGenerator',[
              'chat' => $chat,

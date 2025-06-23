@@ -11,8 +11,12 @@
                         <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#createContentModal">
                             <i class="fas fa-plus"></i> Add Contents
                         </button>
-                        <button class="btn btn-secondary ml-1" data-bs-toggle="modal" data-bs-target="#importContentModal">
-                            <i class="fas fa-plus"></i> Import
+                        <button class="btn btn-warning ml-1" data-bs-toggle="modal" data-bs-target="#importContentModal">
+                            <i class="fas fa-plus"></i> Import Content
+                        </button>
+
+                        <button class="btn btn-success ml-1" data-bs-toggle="modal" data-bs-target="#importCompetencyModal">
+                            <i class="fas fa-plus"></i> Import Competencies
                         </button>
                     </div>
 
@@ -153,7 +157,8 @@
             </div>
         </div>
         <EditContentModal />
-        <Import />
+        <ImportContent />
+        <ImportCompetency />
     </div>
 </template>
 <script setup>
@@ -162,7 +167,8 @@ import Layout from '../../Shared/Layout.vue';
 import { useForm, router } from '@inertiajs/vue3';
 import Multiselect from 'vue-multiselect';
 import EditContentModal from './EditContentModal.vue';
-import Import from './Import.vue';
+import ImportContent from './ImportContent.vue';
+import ImportCompetency from './ImportCompetency.vue';
 import eventBus from '../../../../Scripts/eventBus';
 defineOptions({
     layout: Layout,

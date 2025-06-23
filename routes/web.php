@@ -11,7 +11,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Plugins\LessonPlanGeneratorController;
 use App\Http\Controllers\Plugins\AssessmentToolController;
-
 use App\Models\Chat;
 use App\Models\Invoice;
 use App\Models\User;
@@ -34,8 +33,7 @@ Route::middleware(['auth'])->group(function(){
         return redirect()->route('client.plugins.assessment-tool');
         exit;
     })->name('client.home');
-
-    
+ 
     Route::prefix('plugins')->group(function(){
         // Assesment Tool
         Route::get('assessment-tool', [AssessmentToolController::class, 'index'])->name('client.plugins.assessment-tool');
@@ -100,6 +98,7 @@ Route::middleware(['auth'])->group(function(){
             Route::delete('contents', [ContentController::class, 'destroy'])->name('admin.contents.destroy');
             Route::put('contents', [ContentController::class, 'update'])->name('admin.contents.update');
             Route::post('import-contents', [ContentController::class, 'import'])->name('admin.contents.import');
+            
 
             // Proficiency Levels
             Route::get('proficiency-levels', [ProficiencyLevelController::class, 'index'])->name('admin.proficiency-levels.index')->middleware('checkRole');
@@ -119,7 +118,7 @@ Route::middleware(['auth'])->group(function(){
 
             // Competencies
             Route::get('competencies/all', [CompetencyController::class, 'all'])->name('admin.competencies.all');
-
+            Route::post('import-competencies', [CompetencyController::class, 'import'])->name('admin.competencies.import');
             
 
         });
@@ -187,8 +186,4 @@ Route::get('incept-invoice', function(){
     }
 });
 
-Route::get('balance', function(){
-    // return $user = User::where('email', 'info@hivessel.com')->first();
-    // return Auth::user();
-    return config('openai.lesson_planner_model');
-});
+
