@@ -46,10 +46,104 @@ class DatabaseSeeder extends Seeder
 
         // Subjects Seeder
         $subjects = [
-            [
-                'subject' => 'Science',
-                'grade_id' => 4
-            ]
+            // Grade 1 Subjects
+            ['subject' => 'GMRC', 'grade_id' => 1],
+            ['subject' => 'Makabansa', 'grade_id' => 1],
+            ['subject' => 'Language', 'grade_id' => 1],
+            ['subject' => 'Math', 'grade_id' => 1],
+            ['subject' => 'Reading and Literacy', 'grade_id' => 1],
+
+            // Grade 2 Subjects
+            ['subject' => 'English', 'grade_id' => 2],
+            ['subject' => 'Filipino', 'grade_id' => 2],
+            ['subject' => 'Math', 'grade_id' => 2],
+            ['subject' => 'Makabansa', 'grade_id' => 2],
+            ['subject' => 'GMRC', 'grade_id' => 2],
+
+            // Grade 3 Subjects
+            ['subject' => 'English', 'grade_id' => 3],
+            ['subject' => 'Filipino', 'grade_id' => 3],
+            ['subject' => 'Math', 'grade_id' => 3],
+            ['subject' => 'Makabansa', 'grade_id' => 3],
+            ['subject' => 'GMRC', 'grade_id' => 3],
+            ['subject' => 'Science', 'grade_id' => 3],
+
+            // Grade 4 Subjects
+            ['subject' => 'AP', 'grade_id' => 4],
+            ['subject' => 'English', 'grade_id' => 4],
+            ['subject' => 'Filipino', 'grade_id' => 4],
+            ['subject' => 'Math', 'grade_id' => 4],
+            ['subject' => 'GMRC', 'grade_id' => 4],
+            ['subject' => 'Science', 'grade_id' => 4],
+            ['subject' => 'EPP/TLE', 'grade_id' => 4],
+            ['subject' => 'Music and Arts', 'grade_id' => 4],
+            ['subject' => 'PE and Health', 'grade_id' => 4],
+
+            // Grade 5 Subjects
+            ['subject' => 'AP', 'grade_id' => 5],
+            ['subject' => 'English', 'grade_id' => 5],
+            ['subject' => 'Filipino', 'grade_id' => 5],
+            ['subject' => 'Math', 'grade_id' => 5],
+            ['subject' => 'GMRC', 'grade_id' => 5],
+            ['subject' => 'Science', 'grade_id' => 5],
+            ['subject' => 'EPP/TLE', 'grade_id' => 5],
+            ['subject' => 'Music and Arts', 'grade_id' => 5],
+            ['subject' => 'PE and Health', 'grade_id' => 5],
+
+            // Grade 6 Subjects
+            ['subject' => 'AP', 'grade_id' => 6],
+            ['subject' => 'English', 'grade_id' => 6],
+            ['subject' => 'Filipino', 'grade_id' => 6],
+            ['subject' => 'Math', 'grade_id' => 6],
+            ['subject' => 'GMRC', 'grade_id' => 6],
+            ['subject' => 'Science', 'grade_id' => 6],
+            ['subject' => 'EPP/TLE', 'grade_id' => 6],
+            ['subject' => 'Music and Arts', 'grade_id' => 6],
+            ['subject' => 'PE and Health', 'grade_id' => 6],
+
+            // Grade 7 Subjects
+            ['subject' => 'AP', 'grade_id' => 7],
+            ['subject' => 'English', 'grade_id' => 7],
+            ['subject' => 'Filipino', 'grade_id' => 7],
+            ['subject' => 'Math', 'grade_id' => 7],
+            ['subject' => 'Value Education', 'grade_id' => 7],
+            ['subject' => 'Science', 'grade_id' => 7],
+            ['subject' => 'EPP/TLE', 'grade_id' => 7],
+            ['subject' => 'Music and Arts', 'grade_id' => 7],
+            ['subject' => 'PE and Health', 'grade_id' => 7],
+
+            // Grade 8 Subjects
+            ['subject' => 'AP', 'grade_id' => 8],
+            ['subject' => 'English', 'grade_id' => 8],
+            ['subject' => 'Filipino', 'grade_id' => 8],
+            ['subject' => 'Math', 'grade_id' => 8],
+            ['subject' => 'Value Education', 'grade_id' => 8],
+            ['subject' => 'Science', 'grade_id' => 8],
+            ['subject' => 'EPP/TLE', 'grade_id' => 8],
+            ['subject' => 'Music and Arts', 'grade_id' => 8],
+            ['subject' => 'PE and Health', 'grade_id' => 8],
+
+            // Grade 9 Subjects
+            ['subject' => 'AP', 'grade_id' => 9],
+            ['subject' => 'English', 'grade_id' => 9],
+            ['subject' => 'Filipino', 'grade_id' => 9],
+            ['subject' => 'Math', 'grade_id' => 9],
+            ['subject' => 'Value Education', 'grade_id' => 9],
+            ['subject' => 'Science', 'grade_id' => 9],
+            ['subject' => 'EPP/TLE', 'grade_id' => 9],
+            ['subject' => 'Music and Arts', 'grade_id' => 9],
+            ['subject' => 'PE and Health', 'grade_id' => 9],
+
+            // Grade 10 Subjects
+            ['subject' => 'AP', 'grade_id' => 10],
+            ['subject' => 'English', 'grade_id' => 10],
+            ['subject' => 'Filipino', 'grade_id' => 10],
+            ['subject' => 'Math', 'grade_id' => 10],
+            ['subject' => 'Value Education', 'grade_id' => 10],
+            ['subject' => 'Science', 'grade_id' => 10],
+            ['subject' => 'EPP/TLE', 'grade_id' => 10],
+            ['subject' => 'Music and Arts', 'grade_id' => 10],
+            ['subject' => 'PE and Health', 'grade_id' => 10],
         ];
         foreach ($subjects as $subject) {
             \App\Models\Subject::create($subject);
@@ -73,7 +167,7 @@ class DatabaseSeeder extends Seeder
             [
                 'content' => 'Describing Forces',
                 'grade_id' => 4,
-                'subject_id' => 1,
+                'subject_id' => 22,
                 'quarter_id' => 3
             ]
         ];
