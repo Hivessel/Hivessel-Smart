@@ -210,6 +210,14 @@ body {
 	.card {
 		border-radius: 30px;
 		padding: 20px;
+		@media(max-width:767px) {
+			padding: 0;
+			border-radius: 15px;
+
+			.card-body {
+				padding: 0;
+			}
+		}
 	}
 }
 .assessment--creation {
@@ -219,6 +227,7 @@ body {
 	padding: 30px;
      @media(max-width:767px) {
 	    margin-bottom: 20px;
+		padding: 20px;
     }
 	.btn--primary {
 		font-family: $font-family_1;
