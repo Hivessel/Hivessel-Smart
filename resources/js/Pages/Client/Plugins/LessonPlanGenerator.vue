@@ -388,7 +388,81 @@ const languageValidator = generate$.value.language;
 // });
 
 
-const prompt = computed(() => {
+// const prompt = computed(() => {
+//   return (`
+// Prepare a lesson plan based on the attached exemplar and the specified template.:
+
+// Grade Level: ${form.grade}  
+// Subject: ${form.subject}  
+// Quarter: ${form.quarter}  
+// Language: ${form.language}
+
+// Content Coverage:
+// ${form.raw_content.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+
+// Competency Focus:
+// ${form.raw_competencies.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+
+// Reference Materials:
+// ${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+
+// ----
+
+// Your task:
+// - Return a complete and fully filled HTML table with cell border
+// - Read this file ${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+// - Follow this format ${form.template}
+// - Fill in all rows and columns for **Sessions 1 to 4** in specified template, session column on the top and others at the left
+// - Include unique and meaningful lesson content in each cell
+// - content must have 
+// OBJECTIVES under row[Content Standards, Performance Standards, Learning Competencies/Objectives Write the LC Code for each],
+// CONTENT,
+// LEARNING RESOURCES under row['A. References' => [
+//   '1: Teacher's Guides/Pages',
+//   '2. Learner's Materials Pages',
+//   '3. Textbook Pages'
+//   '4. Additional Materials from Learning Resources (LR) portal'],
+//   'B. 1. Other Learning Resources'
+// ],
+// Make this row > PROCEDURES,
+// Make this row > A: Reviewing previous lesson or presenting the new lesson,
+// Make this row > B: Establishing a purpose for the lesson,
+// Make this row > C: Presenting examples/instances of the new lesson,
+// Make this row > D: Discussing new concepts and practicing new skills #1,
+// Make this row > E: Discussing new concepts and practicing new skills #2,
+// Make this row > F: Developing mastery (Leads to formative assessment),
+// Make this row > G: Finding practical/applications of concepts and skills in daily living,
+// Make this row > H: Making generalizations and abstractions about the lesson,
+// Make this row > I: Evaluating Learning,
+// Make this row > J: Additional activities for application or remediation,
+// Make this row > REMARKS ,
+// Make this row > REFLECTION,
+// Make this row > A: No. of learners who earned 80% of the formative assessment under row,
+// Make this row > B: No. of learners who require additional activities to remediation,
+// Make this row > C: Did the remedial lessons work? No. of learners who have caught up with the lesson,
+// Make this row > D: No. of learners who continue to require remediation,
+// Make this row > E: Which of my teaching strategies worked well? Why did these work?,
+// Make this row > F: What difficulties did I encounter which my principal or supervisor can help me solve?,
+// Make this row > G: What innovation or localized material did I use/discover which I wish to share with other teachers?
+
+// Output:
+// - One full HTML <table> with all cells filled
+// - Make REMARKS, REFLECTION, and these
+// A: No. of learners who earned 80% of the formative assessment under row,
+// B: No. of learners who require additional activities to remediation,
+// C: Did the remedial lessons work? No. of learners who have caught up with the lesson,
+// D: No. of learners who continue to require remediation,
+// E: Which of my teaching strategies worked well? Why did these work?,
+// F: What difficulties did I encounter which my principal or supervisor can help me solve?,
+// G: What innovation or localized material did I use/discover which I wish to share with other teachers? EMPTY,
+// - Make each session's content slightly different to reflect progression or reinforcement
+
+// Do not skip any section or cell. Fill everything. Respond only with valid <table> Bordered HTML.
+// `).trim();
+// });
+
+
+const englishPrompt = computed(() => {
   return (`
 Prepare a lesson plan based on the attached exemplar and the specified template.:
 
@@ -460,6 +534,90 @@ G: What innovation or localized material did I use/discover which I wish to shar
 Do not skip any section or cell. Fill everything. Respond only with valid <table> Bordered HTML.
 `).trim();
 });
+
+
+const tagalogPrompt = computed(() => {
+  return (`
+Prepare a lesson plan based on the attached exemplar and the specified template.:
+
+Grade Level: ${form.grade}  
+Subject: ${form.subject}  
+Quarter: ${form.quarter}  
+Language: ${form.language}
+
+Content Coverage:
+${form.raw_content.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+
+Competency Focus:
+${form.raw_competencies.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+
+Reference Materials:
+${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+
+----
+
+Your task:
+- Return a complete and fully filled HTML table with cell border
+- Read this file ${form.raw_reference.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+- Follow this format ${form.template}
+- Fill in all rows and columns for **Sesyon 1 to 4** in specified template, Sesyon column on the top and others at the left
+- Include unique and meaningful lesson content in each cell
+- content must have 
+I.LAYUNIN  under row[A.Pamantayang Pangnilalaman , B.Pamantayan sa Pagganap , C.Mga Kasanayan sa Pagkatuto 
+Isulat ang code ng bawat kasanayan],
+II.NILALAMAN ,
+III.KAGAMITANG PANTURO under row['A.SANGGUNIAN ' => [
+  '1.Mga Pahina sa Gabay ng Guro',
+  '2. Mga Pahina sa Kagamitang Pang-Mag-aaral',
+  '3. Mga Pahina sa Teksbuk'
+  '4. Karagdagang Kagamitan mula sa Portal ng Learning Resource'],
+  'B. => Iba Pang Kagamitang Panturo'
+],
+Make this row > IV.PAMAMARAAN ,
+Make this row > A.Balik-aral sa nakaraang aralin at/o pagsisimula ng bagong aralin,
+Make this row > B.Paghahabi sa layunin ng aralin,
+Make this row > C.Pag-uugnay ng mga halimbawa sa bagong aralin,
+Make this row > D.Pagtalakay ng bagong konsepto at paglalahad ng bagong kasanayan #1,
+Make this row > E.Pagtalakay ng bagong konsepto at paglalahad ng bagong kasanayan #2,
+Make this row > F: F.Paglinang sa Kabihasaan (tungo sa Formative Assessment),
+Make this row > G.Paglalapat ng aralin sa pang-araw-araw na buhay,
+Make this row > H. Paglalahat ng Aralin,
+Make this row > I.Pagtataya ng Aralin,
+Make this row > J.Karagdagang gawain para sa takdang-aralin at remediation,
+Make this row > V.MGA TALA,
+Make this row > VI.PAGNINILAY,
+Make this row > A.Bilang ng mag-aaral na nakakuha ng 80% sa pagtataya,
+Make this row > B.Bilang ng mag-aaral na nangangailangan ng iba pang gawain para sa remediation,
+Make this row > C.Nakatulong ba ang remedial? Bilang ng mag-aaral na nakaunawa sa aralin,
+Make this row > D.Bilang ng mag-aaral na magpapatuloy sa remediation,
+Make this row > E.Alin sa mga istratehiya ng pagtuturo na nakatulong ng lubos? Paano ito nakatulong?,
+Make this row > F.Anong suliranin ang aking nararanasan, nasolusyunan sa tulong ng aking punungguro at superbisor?,
+Make this row > G.Anong kagamitang panturo ang aking nadebuho na nais kong ibahagi sa kapwa ko guro
+
+Output:
+- One full HTML <table> with all cells filled
+- Make V.MGA TALA, VI.PAGNINILAY, and these
+A: No. of learners who earned 80% of the formative assessment under row,
+B: No. of learners who require additional activities to remediation,
+C: Did the remedial lessons work? No. of learners who have caught up with the lesson,
+D: No. of learners who continue to require remediation,
+E: Which of my teaching strategies worked well? Why did these work?,
+F: What difficulties did I encounter which my principal or supervisor can help me solve?,
+G: What innovation or localized material did I use/discover which I wish to share with other teachers? EMPTY,
+
+A.Bilang ng mag-aaral na nakakuha ng 80% sa pagtataya,
+B.Bilang ng mag-aaral na nangangailangan ng iba pang gawain para sa remediation,
+C.Nakatulong ba ang remedial? Bilang ng mag-aaral na nakaunawa sa aralin,
+D.Bilang ng mag-aaral na magpapatuloy sa remediation,
+E.Alin sa mga istratehiya ng pagtuturo na nakatulong ng lubos? Paano ito nakatulong?,
+F.Anong suliranin ang aking nararanasan, nasolusyunan sa tulong ng aking punungguro at superbisor?,
+G.Anong kagamitang panturo ang aking nadebuho na nais kong ibahagi sa kapwa ko guro
+- Make each session's content slightly different to reflect progression or reinforcement
+- Response must be in tagalog language and level of language is humanize
+- Content for V. MGA TALA and VI. PAGNINILAY should be blank
+Do not skip any section or cell. Fill everything. Respond only with valid <table> Bordered HTML.
+`).trim();
+});
   
 
 
@@ -470,7 +628,12 @@ const submitGenerate = () => {
   }
 
   const actualPromt = useForm({
-    prompt: prompt.value,
+    // prompt: prompt.value,
+    prompt: form.language === 'English'
+    ? englishPrompt.value
+    : form.language === 'Tagalog'
+    ? tagalogPrompt.value
+    : '',
     plugin: 'Lesson Planner',
     options: {
       grade: form.grade,
