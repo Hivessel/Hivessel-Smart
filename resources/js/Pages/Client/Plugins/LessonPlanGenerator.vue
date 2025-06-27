@@ -82,17 +82,15 @@
                                     </div>
                                 </div>
 
-
                                 <div class="col-md-12">
                                     <div class="form-group">
                                     <label class="form-label">Template</label>
                                     <Multiselect class="border"
                                         :class="languageValidator.$invalid ? 'border-danger' : 'border-warning'" data-width="100%"
                                         track-by="id" :key="selectedTemplate?.id" :options="apiData.templates"
-                                        placeholder="Select Template" v-model="selectedTemplate" label="caption" />
+                                        placeholder="Select Template" v-model="selectedTemplate" label="caption" :disabled="true"/>
                                     </div>
                                 </div>
-
 
                                 <div class="col-12 text-center mt-3">
                                     <button class="btn btn-warning w-100 text-white btn--primary" :disabled="isGenerating"
@@ -621,12 +619,14 @@ watch(() => selectedLanguage.value, (language) => {
           caption: 'English daily lesson log',
           link: 'https://hivessel.com/LE/DLL_ENGLISH%20TEMPLATE.pdf'
         },
-        {
-          id: 3,
-          caption: 'English detailed lesson Plan',
-          link: 'https://ncrdeped2-my.sharepoint.com/:w:/g/personal/antonette_castillo_ncr2_deped_gov_ph/EUAwGaaHwSlHp1AUYNCOE40BB3retUjEqWdwGb10oWaveQ?e=LMJ0ex'
-        },
+        // {
+        //   id: 3,
+        //   caption: 'English detailed lesson Plan',
+        //   link: 'https://ncrdeped2-my.sharepoint.com/:w:/g/personal/antonette_castillo_ncr2_deped_gov_ph/EUAwGaaHwSlHp1AUYNCOE40BB3retUjEqWdwGb10oWaveQ?e=LMJ0ex'
+        // },
       ];
+
+      selectedTemplate.value = apiData.templates.find((item) => item.id == 1);
     }
 
     if(language.language == 'Tagalog'){
@@ -636,12 +636,14 @@ watch(() => selectedLanguage.value, (language) => {
           caption: 'Tagalog daily lesson log',
           link: 'https://ncrdeped2-my.sharepoint.com/:w:/g/personal/antonette_castillo_ncr2_deped_gov_ph/EdCURPB1lr9Ov4KrKryLN_IBoggKgTek9abmWJ3hvne9sg?e=Dzp6Uf'
         },
-        {
-          id: 4,
-          caption: 'Tagalog detailed lesson Plan',
-          link: 'https://ncrdeped2-my.sharepoint.com/:w:/g/personal/antonette_castillo_ncr2_deped_gov_ph/ETWSm35dopdLvpIuwiU-jR4BfJPojbnpYEF_ROioTpjkrg?e=T5bNCf'
-        },
+        //{
+        //   id: 4,
+        //   caption: 'Tagalog detailed lesson Plan',
+        //   link: 'https://ncrdeped2-my.sharepoint.com/:w:/g/personal/antonette_castillo_ncr2_deped_gov_ph/ETWSm35dopdLvpIuwiU-jR4BfJPojbnpYEF_ROioTpjkrg?e=T5bNCf'
+        // },
       ];
+
+      selectedTemplate.value = apiData.templates.find((item) => item.id == 2);
     }
   }else{
     apiData.templates = [];
