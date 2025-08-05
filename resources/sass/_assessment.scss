@@ -20,6 +20,8 @@ $background-color_6: #111731;
 /* BTN PRIMARY */
 body {
 	font-family: $font-family_1;
+	width: 100% !important;
+	max-width: 100% !important;
 }
 .section--breadcrumbs {
 	background-image: url("https://media-cloud-hivessel.s3.ap-southeast-2.amazonaws.com/2025/06/bg_breadcrumbs-scaled.jpg");
