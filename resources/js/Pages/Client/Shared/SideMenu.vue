@@ -118,7 +118,7 @@
                 <!-- <img src="/images/icon_info.png" alt=""> -->
                 <h3>Need help?</h3>
                 <p>Please check our docs</p>
-                <a href="#" class="btn btn--primary white">DOCUMENTATION</a>
+                <a href="http://hivessel.com/smart" class="btn btn--primary white">DOCUMENTATION</a>
             </div>
             <!-- /.sidebar-menu -->
         </div>
