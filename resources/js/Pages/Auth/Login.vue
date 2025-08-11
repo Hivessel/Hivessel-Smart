@@ -32,6 +32,8 @@
                         <div class="col-md-12">
                              <button class="btn--primary btn--submit" type="submit" :disabled="credentials.processing">
                                 Login
+                                <span v-if="credentials.processing" class="text-white spinner-border spinner-border-sm text-dark" role="status">
+                                        </span>
                             </button>
                         </div>
                     </div>
