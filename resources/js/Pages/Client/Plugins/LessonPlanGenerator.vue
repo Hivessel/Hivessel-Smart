@@ -129,7 +129,7 @@
                          <section class="section--add-credits">
                                 <h2>Need More Credit? Top Up Your Credit Points Now</h2>
                                 <p>Get the flexibility and access you need — buy more credit points now to keep your momentum going.</p>
-                                <a href="#" class="add--more-credits">Buy More Credits</a>
+                                <a href="http://hivessel.com/smart#credits" class="add--more-credits">Buy More Credits</a>
                          </section>
                     </div>
                 </div>
