@@ -62,7 +62,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12">
+                                <div class="col-12 d-none">
                                     <div class="form-group">
                                     <label class="form-label">Competencies</label>
                                     <Multiselect class="border"
@@ -485,6 +485,7 @@ const no_of_choicesValidator = generate$.value.no_of_choices;
       - Ensure variety in question types and maintain the level of difficulty suitable for the "${form.proficiency_level}" proficiency level.
       - Avoid repetition and ensure clarity in question and choices.
       - Include the answer key at the end. Provide clear instructions and format the material to html response
+      - For choices dont add input radio button
       `.trim();
   
   });
