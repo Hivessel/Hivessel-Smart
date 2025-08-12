@@ -60,7 +60,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12">
+                                <div class="col-12 d-none">
                                     <div class="form-group">
                                     <label class="form-label">Competencies</label>
                                     <Multiselect class="border"
