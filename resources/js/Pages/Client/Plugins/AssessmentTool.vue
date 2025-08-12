@@ -1,4 +1,9 @@
 <template>
+  <Head>
+      <title>HIvessel Smart - Assessment Tool</title>
+      <meta name="description" :content="'HIvessel Smart - Assessment Tool'" />
+      <meta name="keywords" :content="'assessment'" />
+  </Head>
   <div class="content-wrapper p-3 assessment--box">
     <h3><i class="fas fa-qrcode mr-2 text-warning"></i>Assessment Tool</h3>
     <section class="content assessment--tools">
@@ -230,7 +235,7 @@
 </template>
 
 <script setup>
-import { useForm, usePage, Link } from '@inertiajs/vue3';
+import { useForm, usePage, Link, Head } from '@inertiajs/vue3';
 import { onMounted, reactive, ref, computed, watch } from 'vue';
 import Layout from '../Shared/Layout.vue';
 import Multiselect from 'vue-multiselect';
@@ -238,6 +243,7 @@ import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 import ChatContent from './Components/ChatContent.vue';
 import axios from 'axios';
+
 defineOptions({ layout: Layout });
 
 const props = defineProps({
@@ -245,6 +251,14 @@ const props = defineProps({
   chat: null | Object
 });
 
+// Set up meta tags using vue-meta with Composition API
+// useMeta({
+//     title: 'Sample Title',
+//     meta: [
+//         { name: 'description', content: 'sample description' },
+//         { name: 'keywords', content: 'laravel, vue, inertia, vue-meta' },
+//     ],
+// });
 
 const page = usePage();
 const isGenerating = ref(false);

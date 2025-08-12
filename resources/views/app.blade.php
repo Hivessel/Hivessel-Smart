@@ -22,9 +22,10 @@
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ asset('dist/css/app.css') }}">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.css">
+
     @vite('resources/js/app.js')
-    @inertiaHead
     @routes
+    @inertiaHead
     <style>
       /* *{
         font-family: 'Poppins';

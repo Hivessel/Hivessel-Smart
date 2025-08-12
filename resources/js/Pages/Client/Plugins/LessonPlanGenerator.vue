@@ -1,4 +1,9 @@
 <template>
+  <Head>
+      <title>Hivessel Smart - Lesson Plan Generator</title>
+      <meta name="description" :content="'Hivessel Smart - Lesson Plan Generator'" />
+      <meta name="keywords" :content="'lessonplan'" />
+  </Head>
   <div class="content-wrapper p-3 assessment--box">
     <h3><i class="fas fa-magic mr-2 text-warning"></i>Lesson Plan Generator</h3>
     <section class="content assessment--tools">
@@ -196,7 +201,7 @@
 </template>
 
 <script setup>
-import { useForm, usePage, Link, router } from '@inertiajs/vue3';
+import { useForm, usePage, Link, router, Head } from '@inertiajs/vue3';
 import { onMounted, reactive, ref, computed, watch } from 'vue';
 import Layout from '../Shared/Layout.vue';
 import Multiselect from 'vue-multiselect';
