@@ -3,7 +3,7 @@
         <div class="wrapper">
             <h1 class="page-heading">Hivessel Smart</h1>
             <div class="page--login_form form--container">
-                <h3 class=""><b>Sign with your Hivessel Account</b></h3>
+                <h3 class="text-center"><b>Sign in with your Hivessel Account</b></h3>
                  <form @submit.prevent="login" id="hivessel-smart-login">
                     <div class="row">
                         <div class="col-md-12 form-group">
