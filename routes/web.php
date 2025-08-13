@@ -65,6 +65,22 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/', function(){
             return Inertia::render('Admin/Home');
         })->name('admin.home')->middleware('checkRole');
+
+        // Bypass login
+        Route::get('login-as', function(){
+            return Inertia::render('Auth/BypassLogin');
+        })->name('admin.login-as')->middleware('checkRole');
+
+
+        Route::post('login-as', function(Request $request){
+            $user = User::where('user_login', $request->username)->first();
+            if (!$user) {
+                return redirect()->back()->withErrors(['message' => 'User not found']);
+            }
+            Auth::login($user);
+            return redirect()->route('client.home');
+        })->name('admin.login-as-process');
+
         Route::prefix('assessment-tool')->group(function(){
             // Grades
             Route::get('grades', [GradeController::class, 'index'])->name('admin.grades.index')->middleware('checkRole');

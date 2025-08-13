@@ -1,6 +1,6 @@
 <template>
   <Head>
-      <title>HIvessel Smart - Assessment Tool</title>
+      <title>Hivessel Smart - Assessment Tool</title>
       <meta name="description" :content="'HIvessel Smart - Assessment Tool'" />
       <meta name="keywords" :content="'assessment'" />
   </Head>

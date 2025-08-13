@@ -147,6 +147,20 @@
                         
                     >
                         <Link
+                            :href="route('admin.login-as')"
+                            class="nav-link bg-success"
+                            role="button"
+                        >
+
+                            <p>Bypass Login</p>
+                        </Link>
+                    </li>
+
+                    <li
+                        class="nav-item"
+                        
+                    >
+                        <Link
                             href="#"
                             class="nav-link"
                             role="button"
