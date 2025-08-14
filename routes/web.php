@@ -33,6 +33,14 @@ Route::middleware(['auth'])->group(function(){
         return redirect()->route('client.plugins.assessment-tool');
         exit;
     })->name('client.home');
+
+    Route::get('minigames', function () {
+        return Inertia::render('Client/Plugins/MiniGames');
+    });
+
+     Route::get('minigames/noise-detector', function () {
+        return Inertia::render('Client/Plugins/MiniGames');
+    });
  
     Route::prefix('plugins')->group(function(){
         // Assesment Tool
