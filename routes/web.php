@@ -39,7 +39,11 @@ Route::middleware(['auth'])->group(function(){
     });
 
      Route::get('minigames/noise-detector', function () {
-        return Inertia::render('Client/Plugins/MiniGames');
+        return Inertia::render('Client/Plugins/NoiseDetector');
+    });
+
+    Route::get('minigames/wheel-of-names', function () {
+        return Inertia::render('Client/Plugins/WheelOfNames');
     });
  
     Route::prefix('plugins')->group(function(){
